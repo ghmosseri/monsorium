@@ -17,19 +17,13 @@
    ========================================================= */
 
 /* ---------- Fonts (all watermark-free) ----------
-   Title   — Slowji + Slowji 3D (psychetitlefont). The other three title
-             curations are 177Studio trial fonts with "TRIAL FONT" stamps, so
-             they are stood in by OFL faces of a similar cut:
-             Biological Crossroads → Gideon Roman,
-             Maritime Network → Shrikhand, Certain Reasons → Bagel Fat One.
-   Sub     — Hempa Sans + Cheyenne Sans (psychesubfont). Stinger Wide Trial
-             is dropped: its digits are trial stamps.
+   Display — Gideon Roman + Shrikhand (OFL). The psychetitlefont demos carry
+             "TRIAL FONT" stamps; Slowji and Bagel Fat One read too bubbly.
+   Sub     — Hempa Sans + Cheyenne Sans (psychesubfont).
    Body    — Brokuets Sans + Optician Sans (psychebodyfont).            */
-@font-face { font-family: "Slowji"; src: url("assets/fonts/slowji.woff2") format("woff2"); font-display: swap; }
-@font-face { font-family: "Slowji 3D"; src: url("assets/fonts/slowji-3d.woff2") format("woff2"); font-display: swap; }
 @font-face { font-family: "Gideon Roman"; src: url("assets/fonts/gideon-roman.woff2") format("woff2"); font-display: swap; }
+@font-face { font-family: "Pinyon Script"; src: url("assets/fonts/pinyon-script.woff2") format("woff2"); font-display: swap; }
 @font-face { font-family: "Shrikhand"; src: url("assets/fonts/shrikhand.woff2") format("woff2"); font-display: swap; }
-@font-face { font-family: "Bagel Fat One"; src: url("assets/fonts/bagel-fat-one.woff2") format("woff2"); font-display: swap; }
 @font-face { font-family: "Hempa Sans"; src: url("assets/fonts/hempa-sans-black-italic.woff2") format("woff2"); font-weight: 900; font-style: italic; font-display: swap; }
 @font-face { font-family: "Hempa Sans"; src: url("assets/fonts/hempa-sans-light.woff2") format("woff2"); font-weight: 300; font-display: swap; }
 @font-face { font-family: "Cheyenne Sans"; src: url("assets/fonts/cheyenne-sans-var.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
@@ -53,11 +47,11 @@
   --g-ribbon: linear-gradient(90deg, var(--plum), var(--rose) 30%, var(--plum) 55%, var(--rose) 80%, var(--plum));
 
   /* type */
-  --f-t1: "Slowji 3D", "Slowji", "Arial Black", sans-serif;
-  --f-t2: "Slowji", "Arial Black", sans-serif;
+  --f-t1: "Gideon Roman", Georgia, serif;   /* classical display */
+  --f-t2: "Gideon Roman", Georgia, serif;
   --f-t3: "Gideon Roman", Georgia, serif;
-  --f-t4: "Shrikhand", Georgia, serif;
-  --f-t5: "Bagel Fat One", "Arial Black", sans-serif;
+  --f-t4: "Shrikhand", Georgia, serif;      /* heavy display */
+  --f-t5: "Shrikhand", Georgia, serif;
   --f-sub: "Hempa Sans", "Cheyenne Sans", "Arial Black", sans-serif;
   --f-sub2: "Cheyenne Sans", "Hempa Sans", Arial, sans-serif;
   --f-body: "Brokuets Sans", "Helvetica Neue", Arial, sans-serif;
@@ -107,41 +101,62 @@ section { position: relative; overflow: hidden; isolation: isolate; }
 .corner--bl { bottom: 0; left: 0; transform: translate(-24%, 16%) rotate(6deg); object-position: left bottom; }
 .corner--br { bottom: 0; right: 0; transform: translate(24%, 16%) rotate(-7deg); object-position: right bottom; }
 
-/* ---------- Frames: moulded glitter-clay and carved ornament ----------
-   A thick textured mount (the procedural clay/carved webp), bevelled with
-   inset light and shadow, around a dark starfield "diorama" window. */
+/* ---------- Frames: contoured "eurotrash" rococo frames ----------
+   The clay/carved/gilt texture is cut to a frame outline (::before mask):
+   a body inset by --m, with scrolled corner cartouches, a bead moulding
+   along each edge and a shell crest top and bottom standing proud of it.
+   The outline is lit by drop-shadows on the frame itself (gold rim upper
+   left, ink lower right), so the relief follows the contour. */
 .frame {
   --clay: url("assets/img/textures/clay-bloom.webp");
-  --bevel: clamp(14px, 2.4vw, 34px);
-  position: relative; display: block; padding: var(--bevel);
-  background: var(--clay) center / 540px;
-  border-radius: 26px 34px 22px 30px / 30px 22px 34px 26px;
-  box-shadow:
-    inset 3px 3px 0 rgba(255, 208, 107, .55),
-    inset 10px 10px 18px rgba(255, 208, 107, .25),
-    inset -6px -6px 0 rgba(24, 7, 36, .45),
-    inset -14px -14px 24px rgba(24, 7, 36, .5),
-    8px 10px 0 var(--ink);
+  --c: clamp(70px, 7vw, 96px);                     /* corner ornament size */
+  --m: calc(var(--c) * .22);                       /* how far ornaments stand proud */
+  --run: calc(100% - 2 * var(--c) + 4px);          /* edge length between corners */
+  --bevel: calc(var(--m) + clamp(14px, 1.8vw, 26px));
+  position: relative; display: block; padding: var(--bevel); isolation: isolate;
+  filter: drop-shadow(-1.5px -1.5px 0 rgba(255, 208, 107, .85)) drop-shadow(2px 2px 0 var(--ink)) drop-shadow(7px 9px 0 rgba(24, 7, 36, .85));
+}
+.frame::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    linear-gradient(135deg, rgba(255, 208, 107, .28), transparent 35%, transparent 65%, rgba(24, 7, 36, .45)),
+    var(--clay) center / 540px;
+  -webkit-mask:
+    url("assets/ui/frame-corner-tl.svg") left top / var(--c) var(--c) no-repeat,
+    url("assets/ui/frame-corner-tr.svg") right top / var(--c) var(--c) no-repeat,
+    url("assets/ui/frame-corner-bl.svg") left bottom / var(--c) var(--c) no-repeat,
+    url("assets/ui/frame-corner-br.svg") right bottom / var(--c) var(--c) no-repeat,
+    url("assets/ui/frame-edge-top.svg") center top / var(--run) var(--m) no-repeat,
+    url("assets/ui/frame-edge-bottom.svg") center bottom / var(--run) var(--m) no-repeat,
+    url("assets/ui/frame-edge-left.svg") left center / var(--m) var(--run) no-repeat,
+    url("assets/ui/frame-edge-right.svg") right center / var(--m) var(--run) no-repeat,
+    url("assets/ui/frame-crest-top.svg") center top / calc(var(--c) * 1.9) calc(var(--c) * .64) no-repeat,
+    url("assets/ui/frame-crest-bottom.svg") center bottom / calc(var(--c) * 1.9) calc(var(--c) * .64) no-repeat,
+    linear-gradient(#000 0 0) center / calc(100% - 2 * var(--m)) calc(100% - 2 * var(--m)) no-repeat;
+          mask:
+    url("assets/ui/frame-corner-tl.svg") left top / var(--c) var(--c) no-repeat,
+    url("assets/ui/frame-corner-tr.svg") right top / var(--c) var(--c) no-repeat,
+    url("assets/ui/frame-corner-bl.svg") left bottom / var(--c) var(--c) no-repeat,
+    url("assets/ui/frame-corner-br.svg") right bottom / var(--c) var(--c) no-repeat,
+    url("assets/ui/frame-edge-top.svg") center top / var(--run) var(--m) no-repeat,
+    url("assets/ui/frame-edge-bottom.svg") center bottom / var(--run) var(--m) no-repeat,
+    url("assets/ui/frame-edge-left.svg") left center / var(--m) var(--run) no-repeat,
+    url("assets/ui/frame-edge-right.svg") right center / var(--m) var(--run) no-repeat,
+    url("assets/ui/frame-crest-top.svg") center top / calc(var(--c) * 1.9) calc(var(--c) * .64) no-repeat,
+    url("assets/ui/frame-crest-bottom.svg") center bottom / calc(var(--c) * 1.9) calc(var(--c) * .64) no-repeat,
+    linear-gradient(#000 0 0) center / calc(100% - 2 * var(--m)) calc(100% - 2 * var(--m)) no-repeat;
 }
 .frame--venom  { --clay: url("assets/img/textures/clay-venom.webp"); }
 .frame--bruise { --clay: url("assets/img/textures/clay-bruise.webp"); }
-.frame--carved {
-  --clay: url("assets/img/textures/carved-bloom.webp");
-  --ros: clamp(34px, 4.6vw, 64px);
-  border-radius: 10px;
-  background-size: 300px;
-}
-.frame--carved::before { /* rosettes in the four corners, like a carved plaque */
-  content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none;
-  --r: radial-gradient(circle, var(--gold) 0 14%, var(--plum) 15% 26%, var(--rose) 27% 40%, var(--ink) 41% 47%, var(--rose) 48% 58%, var(--ink) 59% 64%, transparent 65%);
-  background: var(--r) left -6px top -6px, var(--r) right -6px top -6px, var(--r) left -6px bottom -6px, var(--r) right -6px bottom -6px;
-  background-size: var(--ros) var(--ros); background-repeat: no-repeat;
-}
+.frame--gilt   { --clay: url("assets/img/textures/clay-gilt.webp"); }
+.frame--carved { --clay: url("assets/img/textures/carved-bloom.webp"); }
+.frame--carved::before { background-size: auto, 300px; }
 .frame__inner {
   position: relative; display: block; overflow: hidden; height: 100%;
   background: url("assets/img/textures/stars-abyss.webp") 0 0 / 512px;
-  border-radius: 6px;
-  box-shadow: inset 0 0 0 3px var(--ink), inset 10px 10px 24px rgba(24, 7, 36, .9), 0 0 0 2px rgba(255, 208, 107, .45);
+  border-radius: 4px;
+  /* gilt sight-edge: the thin inner lip where the picture meets the frame */
+  box-shadow: inset 0 0 0 3px var(--ink), inset 10px 10px 24px rgba(24, 7, 36, .9), 0 0 0 3px var(--gold), 0 0 0 5px var(--ink);
 }
 
 /* ---------- Ribbon (hot pink, moving — copy to come) ---------- */
@@ -179,7 +194,7 @@ section { position: relative; overflow: hidden; isolation: isolate; }
   box-shadow: 0 4px 0 var(--leaf);
 }
 .brand {
-  font-family: var(--f-t1); font-size: clamp(30px, 3.4vw, 44px); line-height: 1; color: var(--gold); text-decoration: none;
+  font-family: var(--f-t4); font-size: clamp(28px, 3vw, 40px); line-height: 1; color: var(--gold); text-decoration: none;
   text-shadow: 3px 3px 0 var(--plum), -2px -2px 0 var(--leaf);
 }
 .brand:hover { color: var(--rose); }
@@ -206,7 +221,7 @@ section { position: relative; overflow: hidden; isolation: isolate; }
 .nav-btn::after { background: var(--line) center / 100% 100% no-repeat; }
 .nav-btn > span {
   position: relative; z-index: 1;
-  padding: 3px 11px 2px; border-radius: 999px;
+  padding: 3px 10px 2px;
   background: var(--gold); box-shadow: 0 0 0 2px var(--ink);
   font-family: var(--f-meta); font-size: 12.5px; letter-spacing: .06em; line-height: 1.2; text-transform: uppercase; white-space: nowrap;
 }
@@ -259,20 +274,6 @@ section { position: relative; overflow: hidden; isolation: isolate; }
   -webkit-mask: linear-gradient(200deg, #000 10%, transparent 70%);
           mask: linear-gradient(200deg, #000 10%, transparent 70%);
 }
-.home__blob {
-  top: 210px; left: -7%; width: min(56vw, 740px); aspect-ratio: 220 / 212;
-  background: radial-gradient(circle at 38% 36%, var(--gold), var(--rose) 48%, var(--plum) 100%);
-  -webkit-mask: url("assets/ui/blob-mask.svg") center / contain no-repeat;
-          mask: url("assets/ui/blob-mask.svg") center / contain no-repeat;
-  opacity: .9;
-}
-.home__heart {
-  top: 520px; right: 9%; width: clamp(200px, 26vw, 360px); aspect-ratio: 200 / 186;
-  background: url("assets/img/textures/starleopard-overlay--moss.webp") center / cover;
-  -webkit-mask: url("assets/ui/heart-mask.svg") center / contain no-repeat;
-          mask: url("assets/ui/heart-mask.svg") center / contain no-repeat;
-  transform: rotate(-12deg);
-}
 .home__tape {
   top: 800px; left: -2%; width: 104%; height: 54px; transform: rotate(-3deg);
   background: var(--g-venom); box-shadow: 0 6px 0 var(--plum), 0 12px 0 var(--ink);
@@ -302,75 +303,70 @@ section { position: relative; overflow: hidden; isolation: isolate; }
   position: absolute; top: 60px; right: clamp(16px, 7vw, 130px); z-index: 20;
   width: 146px; height: 146px; display: grid; place-content: center; text-align: center;
   background: var(--g-venom); color: var(--ink);
-  font-family: var(--f-meta); font-size: 15px; line-height: 1.1; letter-spacing: .08em; transform: rotate(12deg);
+  font-family: var(--f-meta); font-size: 15px; line-height: 1.1; letter-spacing: .08em; transform: rotate(5deg);
 }
 .seal b { font-family: var(--f-t4); font-weight: 400; font-size: 32px; letter-spacing: 0; display: block; margin: 2px 0 4px; }
 
-.home__inner { z-index: 18; max-width: 1240px; margin: 110px auto 0; transform: rotate(-.6deg); }
+.home__inner { z-index: 18; max-width: 1240px; margin: 110px auto 0; --c: clamp(96px, 11vw, 160px); --clay: url("assets/img/textures/clay-gilt.webp"); }
 .home__stage { padding: clamp(40px, 6vw, 90px) clamp(20px, 5vw, 80px) clamp(48px, 6vw, 84px); overflow: visible; }
 .home__stage::after { /* glitter-dust floor, like the diorama ground */
   content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 34%; pointer-events: none; z-index: 0;
   background: url("assets/img/textures/glitter-bloom.webp") 0 0 / 300px;
   -webkit-mask: linear-gradient(transparent, #000 85%); mask: linear-gradient(transparent, #000 85%);
-  opacity: .45; border-radius: 0 0 6px 6px;
+  opacity: .45;
 }
 .home__stage > * { position: relative; z-index: 1; }
 
-/* the title: one line of six disjointed families */
+/* The title: one flowing line of disjointed faces, held level.
+   Gideon Roman carries the reading; Shrikhand and Hempa add the bite. */
 .title {
-  margin: 0; font-weight: 400; line-height: .9;
-  font-size: clamp(56px, 11.4vw, 184px);
-  display: flex; flex-wrap: wrap; align-items: center; column-gap: .18em; row-gap: .1em;
+  margin: 0; font-weight: 400; line-height: .95;
+  font-size: clamp(52px, 10vw, 164px);
+  display: flex; flex-wrap: wrap; align-items: baseline; column-gap: .2em; row-gap: .08em;
 }
 .w { display: inline-block; }
-.w-when { /* glossy, wet gold */
+.w-when { /* Gideon Roman, glossy gold */
   font-family: var(--f-t1); color: transparent;
-  background: linear-gradient(175deg, var(--gold) 0 38%, var(--rose) 52%, var(--gold) 60%, var(--plum) 100%);
+  background: linear-gradient(180deg, var(--gold) 0 48%, var(--rose) 49% 53%, var(--gold) 54% 100%);
   -webkit-background-clip: text; background-clip: text;
-  filter: drop-shadow(3px 3px 0 var(--ink)) drop-shadow(5px 5px 0 var(--plum)) drop-shadow(4px 4px 0 var(--ink));
+  filter: drop-shadow(3px 3px 0 var(--ink)) drop-shadow(4px 4px 0 var(--plum));
 }
-.w-the {
-  font-family: var(--f-t3); font-size: .5em; color: var(--rose); font-style: italic;
-  transform: rotate(-6deg) translateY(.2em); text-shadow: 3px 3px 0 var(--ink);
-}
-.w-mouth { /* harlequin-filled, inked and double-outlined */
-  font-family: var(--f-t5); color: transparent; transform: rotate(-2deg);
-  background: conic-gradient(from 45deg, var(--rose) 25%, var(--lime) 0 50%, var(--rose) 0 75%, var(--lime) 0) 0 0 / .22em .22em;
+.w-the { font-family: var(--f-t3); font-style: italic; font-size: .44em; color: var(--rose); text-shadow: 2px 2px 0 var(--ink); }
+.w-mouth { /* Shrikhand, harlequin-filled, inked rim */
+  font-family: var(--f-t4); color: transparent;
+  background: conic-gradient(from 45deg, var(--rose) 25%, var(--lime) 0 50%, var(--rose) 0 75%, var(--lime) 0) 0 0 / .2em .2em;
   -webkit-background-clip: text; background-clip: text;
-  -webkit-text-stroke: 2px var(--abyss);
+  -webkit-text-stroke: .02em var(--ink);
   filter: drop-shadow(2px 0 0 var(--gold)) drop-shadow(-2px 0 0 var(--gold)) drop-shadow(0 2px 0 var(--gold)) drop-shadow(0 -2px 0 var(--gold))
-          drop-shadow(2px 0 0 var(--plum)) drop-shadow(-2px 0 0 var(--plum)) drop-shadow(0 2px 0 var(--plum)) drop-shadow(0 -2px 0 var(--plum))
-          drop-shadow(-6px 6px 0 var(--leaf));
+          drop-shadow(5px 5px 0 var(--plum));
 }
-.w-has { font-family: var(--f-t4); font-size: .46em; color: var(--lime); text-shadow: 4px 4px 0 var(--ink); transform: rotate(8deg); }
-.w-no {
-  font-family: var(--f-t1); color: transparent; font-size: .9em;
-  background: var(--g-bloom); -webkit-background-clip: text; background-clip: text;
-  -webkit-text-stroke: 2px var(--ink); filter: drop-shadow(5px 5px 0 var(--leaf));
+.w-has { font-family: var(--f-t4); font-size: .42em; color: var(--lime); text-shadow: 3px 3px 0 var(--ink); }
+.w-no { /* Hempa Black Italic, gold */
+  font-family: var(--f-sub); font-weight: 900; font-style: italic; color: var(--gold);
+  text-shadow: 3px 3px 0 var(--ink), 5px 5px 0 var(--plum);
 }
-.w-witnesses { /* inked onto a glossy gold plate */
-  font-family: var(--f-t1); color: var(--ink);
-  background: radial-gradient(ellipse at 30% 20%, var(--gold) 40%, transparent 41%) 0 0 / 100% 100%, linear-gradient(170deg, var(--gold), var(--rose) 130%);
-  padding: .04em .14em .1em; transform: rotate(-2deg); border-radius: .12em .3em .12em .3em;
-  box-shadow: inset 0 -.08em 0 rgba(148, 44, 91, .45), 10px 10px 0 var(--plum), 20px 20px 0 var(--leaf);
+.w-witnesses { /* Gideon Roman capitals on a gilt museum plate */
+  font-family: var(--f-t1); font-size: .74em; letter-spacing: .08em; text-transform: uppercase; color: var(--ink);
+  padding: .14em .45em .08em; background: linear-gradient(180deg, #ffe09a, var(--gold) 45%, #e9b45a);
+  box-shadow: inset 0 0 0 .04em var(--ink), inset 0 0 0 .07em var(--gold), inset 0 0 0 .085em var(--plum), 10px 10px 0 var(--plum), 20px 20px 0 var(--leaf);
 }
 
-/* the subtitle: Hempa Black Italic / Cheyenne Light / Hempa again */
+/* The subtitle: a level acid band; Hempa Black Italic / Cheyenne Light / Hempa. */
 .subtitle {
   display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: .1em .3em;
-  margin: 58px 0 0; padding: 12px 24px 14px;
+  margin: 52px 0 0; padding: 12px 24px 14px;
   background: var(--g-venom); color: var(--ink);
-  font-size: clamp(26px, 4vw, 60px); line-height: 1;
-  transform: rotate(2deg); box-shadow: -8px 8px 0 var(--plum), -16px 16px 0 var(--ink);
+  font-size: clamp(26px, 3.8vw, 56px); line-height: 1;
+  box-shadow: -8px 8px 0 var(--plum), -16px 16px 0 var(--ink);
 }
 .s-a, .s-c { font-family: var(--f-sub); font-weight: 900; font-style: italic; }
-.s-b { font-family: var(--f-sub2); font-weight: 250; font-style: italic; letter-spacing: -.01em; }
-.s-c { background: var(--ink); color: var(--lime); padding: 0 .16em; transform: rotate(-3deg); display: inline-block; }
+.s-b { font-family: var(--f-sub2); font-weight: 300; font-style: italic; letter-spacing: -.01em; }
+.s-c { background: var(--ink); color: var(--lime); padding: 0 .16em; display: inline-block; }
 
 .home__controls { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; margin-top: 48px; }
 .cue {
   font-family: var(--f-meta); font-size: 15px; letter-spacing: .08em; text-transform: uppercase; text-decoration: none;
-  color: var(--gold); background: var(--abyss); padding: 10px 16px; border: 2px solid var(--rose); border-radius: 999px 999px 999px 4px;
+  color: var(--gold); background: var(--abyss); padding: 10px 16px; border: 2px solid var(--rose); box-shadow: 4px 4px 0 var(--plum);
 }
 .cue:hover { color: var(--ink); background: var(--rose); }
 
@@ -378,14 +374,14 @@ section { position: relative; overflow: hidden; isolation: isolate; }
 .flicker-toggle {
   display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 8px 20px 8px 14px;
   font-family: var(--f-meta); font-size: 15px; letter-spacing: .08em; text-transform: uppercase;
-  color: var(--gold); background: var(--abyss); border: 2px solid var(--gold); border-radius: 999px;
+  color: var(--gold); background: var(--abyss); border: 2px solid var(--gold);
   box-shadow: 4px 4px 0 var(--plum); cursor: pointer;
   transition: box-shadow .2s, transform .2s;
 }
 .flicker-toggle:hover { box-shadow: 4px 4px 0 var(--leaf); transform: translateY(-2px); }
 .flicker-toggle svg { width: 22px; height: 22px; }
 .flicker-toggle .bulb { fill: none; stroke: var(--gold); stroke-width: 1.6; stroke-linecap: round; }
-.flicker-toggle__state { display: inline-block; min-width: 2.4em; margin-left: .3em; padding: 0 .4em; border-radius: 999px; background: var(--plum); text-align: center; }
+.flicker-toggle__state { display: inline-block; min-width: 2.4em; margin-left: .3em; padding: 0 .4em; background: var(--plum); text-align: center; }
 .flicker-toggle[aria-pressed="true"] { background: var(--gold); color: var(--ink); border-color: var(--ink); }
 .flicker-toggle[aria-pressed="true"] .bulb { fill: var(--lime); stroke: var(--ink); }
 .flicker-toggle[aria-pressed="true"] .flicker-toggle__state { background: var(--lime); }
@@ -396,8 +392,8 @@ section { position: relative; overflow: hidden; isolation: isolate; }
 .home.is-flickering .flick--c { animation-name: flick-c; animation-duration: 4.1s; }
 .home.is-flickering .w-when { filter: drop-shadow(0 0 14px rgba(255, 208, 107, .8)) drop-shadow(3px 3px 0 var(--ink)) drop-shadow(5px 5px 0 var(--plum)) drop-shadow(4px 4px 0 var(--ink)); }
 .home.is-flickering .home__stage { animation: stage-glow 4.6s infinite steps(1, end); }
-@keyframes stage-glow { 0%, 30%, 34%, 100% { box-shadow: inset 0 0 0 3px var(--ink), inset 10px 10px 24px rgba(24, 7, 36, .9), 0 0 0 2px rgba(255, 208, 107, .45); }
-  31%, 33% { box-shadow: inset 0 0 0 3px var(--ink), inset 0 0 80px rgba(230, 147, 147, .45), 0 0 26px 4px rgba(255, 208, 107, .6); } }
+@keyframes stage-glow { 0%, 30%, 34%, 100% { box-shadow: inset 0 0 0 3px var(--ink), inset 10px 10px 24px rgba(24, 7, 36, .9), 0 0 0 3px var(--gold), 0 0 0 5px var(--ink); }
+  31%, 33% { box-shadow: inset 0 0 0 3px var(--ink), inset 0 0 80px rgba(230, 147, 147, .45), 0 0 0 3px var(--gold), 0 0 26px 6px rgba(255, 208, 107, .7); } }
 .home.is-flickering .spark { animation: twinkle 2.6s ease-in-out infinite; }
 .home.is-flickering .spark--2 { animation-delay: .9s; }
 .home.is-flickering .spark--3 { animation-delay: 1.7s; }
@@ -480,7 +476,7 @@ section { position: relative; overflow: hidden; isolation: isolate; }
 .paper p { margin: 0 0 14px; font-size: clamp(16px, 1.3vw, 19px); line-height: 1.65; }
 .paper p:last-child { margin-bottom: 0; }
 .chips { display: flex; flex-wrap: wrap; gap: 12px; margin: 8px 0 0; padding: 0; list-style: none; font-family: var(--f-meta); font-size: 13px; letter-spacing: .06em; text-transform: uppercase; }
-.chips li { color: var(--ink); padding: 8px 16px; border-radius: 999px; box-shadow: 3px 3px 0 var(--ink); }
+.chips li { color: var(--ink); padding: 8px 14px; box-shadow: 3px 3px 0 var(--ink); }
 .chips li:nth-child(1) { background: var(--rose); }
 .chips li:nth-child(2) { background: var(--lime); }
 .chips li:nth-child(3) { background: var(--gold); }
@@ -505,14 +501,9 @@ section { position: relative; overflow: hidden; isolation: isolate; }
 }
 .gallery__title::after { content: ""; flex: 1; height: 4px; border-radius: 4px; background: linear-gradient(90deg, var(--lime), var(--leaf) 40%, var(--plum) 70%, var(--rose)); }
 .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 40px 34px; margin: 0; padding: 0; list-style: none; }
-.tiles--wide { grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr)); }
-@media (min-width: 980px) {
-  .gallery:first-of-type .tiles { grid-template-columns: 1.4fr 1fr 1fr; }
-}
 .tile a { display: flex; flex-direction: column; gap: 14px; text-decoration: none; color: var(--gold); }
 .tile:nth-child(3n+2) { margin-top: 56px; }
 .tile__frame { aspect-ratio: 4 / 5; transition: transform .4s cubic-bezier(.3, 1.5, .5, 1); }
-.tiles--wide .tile__frame { aspect-ratio: 3 / 2; }
 .tile:nth-child(odd) .tile__frame { transform: rotate(-1deg); }
 .tile:nth-child(even) .tile__frame { transform: rotate(1.2deg); }
 .tile__frame .frame__inner { position: absolute; inset: var(--bevel); height: auto; }
@@ -521,9 +512,46 @@ section { position: relative; overflow: hidden; isolation: isolate; }
 .tile a:hover .tile__frame, .tile a:focus-visible .tile__frame { transform: rotate(0) translateY(-6px); }
 .tile a:hover .frame__inner img, .tile a:focus-visible .frame__inner img { transform: scale(1.06); }
 .tile a:hover .frame__inner::after, .tile a:focus-visible .frame__inner::after { opacity: .28; }
-.tile__cap { font-family: var(--f-meta); font-size: 14px; letter-spacing: .06em; text-transform: uppercase; }
-.tile__cap small { display: block; font-family: var(--f-body); font-size: 15px; letter-spacing: 0; text-transform: none; color: var(--rose); margin-top: 4px; }
-.play { position: absolute; inset: 0; margin: auto; width: 76px; height: 76px; z-index: 2; filter: drop-shadow(3px 3px 0 var(--plum)); }
+.tile__cap { display: block; padding: 0 6px; }
+.tile__no { font-family: var(--f-meta); font-size: 13px; letter-spacing: .08em; color: var(--lime); margin-right: .2em; }
+.tile__cap cite { font-family: var(--f-t3); font-style: normal; font-size: clamp(18px, 1.5vw, 22px); line-height: 1.2; color: var(--gold); }
+.tile__cap cite.untitled { font-style: italic; color: var(--rose); }
+.tile__cap small { display: block; font-family: var(--f-meta); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--rose); margin-top: 6px; }
+/* Graphic and Digital Art: finished pieces show whole, at their own proportions (no crop) */
+.gallery--art .tiles { align-items: start; grid-template-columns: 1fr; }
+@media (min-width: 761px)  { .gallery--art .tiles { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 1200px) { .gallery--art .tiles { grid-template-columns: repeat(4, 1fr); } }
+/* Spacetakers: ovilats cut-outs that fill a gallery's empty cells, shown
+   only at the column count where that cell would otherwise be blank. */
+.tile--spacer { display: none; align-self: center; pointer-events: none; }
+.tile--spacer img { width: 100%; max-height: 460px; object-fit: contain; animation: drift 9s ease-in-out infinite; filter: drop-shadow(0 0 18px rgba(230, 147, 147, .35)); }
+.tile--spacer:nth-of-type(even) img { animation-delay: -4s; }
+@media (min-width: 761px) and (max-width: 1199px) { .spacer--3col { display: block; } }
+@media (min-width: 1200px) { .spacer--4col { display: block; } }
+@keyframes drift { 50% { transform: translateY(-14px) rotate(1.5deg); } }
+.gallery--art .tile__frame { aspect-ratio: auto; }
+.gallery--art .tile__frame .frame__inner { position: relative; inset: auto; }
+.gallery--art .tile__frame .frame__inner img { height: auto; }
+.gallery--art .tile:nth-child(3n+2) { margin-top: 0; }
+@media (min-width: 761px) { .gallery--art .tile:nth-child(even) { margin-top: 44px; } }
+/* Multimedia: five video slots. Each plays assets/video/multimedia-0N.mp4;
+   until that file exists, main.js marks the slot empty and it shows as a
+   blank framed screen marked "Forthcoming". */
+.tiles--video { grid-template-columns: 1fr; align-items: start; }
+@media (min-width: 761px)  { .tiles--video { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1200px) { .tiles--video { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 761px)  { .tile--lead { grid-column: span 2; } }   /* 2+1 / 1+1+1 at three columns; 2 / 1+1 / 1+1 at two */
+.tiles--video .tile { margin-top: 0 !important; }
+.tile__body { display: flex; flex-direction: column; gap: 14px; color: var(--gold); }
+.tile--video .tile__frame { aspect-ratio: 16 / 9; }
+.tile--video video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; background: transparent; }
+.video-empty {
+  position: absolute; inset: 0; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+  font-family: var(--f-meta); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--rose);
+}
+.video-empty svg { width: clamp(44px, 5vw, 68px); height: auto; fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: .55; filter: drop-shadow(2px 2px 0 var(--plum)); }
+.tile--video.is-empty video { display: none; }
+.tile--video.is-empty .video-empty { display: flex; }
 
 /* slide-ins (html.js is set inline; without JS everything simply shows) */
 .js .tile { opacity: 0; transition: opacity .7s ease, transform 1s cubic-bezier(.2, .9, .25, 1.12); transition-delay: var(--delay, 0ms); }
@@ -568,6 +596,19 @@ section { position: relative; overflow: hidden; isolation: isolate; }
 .fig-no::after { content: ""; display: block; width: 26px; height: 2px; background: var(--ink); }
 .bottles .corner { opacity: .85; }
 .bottles__dots { inset: 0; opacity: .5; background: url("assets/img/textures/glitter-venom.webp") 0 0 / 300px; mix-blend-mode: hard-light; }
+.bottles__meadow { /* spacetaker: the meadow cut-out grows along the bottom edge */
+  left: 0; right: 0; bottom: 0; z-index: 1; width: 100%; height: clamp(180px, 22vw, 320px); object-fit: cover; object-position: center bottom;
+  -webkit-mask: linear-gradient(transparent, #000 45%); mask: linear-gradient(transparent, #000 45%); opacity: .9;
+}
+.epigraph__streaks { /* spacetaker: colour streaks bleeding behind the tapestry */
+  top: 0; bottom: 0; width: clamp(160px, 22vw, 340px); height: 100%; object-fit: cover; z-index: 1; mix-blend-mode: hard-light; opacity: .8;
+}
+.epigraph__streaks--l { left: 2%; }
+.epigraph__streaks--r { right: 2%; transform: scaleX(-1); }
+.alleyway__bleeds { /* spacetaker: drips falling beside the heading */
+  top: 0; right: 6%; width: clamp(140px, 18vw, 260px); z-index: 2; opacity: .85; mix-blend-mode: hard-light;
+  -webkit-mask: linear-gradient(#000 60%, transparent); mask: linear-gradient(#000 60%, transparent);
+}
 .bottles__waves { top: 60px; left: 0; width: 100%; height: 100px; z-index: 1; }
 .bottles__inner { position: relative; z-index: 5; max-width: 1240px; margin: 0 auto; }
 .bottles__inner .kicker { color: var(--ink); background: var(--gold); padding: 3px 10px; }
@@ -599,7 +640,7 @@ section { position: relative; overflow: hidden; isolation: isolate; }
 .bottle__form { font-family: var(--f-meta); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--plum); }
 .bottle__title { margin: 0; font-weight: 400; font-size: clamp(22px, 2vw, 28px); line-height: 1.05; }
 .bottle:nth-child(1) .bottle__title { font-family: var(--f-t4); }
-.bottle:nth-child(2) .bottle__title { font-family: var(--f-t5); }
+.bottle:nth-child(2) .bottle__title { font-family: var(--f-sub); font-weight: 900; font-style: italic; }
 .bottle:nth-child(3) .bottle__title { font-family: var(--f-t3); font-size: clamp(24px, 2.2vw, 32px); }
 .bottle__excerpt { margin: 0; font-size: 15px; line-height: 1.5; }
 .bottle__link { margin-top: 4px; font-family: var(--f-meta); font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--plum); }
@@ -615,26 +656,46 @@ section { position: relative; overflow: hidden; isolation: isolate; }
 .conches__ground {
   inset: 0; z-index: 0; opacity: .5;
   background: conic-gradient(from 45deg, var(--rose) 25%, var(--plum) 0 50%, var(--rose) 0 75%, var(--plum) 0) 0 0 / 60px 60px;
-  -webkit-mask: radial-gradient(ellipse at 70% 50%, transparent 25%, #000 75%);
-          mask: radial-gradient(ellipse at 70% 50%, transparent 25%, #000 75%);
+  -webkit-mask: linear-gradient(90deg, transparent 45%, #000 80%);
+          mask: linear-gradient(90deg, transparent 45%, #000 80%);
+}
+.conches__street { /* spacetaker: the street scene fills the left half, top to bottom */
+  top: 0; left: 0; width: 55%; height: 100%; object-fit: cover; z-index: 1; opacity: .9; mix-blend-mode: hard-light;
+  -webkit-mask: linear-gradient(90deg, #000 70%, transparent); mask: linear-gradient(90deg, #000 70%, transparent);
 }
 .conches__inner { position: relative; z-index: 5; max-width: 1320px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 40px; align-items: center; justify-content: space-between; }
-.sign { position: relative; flex: 0 1 480px; aspect-ratio: 1; display: grid; place-items: center; }
-.sign img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
-.sign__text {
-  position: relative; margin-top: -36px; padding: 10px 18px; background: var(--gold); color: var(--ink);
-  font-family: var(--f-t5); font-size: clamp(38px, 5vw, 70px); line-height: .9; text-align: center;
-  box-shadow: 6px 6px 0 var(--plum), 12px 12px 0 var(--leaf); transform: rotate(-4deg);
+/* Three lines around the nouveau heart frame: one above it, one set in its
+   middle on a soft gilt glow, one below it. */
+.sign { flex: 0 1 480px; margin: 0; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; color: var(--ink); }
+/* Outer lines: large gold Gideon Roman with a solid ink outline, so they
+   read over the street scene without a box behind them. */
+.sign__top, .sign__bottom {
+  font-family: var(--f-t1); font-size: clamp(28px, 2.9vw, 42px); line-height: 1.15; letter-spacing: .03em; color: var(--gold);
+  -webkit-text-stroke: .1em var(--ink); paint-order: stroke fill;
+  text-shadow: .06em .06em 0 var(--plum);
 }
-.contact-card { flex: 1 1 380px; max-width: 600px; transform: rotate(-1.5deg); --clay: url("assets/img/textures/carved-dusk.webp"); }
+.sign__top { font-style: italic; }
+.sign__heart { position: relative; display: grid; place-items: center; width: 100%; aspect-ratio: 1; }
+.sign__heart img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+.sign__middle { /* Pinyon Script: baroque copperplate */
+  position: relative; margin-top: -8%; padding: .1em .7em .25em;
+  font-family: "Pinyon Script", var(--f-t1); font-size: clamp(54px, 5.6vw, 82px); line-height: 1.1; color: var(--plum);
+  -webkit-text-stroke: .02em var(--plum);
+  text-shadow: 1px 1px 0 var(--gold), -1px -1px 0 var(--gold);
+  background: radial-gradient(closest-side, var(--gold) 55%, rgba(255, 208, 107, .75) 78%, transparent);
+}
+.contact-card { flex: 1 1 380px; max-width: 600px; --clay: url("assets/img/textures/carved-dusk.webp"); --c: clamp(80px, 8vw, 120px); }
 .contact-card__inner { display: flex; flex-direction: column; gap: 20px; color: var(--gold); padding: 40px clamp(20px, 3vw, 42px); }
 .contact-card .kicker { color: var(--lime); }
 .contact-card .section-title { color: var(--rose); text-shadow: 4px 4px 0 var(--plum); font-size: clamp(48px, 6vw, 92px); }
 .contact-card p { margin: 0; font-size: 17px; line-height: 1.6; }
-.shells { display: flex; flex-wrap: wrap; gap: 14px 10px; margin: 6px 0 0; padding: 0; list-style: none; }
-.shell { --size: 78px; }
-.shell > span { text-align: center; line-height: 1.15; font-size: 12px; padding: 3px 10px; text-transform: none; letter-spacing: .02em; }
-.shell small { display: block; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--plum); }
+/* contact directory: ruled rows, label left, address right */
+.directory { margin: 6px 0 0; border-top: 2px solid var(--gold); }
+.directory > div { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 4px 18px; padding: 12px 2px; border-bottom: 1px solid rgba(255, 208, 107, .45); }
+.directory dt { font-family: var(--f-meta); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--lime); }
+.directory dd { margin: 0; font-family: var(--f-t3); font-size: 20px; }
+.directory a { color: var(--gold); text-decoration: none; background: linear-gradient(var(--rose), var(--rose)) left bottom / 0 2px no-repeat; transition: background-size .3s; }
+.directory a:hover, .directory a:focus-visible { color: var(--gold); background-size: 100% 2px; }
 .colophon { position: relative; z-index: 5; max-width: 1320px; margin: 80px auto 0; font-family: var(--f-meta); font-size: 13px; letter-spacing: .08em; text-transform: uppercase; }
 .colophon span { background: var(--gold); padding: 5px 10px; }
 
@@ -651,12 +712,11 @@ section { position: relative; overflow: hidden; isolation: isolate; }
   .nav-btn > span { font-size: 11px; padding: 2px 8px; }
   .home { min-height: 0; padding-bottom: 140px; }
   .spark--4 { display: none; }
-  .home__heart { top: auto; bottom: 80px; right: -8%; width: 200px; }
   .home__tape { top: auto; bottom: 40px; }
   .seal { width: 104px; height: 104px; font-size: 11px; top: 18px; }
   .seal b { font-size: 22px; }
   .tile:nth-child(3n+2) { margin-top: 0; }
-  .contact-card { transform: none; }
+  .conches__street { width: 100%; height: 50%; -webkit-mask: linear-gradient(#000 60%, transparent); mask: linear-gradient(#000 60%, transparent); }
   .tapestry { --cell: 28px; }
   .epigraph { padding-left: 12px; padding-right: 12px; }
   .epigraph__card { padding: 26px 20px; }
@@ -669,7 +729,7 @@ section { position: relative; overflow: hidden; isolation: isolate; }
 /* Visitors who ask for less motion get a still page. */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .ribbon, .ribbon__track, .tape span, .home__frame, .bottle__glass { animation: none; }
+  .ribbon, .ribbon__track, .tape span, .home__frame, .bottle__glass, .tile--spacer img { animation: none; }
   .js .tile, .js .gallery__title { opacity: 1; transform: none; clip-path: none; transition: none; }
   .nav-btn, .flicker-toggle { transition: none; }
 }

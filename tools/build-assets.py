@@ -4,9 +4,10 @@
     python3 tools/build-assets.py
 
 Reads   trashets/  ovilats/  psychetitlefont/  psychesubfont/  psychebodyfont/
+Reads   artworks/<section>/*.jpg  — the real pieces
 Writes  assets/img/overlays/   corner overlays, gradient-mapped to the palette
         assets/img/textures/   ovilats textures, gradient-mapped (button fills)
-        assets/img/art/        stand-in artworks (original colours, resized)
+        assets/img/art/        artworks and stand-ins (original colours, resized)
         assets/fonts/          woff2 subsets of the watermark-free fonts
 
 Needs Pillow, numpy and fontTools (with brotli for woff2).
@@ -31,6 +32,7 @@ MAPS = {
     "bruise": [ABYSS, PLUM, ROSE, LIME],       # the eye-strainer
     "candy": [PLUM, ROSE, GOLD, LIME],         # light, so ink text sits on it
     "moss": [LEAF, LIME, GOLD, ROSE],          # light, green-led
+    "meadow": [INK, LEAF, LIME, ROSE, GOLD],   # greens with pink blooms
 }
 
 
@@ -113,19 +115,81 @@ def build_textures():
         save_webp(gradient_map(img, MAPS[m], 1.05).convert("RGB"), OUT / "img/textures" / f"{name}--{m}.webp", 74)
 
 
+# Stand-ins still holding a slot until the real pieces arrive (none left).
+STAND_INS = []
+
+
+def soft_mask(w, h, seed=3, square=2.0, scaled=False):
+    """A torn, organic sticker edge: an ellipse (square=2) or a fuller
+    superellipse (square>2, fills a box's corners) wobbled by low-frequency
+    noise. scaled=True measures the wobble in pixels, so long edges get more
+    bumps; the default keeps the original babypink sticker edge exactly."""
+    r = np.random.default_rng(seed)
+    yy, xx = np.mgrid[0:h, 0:w].astype(np.float32)
+    nx, ny = (xx / w - .5) * 2, (yy / h - .5) * 2
+    ang = np.arctan2(ny * h, nx * w) if scaled else np.arctan2(ny, nx)
+    per = max(w, h) / 900 if scaled else 1     # more lobes on bigger stickers
+    amp = (.015, .045) if scaled else (.02, .06)
+    wob = sum(r.uniform(*amp) * np.sin(round(k * per) * ang + r.uniform(0, 6.3)) for k in (3, 5, 9, 17))
+    rad = (np.abs(nx) ** square * .92 + np.abs(ny) ** square) ** (1 / square)
+    d = rad - (.9 + wob)
+    return np.clip(-d * 40, 0, 1)
+
+
+# The ovilats jpgs added as "spacetakers": cut out to transparent PNGs
+# (original colours, written back into ovilats/), plus palette-mapped web
+# copies the page uses to fill empty grid cells and bare section edges.
+SPACETAKERS = {
+    # name: (how the background is removed, palette map for the web copy)
+    "purple-bleeds": ("dark", "bloom"),
+    "colorfuloverlay": ("light", "bruise"),
+    "palegreen-overlay": ("black", "meadow"),
+    "babypink-overlay": ("sticker", "bloom"),
+}
+
+
+def cut_out(img, how):
+    a = np.asarray(img.convert("RGB"), np.float32) / 255
+    lum = a @ np.array([.299, .587, .114], np.float32)
+    sat = a.max(2) - a.min(2)
+    if how == "dark":       # glowing drops on black
+        alpha = np.clip((lum - .16) / .35, 0, 1)
+    elif how == "black":    # meadow under a black sky
+        alpha = np.clip((lum - .05) / .1, 0, 1)
+    elif how == "light":    # coloured streaks in a pale haze
+        alpha = np.clip(np.maximum((sat - .14) * 3.2, (.7 - lum) * 3), 0, 1)
+    else:                   # whole picture as a torn-edge sticker
+        alpha = soft_mask(*img.size)
+    rgba = np.dstack([a * 255, alpha * 255]).astype(np.uint8)
+    return Image.fromarray(rgba, "RGBA")
+
+
+def build_spacetakers():
+    print("spacetakers")
+    for name, (how, m) in SPACETAKERS.items():
+        src = Image.open(ROOT / "ovilats" / f"{name}.jpg")
+        cut = cut_out(src, how)
+        png = ROOT / "ovilats" / f"{name}.png"
+        cut.save(png, optimize=True)
+        print(f"  {png.relative_to(ROOT)}  {png.stat().st_size // 1024} KB")
+        save_webp(gradient_map(fit(cut, 960), MAPS[m], 1.1), OUT / "img/spacers" / f"{name}--{m}.webp")
+        if how == "sticker":   # the uncut picture too, for filling a whole area (Conches)
+            save_webp(gradient_map(fit(src.convert("RGBA"), 960), MAPS[m], 1.1), OUT / "img/spacers" / f"{name}--{m}-full.webp")
+
+
 def build_art():
-    print("art stand-ins")
-    for p in sorted((ROOT / "ovilats").glob("*.jpg")) + [
-            ROOT / "trashets/graphic-background-1.jpg", ROOT / "trashets/graphic-mary-1.jpg"]:
-        save_webp(fit(Image.open(p).convert("RGB"), 1200), OUT / "img/art" / f"{p.stem}.webp", 80)
+    print("art")
+    # Real artworks: artworks/<section>/*.jpg, original colours, never recoloured.
+    for p in sorted((ROOT / "artworks").glob("*/*.jpg")):
+        save_webp(fit(Image.open(p).convert("RGB"), 1280), OUT / "img/art" / f"{p.stem}.webp", 86)
+    for p in STAND_INS:
+        save_webp(fit(Image.open(ROOT / p).convert("RGB"), 1200), OUT / "img/art" / f"{Path(p).stem}.webp", 80)
 
 
 # Watermark-free fonts only. The 177Studio demos (Biological Crossroads,
 # Certain Reasons, Maritime Network) and Stinger Wide Trial swap letters,
 # digits and punctuation for "TRIAL FONT" stamps, so they are not shipped.
 FONTS = {
-    "psychetitlefont/Slowji DEMO.ttf": "slowji",
-    "psychetitlefont/Slowji 3D DEMO.otf": "slowji-3d",
     "psychesubfont/HempaSans-BlackItalic.ttf": "hempa-sans-black-italic",
     "psychesubfont/HempaSans-Light.ttf": "hempa-sans-light",
     "psychesubfont/CheyenneSans[wght].ttf": "cheyenne-sans-var",
@@ -151,9 +215,11 @@ def build_fonts(extra=()):
 
 if __name__ == "__main__":
     import sys
-    # Optional: extra OFL fonts as path=name pairs, e.g. Shrikhand.ttf=shrikhand
+    # OFL stand-ins from Google Fonts, passed as path=name pairs:
+    #   GideonRoman.ttf=gideon-roman Shrikhand.ttf=shrikhand
     extra = [(Path(a.split("=")[0]), a.split("=")[1]) for a in sys.argv[1:]]
     build_overlays()
     build_textures()
+    build_spacetakers()
     build_art()
     build_fonts(extra)

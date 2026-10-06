@@ -195,6 +195,7 @@ if __name__ == "__main__":
     clay("bloom", [INK, PLUM, ROSE, ROSE, GOLD], [GOLD, LIME, ROSE])
     clay("venom", [ABYSS, LEAF, LIME, GOLD, GOLD], [ROSE, GOLD, ROSE])
     clay("bruise", [ABYSS, PLUM, PLUM, ROSE, ROSE], [LIME, GOLD])
+    clay("gilt", [INK, PLUM, GOLD, GOLD, GOLD], [ROSE, LIME, GOLD])
     carved("bloom", "magenta-cyber-asset.png", [INK, PLUM, ROSE, GOLD])
     carved("dusk", "dark-blue-trash.png", [ABYSS, PLUM, ROSE, LIME])
     stars("abyss", [ABYSS, ABYSS, INK, PLUM])
