@@ -17,12 +17,12 @@
    ========================================================= */
 
 /* ---------- Fonts (all watermark-free) ----------
-   Title   — Gideon Roman + Shrikhand (OFL; the psychetitlefont demos carry
-             "TRIAL FONT" stamps, and Slowji / Bagel Fat One read too bubbly).
+   Display — Gideon Roman + Shrikhand (OFL). The psychetitlefont demos carry
+             "TRIAL FONT" stamps; Slowji and Bagel Fat One read too bubbly.
    Sub     — Hempa Sans + Cheyenne Sans (psychesubfont).
    Body    — Brokuets Sans + Optician Sans (psychebodyfont).            */
-@font-face { font-family: "Shrikhand"; src: url("assets/fonts/shrikhand.woff2") format("woff2"); font-display: swap; }
 @font-face { font-family: "Gideon Roman"; src: url("assets/fonts/gideon-roman.woff2") format("woff2"); font-display: swap; }
+@font-face { font-family: "Shrikhand"; src: url("assets/fonts/shrikhand.woff2") format("woff2"); font-display: swap; }
 @font-face { font-family: "Hempa Sans"; src: url("assets/fonts/hempa-sans-black-italic.woff2") format("woff2"); font-weight: 900; font-style: italic; font-display: swap; }
 @font-face { font-family: "Hempa Sans"; src: url("assets/fonts/hempa-sans-light.woff2") format("woff2"); font-weight: 300; font-display: swap; }
 @font-face { font-family: "Cheyenne Sans"; src: url("assets/fonts/cheyenne-sans-var.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
@@ -153,6 +153,7 @@ section { position: relative; overflow: hidden; isolation: isolate; }
 .frame__inner {
   position: relative; display: block; overflow: hidden; height: 100%;
   background: url("assets/img/textures/stars-abyss.webp") 0 0 / 512px;
+  border-radius: 4px;
   /* gilt sight-edge: the thin inner lip where the picture meets the frame */
   box-shadow: inset 0 0 0 3px var(--ink), inset 10px 10px 24px rgba(24, 7, 36, .9), 0 0 0 3px var(--gold), 0 0 0 5px var(--ink);
 }
@@ -240,8 +241,8 @@ section { position: relative; overflow: hidden; isolation: isolate; }
 /* ---------- Shared section heads ---------- */
 .kicker { display: inline-block; font-family: var(--f-meta); font-size: 15px; letter-spacing: .1em; text-transform: uppercase; }
 .section-title {
-  margin: 0; font-family: var(--f-t5); font-weight: 400; line-height: 1;
-  font-size: clamp(46px, 7.4vw, 116px); letter-spacing: .005em;
+  margin: 0; font-family: var(--f-t5); font-weight: 400; line-height: .95;
+  font-size: clamp(46px, 7.4vw, 116px); letter-spacing: -.01em;
 }
 
 /* =========================================================
@@ -255,7 +256,6 @@ section { position: relative; overflow: hidden; isolation: isolate; }
     var(--g-dusk);
 }
 .home .corner { z-index: 2; opacity: .9; }
-.home .corner--tr { display: none; }   /* the bleeds hold that side */
 .home .corner--br { width: clamp(200px, 30vw, 460px); mix-blend-mode: hard-light; opacity: .75; }
 
 /* harlequin shard, clipped */
@@ -277,11 +277,6 @@ section { position: relative; overflow: hidden; isolation: isolate; }
   top: 800px; left: -2%; width: 104%; height: 54px; transform: rotate(-3deg);
   background: var(--g-venom); box-shadow: 0 6px 0 var(--plum), 0 12px 0 var(--ink);
 }
-/* Spacetakers: colour streaks fill the whole hero behind everything; the
-   bleeds rain down the full height of the right side. */
-.home__streaks { inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; opacity: .7; mix-blend-mode: hard-light; }
-.home__bleeds { /* sticker: the bleeds peeled onto the right edge, full height */
-  top: 3%; right: -2%; width: clamp(220px, 27vw, 420px); height: 94%; object-fit: contain; object-position: right center; z-index: 2; transform: rotate(3deg); }
 .home__frame { top: 30px; left: 14%; width: min(64vw, 620px); z-index: 3; opacity: .65; mix-blend-mode: hard-light; animation: sway 8s ease-in-out infinite; }
 @keyframes sway { 50% { transform: rotate(-3deg) translateY(-6px); } }
 
@@ -307,9 +302,9 @@ section { position: relative; overflow: hidden; isolation: isolate; }
   position: absolute; top: 60px; right: clamp(16px, 7vw, 130px); z-index: 20;
   width: 146px; height: 146px; display: grid; place-content: center; text-align: center;
   background: var(--g-venom); color: var(--ink);
-  font-family: var(--f-meta); font-size: 15px; line-height: 1.1; letter-spacing: .08em; transform: rotate(6deg);
+  font-family: var(--f-meta); font-size: 15px; line-height: 1.1; letter-spacing: .08em; transform: rotate(5deg);
 }
-.seal b { font-family: var(--f-t4); font-weight: 400; font-size: 34px; letter-spacing: 0; display: block; margin: 2px 0 4px; }
+.seal b { font-family: var(--f-t4); font-weight: 400; font-size: 32px; letter-spacing: 0; display: block; margin: 2px 0 4px; }
 
 .home__inner { z-index: 18; max-width: 1240px; margin: 110px auto 0; --c: clamp(96px, 11vw, 160px); --clay: url("assets/img/textures/clay-gilt.webp"); }
 .home__stage { padding: clamp(40px, 6vw, 90px) clamp(20px, 5vw, 80px) clamp(48px, 6vw, 84px); overflow: visible; }
@@ -321,62 +316,56 @@ section { position: relative; overflow: hidden; isolation: isolate; }
 }
 .home__stage > * { position: relative; z-index: 1; }
 
-/* The title: two steady lines, each word a different nouveau / baroque face.
-   Line 1 "When the Mouth", line 2 "has No Witnesses". Big words carry the
-   reading; "the" and "has" are small calligraphic connectives. */
-.title { margin: 0; font-weight: 400; line-height: 1; font-size: clamp(50px, 9.6vw, 158px); }
-.t-line { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: .2em; row-gap: .06em; }
-.t-line--2 { margin-top: .12em; justify-content: flex-end; }
+/* The title: one flowing line of disjointed faces, held level.
+   Gideon Roman carries the reading; Shrikhand and Hempa add the bite. */
+.title {
+  margin: 0; font-weight: 400; line-height: .95;
+  font-size: clamp(52px, 10vw, 164px);
+  display: flex; flex-wrap: wrap; align-items: baseline; column-gap: .2em; row-gap: .08em;
+}
 .w { display: inline-block; }
 .w-when { /* Gideon Roman, glossy gold */
-  font-family: var(--f-t1); letter-spacing: .01em; color: transparent;
-  background: linear-gradient(180deg, var(--gold) 0 46%, var(--rose) 47% 52%, var(--gold) 53% 100%);
+  font-family: var(--f-t1); color: transparent;
+  background: linear-gradient(180deg, var(--gold) 0 48%, var(--rose) 49% 53%, var(--gold) 54% 100%);
   -webkit-background-clip: text; background-clip: text;
   filter: drop-shadow(3px 3px 0 var(--ink)) drop-shadow(4px 4px 0 var(--plum));
 }
-.w-the, .w-has { /* small connectives */
-  font-size: .42em; color: var(--lime); text-shadow: 3px 3px 0 var(--ink);
+.w-the { font-family: var(--f-t3); font-style: italic; font-size: .44em; color: var(--rose); text-shadow: 2px 2px 0 var(--ink); }
+.w-mouth { /* Shrikhand, harlequin-filled, inked rim */
+  font-family: var(--f-t4); color: transparent;
+  background: conic-gradient(from 45deg, var(--rose) 25%, var(--lime) 0 50%, var(--rose) 0 75%, var(--lime) 0) 0 0 / .2em .2em;
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-stroke: .02em var(--ink);
+  filter: drop-shadow(2px 0 0 var(--gold)) drop-shadow(-2px 0 0 var(--gold)) drop-shadow(0 2px 0 var(--gold)) drop-shadow(0 -2px 0 var(--gold))
+          drop-shadow(5px 5px 0 var(--plum));
 }
-.w-the { font-family: var(--f-t3); font-style: italic; color: var(--rose); }
-.w-has { font-family: var(--f-t4); }
-.w-mouth { /* Shrikhand, rose, gold rim, leaf extrusion */
-  font-family: var(--f-t5); color: var(--rose);
-  -webkit-text-stroke: .025em var(--ink); paint-order: stroke fill;
-  text-shadow: .02em .02em 0 var(--gold), .05em .05em 0 var(--plum), .08em .08em 0 var(--leaf);
-}
+.w-has { font-family: var(--f-t4); font-size: .42em; color: var(--lime); text-shadow: 3px 3px 0 var(--ink); }
 .w-no { /* Hempa Black Italic, gold */
   font-family: var(--f-sub); font-weight: 900; font-style: italic; color: var(--gold);
-  -webkit-text-stroke: .025em var(--ink); paint-order: stroke fill;
-  text-shadow: .05em .05em 0 var(--plum), .08em .08em 0 var(--leaf);
+  text-shadow: 3px 3px 0 var(--ink), 5px 5px 0 var(--plum);
 }
-.w-witnesses { /* Gideon Roman capitals on a hard-cornered gilt plate */
-  position: relative; font-family: var(--f-t1); font-size: .62em; letter-spacing: .06em; text-transform: uppercase; color: var(--ink);
-  padding: .14em .34em .1em;
-  background: linear-gradient(180deg, var(--gold) 0 55%, #f4b96a 55% 56%, var(--gold) 56%);
-  clip-path: polygon(.3em 0, calc(100% - .3em) 0, 100% .3em, 100% calc(100% - .3em), calc(100% - .3em) 100%, .3em 100%, 0 calc(100% - .3em), 0 .3em);
-  box-shadow: inset 0 0 0 .05em var(--ink), inset 0 0 0 .09em var(--gold), inset 0 0 0 .11em var(--plum);
+.w-witnesses { /* Gideon Roman capitals on a gilt museum plate */
+  font-family: var(--f-t1); font-size: .6em; letter-spacing: .08em; text-transform: uppercase; color: var(--ink);
+  padding: .16em .4em .1em; background: linear-gradient(180deg, #ffe09a, var(--gold) 45%, #e9b45a);
+  box-shadow: inset 0 0 0 .05em var(--ink), inset 0 0 0 .09em var(--gold), inset 0 0 0 .11em var(--plum), 6px 6px 0 var(--plum);
 }
 
-/* The subtitle: one level band, notched like a ribbon end, no tilt. */
+/* The subtitle: a level acid band; Hempa Black Italic / Cheyenne Light / Hempa. */
 .subtitle {
-  position: relative; display: flex; flex-wrap: wrap; align-items: baseline; justify-content: center; gap: .1em .32em;
-  width: fit-content; max-width: 100%; margin: 54px auto 0; padding: .32em 1.4em .36em;
-  font-size: clamp(24px, 3.4vw, 50px); line-height: 1.05; color: var(--gold);
-  background: linear-gradient(180deg, var(--plum), #6e1f44);
-  clip-path: polygon(0 0, 100% 0, calc(100% - .7em) 50%, 100% 100%, 0 100%, .7em 50%);
-}
-.subtitle::before { /* gold rules top and bottom */
-  content: ""; position: absolute; inset: .14em 0; pointer-events: none;
-  border-top: 2px solid var(--gold); border-bottom: 2px solid var(--gold);
+  display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: .1em .3em;
+  margin: 52px 0 0; padding: 12px 24px 14px;
+  background: var(--g-venom); color: var(--ink);
+  font-size: clamp(26px, 3.8vw, 56px); line-height: 1;
+  box-shadow: inset 0 3px 0 rgba(255, 208, 107, .6), 6px 6px 0 var(--plum), 12px 12px 0 var(--ink);
 }
 .s-a, .s-c { font-family: var(--f-sub); font-weight: 900; font-style: italic; }
-.s-b { font-family: var(--f-sub2); font-weight: 500; font-style: normal; text-transform: uppercase; letter-spacing: .12em; font-size: .62em; align-self: center; }
-.s-c { color: var(--lime); }
+.s-b { font-family: var(--f-sub2); font-weight: 300; font-style: italic; letter-spacing: -.01em; }
+.s-c { background: var(--ink); color: var(--lime); padding: 0 .16em; display: inline-block; }
 
-.home__controls { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 18px; margin-top: 44px; }
+.home__controls { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; margin-top: 48px; }
 .cue {
   font-family: var(--f-meta); font-size: 15px; letter-spacing: .08em; text-transform: uppercase; text-decoration: none;
-  color: var(--gold); background: var(--abyss); padding: 12px 18px; border: 2px solid var(--rose); box-shadow: 4px 4px 0 var(--plum);
+  color: var(--gold); background: var(--abyss); padding: 10px 16px; border: 2px solid var(--rose); box-shadow: 4px 4px 0 var(--plum);
 }
 .cue:hover { color: var(--ink); background: var(--rose); }
 
@@ -482,7 +471,7 @@ section { position: relative; overflow: hidden; isolation: isolate; }
 .heretic__text { flex: 999 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 22px; align-items: flex-start; }
 .heretic__text .kicker { color: var(--lime); }
 .heretic__text .section-title { color: var(--gold); text-shadow: 5px 5px 0 var(--ink), 10px 10px 0 var(--leaf); }
-.paper { background: var(--gold); color: var(--ink); padding: clamp(24px, 3vw, 40px); box-shadow: 12px 12px 0 var(--ink), 20px 20px 0 var(--lime); }
+.paper { background: var(--gold); color: var(--ink); padding: clamp(24px, 3vw, 40px); box-shadow: 12px 12px 0 var(--ink), 20px 20px 0 var(--lime); border-radius: 4px 28px 4px 28px; }
 .paper p { margin: 0 0 14px; font-size: clamp(16px, 1.3vw, 19px); line-height: 1.65; }
 .paper p:last-child { margin-bottom: 0; }
 .chips { display: flex; flex-wrap: wrap; gap: 12px; margin: 8px 0 0; padding: 0; list-style: none; font-family: var(--f-meta); font-size: 13px; letter-spacing: .06em; text-transform: uppercase; }
@@ -509,7 +498,7 @@ section { position: relative; overflow: hidden; isolation: isolate; }
   display: flex; align-items: center; gap: 16px; margin: 0 0 32px;
   font-family: var(--f-sub); font-weight: 900; font-style: italic; font-size: clamp(22px, 2.4vw, 30px); color: var(--gold); text-transform: uppercase;
 }
-.gallery__title::after { content: ""; flex: 1; height: 4px; background: linear-gradient(90deg, var(--lime), var(--leaf) 40%, var(--plum) 70%, var(--rose)); }
+.gallery__title::after { content: ""; flex: 1; height: 4px; border-radius: 4px; background: linear-gradient(90deg, var(--lime), var(--leaf) 40%, var(--plum) 70%, var(--rose)); }
 .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 40px 34px; margin: 0; padding: 0; list-style: none; }
 .tile a { display: flex; flex-direction: column; gap: 14px; text-decoration: none; color: var(--gold); }
 .tile:nth-child(3n+2) { margin-top: 56px; }
@@ -533,13 +522,12 @@ section { position: relative; overflow: hidden; isolation: isolate; }
 @media (min-width: 1200px) { .gallery--art .tiles { grid-template-columns: repeat(4, 1fr); } }
 /* Spacetakers: ovilats cut-outs that fill a gallery's empty cells, shown
    only at the column count where that cell would otherwise be blank. */
-.tile--spacer { display: none; align-self: stretch; position: relative; min-height: 320px; pointer-events: none; overflow: hidden; }
-.tile--spacer img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; animation: drift 14s ease-in-out infinite alternate; }
-.tile--spacer { overflow: visible; }
-.spacer--span2 { grid-column: span 2; }
+.tile--spacer { display: none; align-self: center; pointer-events: none; }
+.tile--spacer img { width: 100%; max-height: 460px; object-fit: contain; animation: drift 9s ease-in-out infinite; filter: drop-shadow(0 0 18px rgba(230, 147, 147, .35)); }
+.tile--spacer:nth-of-type(even) img { animation-delay: -4s; }
 @media (min-width: 761px) and (max-width: 1199px) { .spacer--3col { display: block; } }
 @media (min-width: 1200px) { .spacer--4col { display: block; } }
-@keyframes drift { to { transform: rotate(-2deg) translateY(-2%); } }
+@keyframes drift { 50% { transform: translateY(-14px) rotate(1.5deg); } }
 .gallery--art .tile__frame { aspect-ratio: auto; }
 .gallery--art .tile__frame .frame__inner { position: relative; inset: auto; }
 .gallery--art .tile__frame .frame__inner img { height: auto; }
@@ -608,23 +596,23 @@ section { position: relative; overflow: hidden; isolation: isolate; }
 .bottles .corner { opacity: .85; }
 .bottles__dots { inset: 0; opacity: .5; background: url("assets/img/textures/glitter-venom.webp") 0 0 / 300px; mix-blend-mode: hard-light; }
 .bottles__meadow { /* spacetaker: the meadow cut-out grows along the bottom edge */
-  left: 0; right: 0; bottom: 0; z-index: 1; width: 100%; height: 46%; object-fit: cover; object-position: center bottom;
-  -webkit-mask: linear-gradient(transparent, #000 35%); mask: linear-gradient(transparent, #000 35%); opacity: .95;
+  left: 0; right: 0; bottom: 0; z-index: 1; width: 100%; height: clamp(180px, 22vw, 320px); object-fit: cover; object-position: center bottom;
+  -webkit-mask: linear-gradient(transparent, #000 45%); mask: linear-gradient(transparent, #000 45%); opacity: .9;
 }
-.epigraph__streaks { /* stickers: the bleeds fill each side gutter, top to bottom */
-  top: 4%; height: 92%; width: calc((100% - min(1000px, 100% - 2 * var(--pad))) / 2 + 30px); object-fit: contain; z-index: 1;
+.epigraph__streaks { /* spacetaker: colour streaks bleeding behind the tapestry */
+  top: 0; bottom: 0; width: clamp(160px, 22vw, 340px); height: 100%; object-fit: cover; z-index: 1; mix-blend-mode: hard-light; opacity: .8;
 }
-.epigraph__streaks--l { left: 0; transform: rotate(-2deg); }
-.epigraph__streaks--r { right: 0; transform: scaleX(-1) rotate(-3deg); }
-.alleyway__bleeds { /* spacetaker: colour streaks fill the whole band behind the heading */
-  top: 0; left: 0; width: 100%; height: clamp(360px, 40vw, 560px); object-fit: cover; z-index: 1; opacity: .8; mix-blend-mode: hard-light;
-  -webkit-mask: linear-gradient(#000 55%, transparent); mask: linear-gradient(#000 55%, transparent);
+.epigraph__streaks--l { left: 2%; }
+.epigraph__streaks--r { right: 2%; transform: scaleX(-1); }
+.alleyway__bleeds { /* spacetaker: drips falling beside the heading */
+  top: 0; right: 6%; width: clamp(140px, 18vw, 260px); z-index: 2; opacity: .85; mix-blend-mode: hard-light;
+  -webkit-mask: linear-gradient(#000 60%, transparent); mask: linear-gradient(#000 60%, transparent);
 }
 .bottles__waves { top: 60px; left: 0; width: 100%; height: 100px; z-index: 1; }
 .bottles__inner { position: relative; z-index: 5; max-width: 1240px; margin: 0 auto; }
 .bottles__inner .kicker { color: var(--ink); background: var(--gold); padding: 3px 10px; }
 .bottles__inner .section-title { color: var(--ink); text-shadow: 4px 4px 0 var(--rose), 8px 8px 0 var(--plum); margin-top: 12px; }
-.bottles__intro { max-width: 620px; margin: 22px 0 72px; font-size: 18px; line-height: 1.6; background: var(--gold); padding: 14px 18px; box-shadow: 6px 6px 0 var(--plum); }
+.bottles__intro { max-width: 620px; margin: 22px 0 72px; font-size: 18px; line-height: 1.6; background: var(--gold); padding: 14px 18px; box-shadow: 6px 6px 0 var(--plum); border-radius: 4px 20px 4px 20px; }
 .shelf { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 300px)); justify-content: center; gap: 56px 48px; margin: 0; padding: 0; list-style: none; }
 .bottle { position: relative; display: flex; flex-direction: column; align-items: center; }
 .bottle__glass {
@@ -670,22 +658,25 @@ section { position: relative; overflow: hidden; isolation: isolate; }
   -webkit-mask: linear-gradient(90deg, transparent 45%, #000 80%);
           mask: linear-gradient(90deg, transparent 45%, #000 80%);
 }
-.conches__street { /* sticker: the street scene fills the left half, top to bottom */
-  top: 4%; left: 1%; width: 50%; height: 92%; object-fit: contain; object-position: left center; z-index: 1; transform: rotate(-2deg);
+.conches__street { /* spacetaker: the street scene fills the left half, top to bottom */
+  top: 0; left: 0; width: 55%; height: 100%; object-fit: cover; z-index: 1; opacity: .9; mix-blend-mode: hard-light;
+  -webkit-mask: linear-gradient(90deg, #000 70%, transparent); mask: linear-gradient(90deg, #000 70%, transparent);
 }
 .conches__inner { position: relative; z-index: 5; max-width: 1320px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 40px; align-items: center; justify-content: space-between; }
-/* The No Witnesses plaque: a gilt pendant to the contact card — same
-   contoured frame and starfield, the nouveau ornament set inside, and the
-   words in the card's own type (Gideon capitals over Shrikhand). */
-.sign { flex: 0 1 440px; align-self: stretch; min-height: 420px; --c: clamp(80px, 8vw, 120px); }
-.sign__inner { display: grid; place-items: center; height: 100%; }
-.sign__ornament { position: absolute; inset: 6% 4%; width: 92%; height: 88%; object-fit: contain; opacity: .85; }
-.sign__text { position: relative; display: flex; flex-direction: column; align-items: center; gap: .1em; text-align: center; padding: .5em .8em; background: rgba(11, 2, 54, .78); box-shadow: 0 0 0 1px rgba(255, 208, 107, .5); }
-.sign__no {
-  font-family: var(--f-t1); font-size: clamp(18px, 1.6vw, 24px); letter-spacing: .5em; margin-right: -.5em; text-transform: uppercase; color: var(--gold);
-  padding-bottom: .35em; border-bottom: 1px solid rgba(255, 208, 107, .6);
+.sign { position: relative; flex: 0 1 480px; aspect-ratio: 1; display: grid; place-items: center; }
+.sign img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+/* The words sit inside the nouveau ornament itself, on a soft gilt glow:
+   small spaced capitals over the Shrikhand word, between hairline rules. */
+.sign__text {
+  position: relative; margin-top: -30px; display: flex; flex-direction: column; align-items: center; gap: .18em;
+  padding: .6em 1.4em; text-align: center; color: var(--ink);
+  background: radial-gradient(closest-side, var(--gold) 55%, rgba(255, 208, 107, .75) 78%, transparent);
 }
-.sign__word { font-family: var(--f-t4); font-size: clamp(30px, 3vw, 46px); line-height: 1.1; color: var(--rose); text-shadow: 4px 4px 0 var(--plum); }
+.sign__no {
+  font-family: var(--f-t1); font-size: clamp(14px, 1.3vw, 18px); letter-spacing: .6em; margin-right: -.6em; text-transform: uppercase;
+  padding: 0 .4em .3em; border-bottom: 1px solid var(--plum);
+}
+.sign__word { font-family: var(--f-t4); font-size: clamp(32px, 3.6vw, 52px); line-height: 1.05; color: var(--plum); text-shadow: 2px 2px 0 var(--gold); }
 .contact-card { flex: 1 1 380px; max-width: 600px; --clay: url("assets/img/textures/carved-dusk.webp"); --c: clamp(80px, 8vw, 120px); }
 .contact-card__inner { display: flex; flex-direction: column; gap: 20px; color: var(--gold); padding: 40px clamp(20px, 3vw, 42px); }
 .contact-card .kicker { color: var(--lime); }
@@ -714,18 +705,16 @@ section { position: relative; overflow: hidden; isolation: isolate; }
   .nav-btn > span { font-size: 11px; padding: 2px 8px; }
   .home { min-height: 0; padding-bottom: 140px; }
   .spark--4 { display: none; }
-  .home__bleeds { width: 40%; opacity: .7; }
-  .t-line--2 { justify-content: flex-start; }
-  .conches__street { width: 100%; height: 48%; object-position: center top; }
   .home__tape { top: auto; bottom: 40px; }
   .seal { width: 104px; height: 104px; font-size: 11px; top: 18px; }
   .seal b { font-size: 22px; }
   .tile:nth-child(3n+2) { margin-top: 0; }
+  .conches__street { width: 100%; height: 50%; -webkit-mask: linear-gradient(#000 60%, transparent); mask: linear-gradient(#000 60%, transparent); }
   .tapestry { --cell: 28px; }
   .epigraph { padding-left: 12px; padding-right: 12px; }
   .epigraph__card { padding: 26px 20px; }
   .tapestry > .epigraph__card { box-shadow: 0 0 0 3px var(--ink), 0 0 0 8px var(--rose), 0 0 0 11px var(--ink); }
-  .title { font-size: 44px; }
+  .title { font-size: 46px; }
   .home__stage { padding: 36px 18px 40px; }
   .home__inner { margin-top: 90px; }
 }
