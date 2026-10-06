@@ -90,22 +90,61 @@ def save(arr, name, q=80):
     print(f"  {p.relative_to(ROOT)}  {p.stat().st_size // 1024} KB")
 
 
+def blur(a, r):
+    """Gaussian blur in the frequency domain: wraps at the edges, so tiles stay seamless."""
+    h, w = a.shape
+    fy = np.fft.fftfreq(h)[:, None]
+    fx = np.fft.fftfreq(w)[None, :]
+    g = np.exp(-2 * (np.pi * r) ** 2 * (fx ** 2 + fy ** 2))
+    return np.real(np.fft.ifft2(np.fft.fft2(a) * g)).astype(np.float32)
+
+
+def light(hgt, depth, sun=(-.55, -.65, .52), gloss=48):
+    """Real surface normals from a heightmap -> diffuse + Blinn-Phong specular."""
+    gx = (np.roll(hgt, -1, 1) - np.roll(hgt, 1, 1)) * depth
+    gy = (np.roll(hgt, -1, 0) - np.roll(hgt, 1, 0)) * depth
+    n = np.dstack([-gx, -gy, np.ones_like(hgt)])
+    n /= np.linalg.norm(n, axis=2, keepdims=True)
+    L = np.array(sun, np.float32); L /= np.linalg.norm(L)
+    H = L + np.array([0, 0, 1], np.float32); H /= np.linalg.norm(H)
+    diff = np.clip(n @ L, 0, 1)
+    spec = np.clip(n @ H, 0, 1) ** gloss
+    return diff, spec
+
+
 def clay(name, stops, glints, w=640, h=640):
-    """Lumpy, glossy, glittered clay — the moulded picture-frame surface."""
-    hgt = noise(w, h, scales=(6, 12, 24, 48, 96), weights=(.08, .25, .9, 1, .6))
-    hgt = np.sqrt(hgt)  # rounded, swollen lumps
-    hgt = np.asarray(Image.fromarray((hgt * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(1.2)), np.float32) / 255
-    lit = shade(hgt, 4.5)
-    base = ramp(hgt * .8 + .1, stops[:-1])
+    """Moulded, embossed glitter-clay — the picture-frame surface.
+
+    Height = swollen lumps + crusty ridged noise + fine pitting, so the
+    relief carries detail at three scales. Crevices are darkened with a
+    cavity (ambient-occlusion) pass; ridges catch tight wet highlights."""
+    lumps = np.sqrt(noise(w, h, scales=(24, 48, 96, 160), weights=(.4, 1, .9, .5)))
+    r = noise(w, h, scales=(8, 16, 32), weights=(.5, 1, .6))
+    ridges = (1 - np.abs(r * 2 - 1)) ** 3            # crusty, worm-like folds
+    r2 = noise(w, h, scales=(4, 8), weights=(1, .6))
+    crumbs = (1 - np.abs(r2 * 2 - 1)) ** 4           # small crumbs and pits
+    pits = (rng.random((h, w)) < .004).astype(np.float32)
+    pits = blur(pits, 1.2) * 6
+    hgt = lumps * 1.6 + ridges * .4 + crumbs * .18 - pits * .25
+    hgt = blur(hgt, .7)
+    hgt = (hgt - hgt.min()) / (hgt.max() - hgt.min())
+
+    diff, spec = light(hgt, depth=40, gloss=22)
+    cavity = np.clip((blur(hgt, 6) - hgt) * 5, 0, 1)   # high where sunk below surroundings
+    rim = np.clip((hgt - blur(hgt, 3)) * 9, 0, 1)      # raised edges
+
+    base = ramp(.25 + hgt * .55 + rim * .25, stops[:-1])
+    shade_ = (.42 + diff * .78)[..., None]
+    img = base * shade_
+    img = img * (1 - cavity[..., None] * .75) + rgb(INK) * (cavity[..., None] * .75)
     hi = rgb(stops[-1])
-    # specular: sharp, wet-looking highlights on the lit faces
-    spec = np.clip((lit - .55) * 3.2, 0, .9)[..., None]
-    dark = np.clip(-lit, 0, 1)[..., None]
-    img = base * (1 - .45 * dark) + rgb(INK) * (.45 * dark)
-    img = img * (1 - spec) + hi * spec
-    img = glitter(img, .012, glints, 1, .9)
-    img = glitter(img, .0015, glints, 2, .8)
-    save(img, f"clay-{name}")
+    s = np.clip(spec * 1.9 + rim * diff * .3, 0, .95)[..., None]
+    img = img * (1 - s) + hi * s
+    # glitter sits on the surface: brighter on lit faces
+    img = glitter(img, .02, glints, 1, .55)
+    img = glitter(img, .004, glints + [GOLD], 1, 1)
+    img = glitter(img, .0008, [GOLD], 2, .9)
+    save(img, f"clay-{name}", 84)
 
 
 def carved(name, src, stops, w=640, h=640):

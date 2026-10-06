@@ -114,7 +114,7 @@ section { position: relative; overflow: hidden; isolation: isolate; }
   --clay: url("assets/img/textures/clay-bloom.webp");
   --bevel: clamp(14px, 2.4vw, 34px);
   position: relative; display: block; padding: var(--bevel);
-  background: var(--clay) center / 420px;
+  background: var(--clay) center / 540px;
   border-radius: 26px 34px 22px 30px / 30px 22px 34px 26px;
   box-shadow:
     inset 3px 3px 0 rgba(255, 208, 107, .55),
