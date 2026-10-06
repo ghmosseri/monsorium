@@ -118,9 +118,16 @@ section { position: relative; overflow: hidden; isolation: isolate; }
 }
 .frame::before {
   content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  /* bevel: light catches the upper-left, shadow pools lower-right (kept from
+     the embossed rounded frames, now cut to the contour by the mask) */
+  box-shadow:
+    inset 4px 4px 0 rgba(255, 208, 107, .6),
+    inset 14px 14px 22px rgba(255, 208, 107, .3),
+    inset -6px -6px 0 rgba(24, 7, 36, .5),
+    inset -18px -18px 28px rgba(24, 7, 36, .55);
   background:
     linear-gradient(135deg, rgba(255, 208, 107, .28), transparent 35%, transparent 65%, rgba(24, 7, 36, .45)),
-    var(--clay) center / 540px;
+    var(--clay) center / 240px;
   -webkit-mask:
     url("assets/ui/frame-corner-tl.svg") left top / var(--c) var(--c) no-repeat,
     url("assets/ui/frame-corner-tr.svg") right top / var(--c) var(--c) no-repeat,
@@ -150,13 +157,14 @@ section { position: relative; overflow: hidden; isolation: isolate; }
 .frame--bruise { --clay: url("assets/img/textures/clay-bruise.webp"); }
 .frame--gilt   { --clay: url("assets/img/textures/clay-gilt.webp"); }
 .frame--carved { --clay: url("assets/img/textures/carved-bloom.webp"); }
-.frame--carved::before { background-size: auto, 300px; }
+.frame--carved::before { background-size: auto, 200px; }
 .frame__inner {
   position: relative; display: block; overflow: hidden; height: 100%;
   background: url("assets/img/textures/stars-abyss.webp") 0 0 / 512px;
   border-radius: 4px;
   /* gilt sight-edge: the thin inner lip where the picture meets the frame */
-  box-shadow: inset 0 0 0 3px var(--ink), inset 10px 10px 24px rgba(24, 7, 36, .9), 0 0 0 3px var(--gold), 0 0 0 5px var(--ink);
+  box-shadow: inset 0 0 0 3px var(--ink), inset 10px 10px 24px rgba(24, 7, 36, .9), 0 0 0 3px var(--gold), 0 0 0 5px var(--ink),
+    -7px -7px 14px rgba(24, 7, 36, .6), 7px 7px 12px rgba(255, 208, 107, .35);
 }
 
 /* ---------- Ribbon (hot pink, moving — copy to come) ---------- */
@@ -392,8 +400,8 @@ section { position: relative; overflow: hidden; isolation: isolate; }
 .home.is-flickering .flick--c { animation-name: flick-c; animation-duration: 4.1s; }
 .home.is-flickering .w-when { filter: drop-shadow(0 0 14px rgba(255, 208, 107, .8)) drop-shadow(3px 3px 0 var(--ink)) drop-shadow(5px 5px 0 var(--plum)) drop-shadow(4px 4px 0 var(--ink)); }
 .home.is-flickering .home__stage { animation: stage-glow 4.6s infinite steps(1, end); }
-@keyframes stage-glow { 0%, 30%, 34%, 100% { box-shadow: inset 0 0 0 3px var(--ink), inset 10px 10px 24px rgba(24, 7, 36, .9), 0 0 0 3px var(--gold), 0 0 0 5px var(--ink); }
-  31%, 33% { box-shadow: inset 0 0 0 3px var(--ink), inset 0 0 80px rgba(230, 147, 147, .45), 0 0 0 3px var(--gold), 0 0 26px 6px rgba(255, 208, 107, .7); } }
+@keyframes stage-glow { 0%, 30%, 34%, 100% { box-shadow: inset 0 0 0 3px var(--ink), inset 10px 10px 24px rgba(24, 7, 36, .9), 0 0 0 3px var(--gold), 0 0 0 5px var(--ink), -7px -7px 14px rgba(24, 7, 36, .6), 7px 7px 12px rgba(255, 208, 107, .35); }
+  31%, 33% { box-shadow: inset 0 0 0 3px var(--ink), inset 0 0 80px rgba(230, 147, 147, .45), 0 0 0 3px var(--gold), 0 0 0 5px var(--ink), 0 0 26px 6px rgba(255, 208, 107, .7); } }
 .home.is-flickering .spark { animation: twinkle 2.6s ease-in-out infinite; }
 .home.is-flickering .spark--2 { animation-delay: .9s; }
 .home.is-flickering .spark--3 { animation-delay: 1.7s; }
@@ -707,6 +715,7 @@ section { position: relative; overflow: hidden; isolation: isolate; }
   .nav-list { justify-content: center; }
 }
 @media (max-width: 760px) {
+  .frame::before { background-size: auto, 170px; }
   :root { --corner: clamp(120px, 38vw, 200px); }
   .nav-btn { --size: 52px; }
   .nav-btn > span { font-size: 11px; padding: 2px 8px; }
