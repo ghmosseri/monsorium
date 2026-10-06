@@ -119,14 +119,20 @@ def build_textures():
 STAND_INS = []
 
 
-def soft_mask(w, h, seed=3):
-    """A torn, organic sticker edge: an ellipse wobbled by low-frequency noise."""
+def soft_mask(w, h, seed=3, square=2.0, scaled=False):
+    """A torn, organic sticker edge: an ellipse (square=2) or a fuller
+    superellipse (square>2, fills a box's corners) wobbled by low-frequency
+    noise. scaled=True measures the wobble in pixels, so long edges get more
+    bumps; the default keeps the original babypink sticker edge exactly."""
     r = np.random.default_rng(seed)
     yy, xx = np.mgrid[0:h, 0:w].astype(np.float32)
     nx, ny = (xx / w - .5) * 2, (yy / h - .5) * 2
-    ang = np.arctan2(ny, nx)
-    wob = sum(r.uniform(.02, .06) * np.sin(k * ang + r.uniform(0, 6.3)) for k in (3, 5, 9, 17))
-    d = np.sqrt(nx ** 2 * .92 + ny ** 2) - (.9 + wob)
+    ang = np.arctan2(ny * h, nx * w) if scaled else np.arctan2(ny, nx)
+    per = max(w, h) / 900 if scaled else 1     # more lobes on bigger stickers
+    amp = (.015, .045) if scaled else (.02, .06)
+    wob = sum(r.uniform(*amp) * np.sin(round(k * per) * ang + r.uniform(0, 6.3)) for k in (3, 5, 9, 17))
+    rad = (np.abs(nx) ** square * .92 + np.abs(ny) ** square) ** (1 / square)
+    d = rad - (.9 + wob)
     return np.clip(-d * 40, 0, 1)
 
 
@@ -166,9 +172,44 @@ def build_spacetakers():
         png = ROOT / "ovilats" / f"{name}.png"
         cut.save(png, optimize=True)
         print(f"  {png.relative_to(ROOT)}  {png.stat().st_size // 1024} KB")
-        # A sticker's web copy keeps the full picture, so it can fill an area edge to edge.
-        web = src.convert("RGBA") if how == "sticker" else cut
-        save_webp(gradient_map(fit(web, 960), MAPS[m], 1.1), OUT / "img/spacers" / f"{name}--{m}.webp")
+        save_webp(gradient_map(fit(cut, 960), MAPS[m], 1.1), OUT / "img/spacers" / f"{name}--{m}.webp")
+
+
+# Sticker cut-outs: a spacetaker picture cut to the wobbly torn edge, at the
+# proportions of the spot it fills, with an ink rim and a plum offset shadow
+# baked in. name: (source jpg, palette map, width, height, mask seed)
+STICKERS = {
+    "sticker-bleeds-tall": ("purple-bleeds", "bloom", 520, 1200, 11),
+    "sticker-bleeds-col": ("purple-bleeds", "bruise", 480, 1040, 5),
+    "sticker-meadow-wide": ("palegreen-overlay", "meadow", 1100, 620, 8),
+    "sticker-street-tall": ("babypink-overlay", "bloom", 820, 1040, 3),
+}
+
+
+def cover(img, w, h):
+    s = max(w / img.width, h / img.height)
+    img = img.resize((round(img.width * s), round(img.height * s)), Image.LANCZOS)
+    x, y = (img.width - w) // 2, (img.height - h) // 2
+    return img.crop((x, y, x + w, y + h))
+
+
+def build_stickers():
+    from PIL import ImageFilter
+    print("stickers")
+    for name, (src, m, w, h, seed) in STICKERS.items():
+        pad = 28
+        art = gradient_map(cover(Image.open(ROOT / "ovilats" / f"{src}.jpg").convert("RGBA"), w, h), MAPS[m], 1.1)
+        cut = soft_mask(w, h, seed, square=3.2, scaled=True)
+        a = Image.fromarray((cut * 255).astype(np.uint8))
+        out = Image.new("RGBA", (w + 2 * pad, h + 2 * pad), (0, 0, 0, 0))
+        big = Image.new("L", out.size, 0); big.paste(a, (pad, pad))
+        rim = big.filter(ImageFilter.MaxFilter(9))                 # ink rim around the edge
+        shadow = Image.new("L", out.size, 0); shadow.paste(rim, (10, 12))
+        out.paste((148, 44, 91, 235), (0, 0), shadow)
+        out.paste((24, 7, 36, 255), (0, 0), rim)
+        layer = Image.new("RGBA", out.size, (0, 0, 0, 0)); layer.paste(art, (pad, pad))
+        out.paste(layer, (0, 0), big)
+        save_webp(out, OUT / "img/spacers" / f"{name}.webp", 84)
 
 
 def build_art():
@@ -209,12 +250,12 @@ def build_fonts(extra=()):
 
 if __name__ == "__main__":
     import sys
-    # Display faces are OFL Google Fonts, passed as path=name pairs:
-    #   Federant.ttf=federant NewRocker.ttf=new-rocker
-    #   CinzelDecorative-Bold.ttf=cinzel-decorative-bold Kings.ttf=kings GideonRoman.ttf=gideon-roman
+    # OFL stand-ins from Google Fonts, passed as path=name pairs:
+    #   GideonRoman.ttf=gideon-roman Shrikhand.ttf=shrikhand
     extra = [(Path(a.split("=")[0]), a.split("=")[1]) for a in sys.argv[1:]]
     build_overlays()
     build_textures()
     build_spacetakers()
+    build_stickers()
     build_art()
     build_fonts(extra)
