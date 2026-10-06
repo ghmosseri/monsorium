@@ -330,11 +330,13 @@ section { position: relative; overflow: hidden; isolation: isolate; }
 
 /* The title: one flowing line of disjointed faces, held level.
    Gideon Roman carries the reading; Shrikhand and Hempa add the bite. */
+/* Three fixed lines: "When the" / "Mouth has No" / "Witnesses". */
 .title {
   margin: 0; font-weight: 400; line-height: .95;
-  font-size: clamp(52px, 10vw, 164px);
-  display: flex; flex-wrap: wrap; align-items: baseline; column-gap: .2em; row-gap: .08em;
+  font-size: clamp(40px, 9.4vw, 156px);
+  display: flex; flex-direction: column; align-items: flex-start; row-gap: .12em;
 }
+.t-line { display: flex; flex-wrap: nowrap; align-items: baseline; column-gap: .2em; white-space: nowrap; }
 .w { display: inline-block; }
 .w-when { /* Slowji 3D (psychetitlefont), glossy gold */
   font-family: "Slowji 3D", "Slowji", var(--f-t1); color: transparent;
@@ -735,7 +737,7 @@ section { position: relative; overflow: hidden; isolation: isolate; }
   .epigraph { padding-left: 12px; padding-right: 12px; }
   .epigraph__card { padding: 26px 20px; }
   .tapestry > .epigraph__card { box-shadow: 0 0 0 3px var(--ink), 0 0 0 8px var(--rose), 0 0 0 11px var(--ink); }
-  .title { font-size: 46px; }
+  .title { font-size: 9.9vw; }
   .home__stage { padding: 36px 18px 40px; }
   .home__inner { margin-top: 90px; }
 }
