@@ -184,8 +184,6 @@ def build_art():
 # Certain Reasons, Maritime Network) and Stinger Wide Trial swap letters,
 # digits and punctuation for "TRIAL FONT" stamps, so they are not shipped.
 FONTS = {
-    "psychetitlefont/Slowji DEMO.ttf": "slowji",
-    "psychetitlefont/Slowji 3D DEMO.otf": "slowji-3d",
     "psychesubfont/HempaSans-BlackItalic.ttf": "hempa-sans-black-italic",
     "psychesubfont/HempaSans-Light.ttf": "hempa-sans-light",
     "psychesubfont/CheyenneSans[wght].ttf": "cheyenne-sans-var",
@@ -211,7 +209,9 @@ def build_fonts(extra=()):
 
 if __name__ == "__main__":
     import sys
-    # Optional: extra OFL fonts as path=name pairs, e.g. Shrikhand.ttf=shrikhand
+    # Display faces are OFL Google Fonts, passed as path=name pairs:
+    #   Federant.ttf=federant NewRocker.ttf=new-rocker
+    #   CinzelDecorative-Bold.ttf=cinzel-decorative-bold Kings.ttf=kings GideonRoman.ttf=gideon-roman
     extra = [(Path(a.split("=")[0]), a.split("=")[1]) for a in sys.argv[1:]]
     build_overlays()
     build_textures()
