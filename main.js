@@ -3,6 +3,7 @@
    1. Home light flicker + the visitor's on/off toggle (remembered)
    2. Slide-ins for the Alleyway exhibit
    3. Current-section highlight in the nav
+   4. Multimedia video slots that show blank until a file is added
    ========================================================= */
 (function () {
   'use strict';
@@ -145,10 +146,29 @@
     });
   }
 
+  /* =======================================================
+     4. VIDEO SLOTS (Multimedia): blank frame until the file exists
+     ======================================================= */
+  function initVideoSlots() {
+    document.querySelectorAll('video[data-video-slot]').forEach(function (video) {
+      var tile = video.closest('.tile');
+      var sources = video.querySelectorAll('source');
+      function markEmpty() { if (tile) tile.classList.add('is-empty'); }
+      function markFilled() { if (tile) tile.classList.remove('is-empty'); }
+      // A missing file errors on its <source>, not on the <video>.
+      if (sources.length) sources[sources.length - 1].addEventListener('error', markEmpty);
+      video.addEventListener('error', markEmpty);
+      video.addEventListener('loadedmetadata', markFilled);
+      // The error may have fired before this script ran.
+      if (video.networkState === 3 /* NETWORK_NO_SOURCE */) markEmpty();
+    });
+  }
+
   function init() {
     initFlicker();
     initSlideIns();
     initNavState();
+    initVideoSlots();
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);

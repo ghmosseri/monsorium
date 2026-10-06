@@ -115,8 +115,8 @@ def build_textures():
         save_webp(gradient_map(img, MAPS[m], 1.05).convert("RGB"), OUT / "img/textures" / f"{name}--{m}.webp", 74)
 
 
-# Stand-ins still holding a slot until the real pieces arrive.
-STAND_INS = ["ovilats/redtiger-overlay.jpg", "ovilats/starleopard-overlay.jpg"]
+# Stand-ins still holding a slot until the real pieces arrive (none left).
+STAND_INS = []
 
 
 def soft_mask(w, h, seed=3):
