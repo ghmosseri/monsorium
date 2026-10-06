@@ -107,41 +107,72 @@ section { position: relative; overflow: hidden; isolation: isolate; }
 .corner--bl { bottom: 0; left: 0; transform: translate(-24%, 16%) rotate(6deg); object-position: left bottom; }
 .corner--br { bottom: 0; right: 0; transform: translate(24%, 16%) rotate(-7deg); object-position: right bottom; }
 
-/* ---------- Frames: moulded glitter-clay and carved ornament ----------
-   A thick textured mount (the procedural clay/carved webp), bevelled with
-   inset light and shadow, around a dark starfield "diorama" window. */
+/* ---------- Frames: contoured "eurotrash" rococo frames ----------
+   The clay/carved/gilt texture is cut to a frame outline (::before mask):
+   a body inset by --m, with scrolled corner cartouches, a bead moulding
+   along each edge and a shell crest top and bottom standing proud of it.
+   The outline is lit by drop-shadows on the frame itself (gold rim upper
+   left, ink lower right), so the relief follows the contour. */
 .frame {
   --clay: url("assets/img/textures/clay-bloom.webp");
-  --bevel: clamp(14px, 2.4vw, 34px);
-  position: relative; display: block; padding: var(--bevel);
-  background: var(--clay) center / 540px;
-  border-radius: 26px 34px 22px 30px / 30px 22px 34px 26px;
-  box-shadow:
-    inset 3px 3px 0 rgba(255, 208, 107, .55),
-    inset 10px 10px 18px rgba(255, 208, 107, .25),
-    inset -6px -6px 0 rgba(24, 7, 36, .45),
-    inset -14px -14px 24px rgba(24, 7, 36, .5),
-    8px 10px 0 var(--ink);
+  --c: clamp(70px, 7vw, 96px);                     /* corner ornament size */
+  --m: calc(var(--c) * .22);                       /* how far ornaments stand proud */
+  --run: calc(100% - 2 * var(--c) + 4px);          /* edge length between corners */
+  --bevel: calc(var(--m) + clamp(14px, 1.8vw, 26px));
+  position: relative; display: block; padding: var(--bevel); isolation: isolate;
+  filter: drop-shadow(-1.5px -1.5px 0 rgba(255, 208, 107, .85)) drop-shadow(2px 2px 0 var(--ink)) drop-shadow(7px 9px 0 rgba(24, 7, 36, .85));
+}
+.frame::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    linear-gradient(135deg, rgba(255, 208, 107, .28), transparent 35%, transparent 65%, rgba(24, 7, 36, .45)),
+    var(--clay) center / 540px;
+  -webkit-mask:
+    url("assets/ui/frame-corner-tl.svg") left top / var(--c) var(--c) no-repeat,
+    url("assets/ui/frame-corner-tr.svg") right top / var(--c) var(--c) no-repeat,
+    url("assets/ui/frame-corner-bl.svg") left bottom / var(--c) var(--c) no-repeat,
+    url("assets/ui/frame-corner-br.svg") right bottom / var(--c) var(--c) no-repeat,
+    url("assets/ui/frame-edge-top.svg") center top / var(--run) var(--m) no-repeat,
+    url("assets/ui/frame-edge-bottom.svg") center bottom / var(--run) var(--m) no-repeat,
+    url("assets/ui/frame-edge-left.svg") left center / var(--m) var(--run) no-repeat,
+    url("assets/ui/frame-edge-right.svg") right center / var(--m) var(--run) no-repeat,
+    url("assets/ui/frame-crest-top.svg") center top / calc(var(--c) * 1.9) calc(var(--c) * .64) no-repeat,
+    url("assets/ui/frame-crest-bottom.svg") center bottom / calc(var(--c) * 1.9) calc(var(--c) * .64) no-repeat,
+    linear-gradient(#000 0 0) center / calc(100% - 2 * var(--m)) calc(100% - 2 * var(--m)) no-repeat;
+          mask:
+    url("assets/ui/frame-corner-tl.svg") left top / var(--c) var(--c) no-repeat,
+    url("assets/ui/frame-corner-tr.svg") right top / var(--c) var(--c) no-repeat,
+    url("assets/ui/frame-corner-bl.svg") left bottom / var(--c) var(--c) no-repeat,
+    url("assets/ui/frame-corner-br.svg") right bottom / var(--c) var(--c) no-repeat,
+    url("assets/ui/frame-edge-top.svg") center top / var(--run) var(--m) no-repeat,
+    url("assets/ui/frame-edge-bottom.svg") center bottom / var(--run) var(--m) no-repeat,
+    url("assets/ui/frame-edge-left.svg") left center / var(--m) var(--run) no-repeat,
+    url("assets/ui/frame-edge-right.svg") right center / var(--m) var(--run) no-repeat,
+    url("assets/ui/frame-crest-top.svg") center top / calc(var(--c) * 1.9) calc(var(--c) * .64) no-repeat,
+    url("assets/ui/frame-crest-bottom.svg") center bottom / calc(var(--c) * 1.9) calc(var(--c) * .64) no-repeat,
+    linear-gradient(#000 0 0) center / calc(100% - 2 * var(--m)) calc(100% - 2 * var(--m)) no-repeat;
 }
 .frame--venom  { --clay: url("assets/img/textures/clay-venom.webp"); }
 .frame--bruise { --clay: url("assets/img/textures/clay-bruise.webp"); }
-.frame--carved {
-  --clay: url("assets/img/textures/carved-bloom.webp");
-  --ros: clamp(34px, 4.6vw, 64px);
-  border-radius: 10px;
-  background-size: 300px;
-}
-.frame--carved::before { /* rosettes in the four corners, like a carved plaque */
+.frame--gilt   { --clay: url("assets/img/textures/clay-gilt.webp"); }
+.frame--carved { --clay: url("assets/img/textures/carved-bloom.webp"); }
+.frame--carved::before { background-size: auto, 300px; }
+/* Rosettes (the corner circles) — only where a frame asks for them */
+.frame--rosettes { --ros: calc(var(--c) * .3); }
+.frame--rosettes::after { /* each rosette sits on its corner scroll's eye (22%, 15% of --c) */
   content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  --x: calc(var(--c) * .22 - var(--ros) / 2); --y: calc(var(--c) * .15 - var(--ros) / 2);
   --r: radial-gradient(circle, var(--gold) 0 14%, var(--plum) 15% 26%, var(--rose) 27% 40%, var(--ink) 41% 47%, var(--rose) 48% 58%, var(--ink) 59% 64%, transparent 65%);
-  background: var(--r) left -6px top -6px, var(--r) right -6px top -6px, var(--r) left -6px bottom -6px, var(--r) right -6px bottom -6px;
+  background: var(--r) left var(--x) top var(--y), var(--r) right var(--x) top var(--y),
+              var(--r) left var(--x) bottom var(--y), var(--r) right var(--x) bottom var(--y);
   background-size: var(--ros) var(--ros); background-repeat: no-repeat;
 }
 .frame__inner {
   position: relative; display: block; overflow: hidden; height: 100%;
   background: url("assets/img/textures/stars-abyss.webp") 0 0 / 512px;
-  border-radius: 6px;
-  box-shadow: inset 0 0 0 3px var(--ink), inset 10px 10px 24px rgba(24, 7, 36, .9), 0 0 0 2px rgba(255, 208, 107, .45);
+  border-radius: 4px;
+  /* gilt sight-edge: the thin inner lip where the picture meets the frame */
+  box-shadow: inset 0 0 0 3px var(--ink), inset 10px 10px 24px rgba(24, 7, 36, .9), 0 0 0 3px var(--gold), 0 0 0 5px var(--ink);
 }
 
 /* ---------- Ribbon (hot pink, moving — copy to come) ---------- */
@@ -306,7 +337,7 @@ section { position: relative; overflow: hidden; isolation: isolate; }
 }
 .seal b { font-family: var(--f-t4); font-weight: 400; font-size: 32px; letter-spacing: 0; display: block; margin: 2px 0 4px; }
 
-.home__inner { z-index: 18; max-width: 1240px; margin: 110px auto 0; transform: rotate(-.6deg); }
+.home__inner { z-index: 18; max-width: 1240px; margin: 110px auto 0; transform: rotate(-.6deg); --c: clamp(96px, 11vw, 160px); --clay: url("assets/img/textures/clay-gilt.webp"); }
 .home__stage { padding: clamp(40px, 6vw, 90px) clamp(20px, 5vw, 80px) clamp(48px, 6vw, 84px); overflow: visible; }
 .home__stage::after { /* glitter-dust floor, like the diorama ground */
   content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 34%; pointer-events: none; z-index: 0;
@@ -396,8 +427,8 @@ section { position: relative; overflow: hidden; isolation: isolate; }
 .home.is-flickering .flick--c { animation-name: flick-c; animation-duration: 4.1s; }
 .home.is-flickering .w-when { filter: drop-shadow(0 0 14px rgba(255, 208, 107, .8)) drop-shadow(3px 3px 0 var(--ink)) drop-shadow(5px 5px 0 var(--plum)) drop-shadow(4px 4px 0 var(--ink)); }
 .home.is-flickering .home__stage { animation: stage-glow 4.6s infinite steps(1, end); }
-@keyframes stage-glow { 0%, 30%, 34%, 100% { box-shadow: inset 0 0 0 3px var(--ink), inset 10px 10px 24px rgba(24, 7, 36, .9), 0 0 0 2px rgba(255, 208, 107, .45); }
-  31%, 33% { box-shadow: inset 0 0 0 3px var(--ink), inset 0 0 80px rgba(230, 147, 147, .45), 0 0 26px 4px rgba(255, 208, 107, .6); } }
+@keyframes stage-glow { 0%, 30%, 34%, 100% { box-shadow: inset 0 0 0 3px var(--ink), inset 10px 10px 24px rgba(24, 7, 36, .9), 0 0 0 3px var(--gold), 0 0 0 5px var(--ink); }
+  31%, 33% { box-shadow: inset 0 0 0 3px var(--ink), inset 0 0 80px rgba(230, 147, 147, .45), 0 0 0 3px var(--gold), 0 0 26px 6px rgba(255, 208, 107, .7); } }
 .home.is-flickering .spark { animation: twinkle 2.6s ease-in-out infinite; }
 .home.is-flickering .spark--2 { animation-delay: .9s; }
 .home.is-flickering .spark--3 { animation-delay: 1.7s; }
@@ -518,10 +549,23 @@ section { position: relative; overflow: hidden; isolation: isolate; }
 .tile a:hover .tile__frame, .tile a:focus-visible .tile__frame { transform: rotate(0) translateY(-6px); }
 .tile a:hover .frame__inner img, .tile a:focus-visible .frame__inner img { transform: scale(1.06); }
 .tile a:hover .frame__inner::after, .tile a:focus-visible .frame__inner::after { opacity: .28; }
-.tile__cap { font-family: var(--f-meta); font-size: 14px; letter-spacing: .06em; text-transform: uppercase; }
-.tile__cap small { display: block; font-family: var(--f-body); font-size: 15px; letter-spacing: 0; text-transform: none; color: var(--rose); margin-top: 4px; }
+.tile__cap { display: block; padding: 0 6px; }
+.tile__no { font-family: var(--f-meta); font-size: 13px; letter-spacing: .08em; color: var(--lime); margin-right: .2em; }
+.tile__cap cite { font-family: var(--f-t3); font-style: normal; font-size: clamp(18px, 1.5vw, 22px); line-height: 1.2; color: var(--gold); }
+.tile__cap cite.untitled { font-style: italic; color: var(--rose); }
+.tile__cap small { display: block; font-family: var(--f-meta); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--rose); margin-top: 6px; }
 /* Graphic and Digital Art: finished pieces show whole, at their own proportions (no crop) */
-.gallery--art .tiles { align-items: start; }
+.gallery--art .tiles { align-items: start; grid-template-columns: 1fr; }
+@media (min-width: 761px)  { .gallery--art .tiles { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 1200px) { .gallery--art .tiles { grid-template-columns: repeat(4, 1fr); } }
+/* Spacetakers: ovilats cut-outs that fill a gallery's empty cells, shown
+   only at the column count where that cell would otherwise be blank. */
+.tile--spacer { display: none; align-self: center; pointer-events: none; }
+.tile--spacer img { width: 100%; max-height: 460px; object-fit: contain; animation: drift 9s ease-in-out infinite; filter: drop-shadow(0 0 18px rgba(230, 147, 147, .35)); }
+.tile--spacer:nth-of-type(even) img { animation-delay: -4s; }
+@media (min-width: 761px) and (max-width: 1199px) { .spacer--3col { display: block; } }
+@media (min-width: 1200px) { .spacer--4col { display: block; } }
+@keyframes drift { 50% { transform: translateY(-14px) rotate(1.5deg); } }
 .gallery--art .tile__frame { aspect-ratio: auto; }
 .gallery--art .tile__frame .frame__inner { position: relative; inset: auto; }
 .gallery--art .tile__frame .frame__inner img { height: auto; }
@@ -572,6 +616,19 @@ section { position: relative; overflow: hidden; isolation: isolate; }
 .fig-no::after { content: ""; display: block; width: 26px; height: 2px; background: var(--ink); }
 .bottles .corner { opacity: .85; }
 .bottles__dots { inset: 0; opacity: .5; background: url("assets/img/textures/glitter-venom.webp") 0 0 / 300px; mix-blend-mode: hard-light; }
+.bottles__meadow { /* spacetaker: the meadow cut-out grows along the bottom edge */
+  left: 0; right: 0; bottom: 0; z-index: 1; width: 100%; height: clamp(180px, 22vw, 320px); object-fit: cover; object-position: center bottom;
+  -webkit-mask: linear-gradient(transparent, #000 45%); mask: linear-gradient(transparent, #000 45%); opacity: .9;
+}
+.epigraph__streaks { /* spacetaker: colour streaks bleeding behind the tapestry */
+  top: 0; bottom: 0; width: clamp(160px, 22vw, 340px); height: 100%; object-fit: cover; z-index: 1; mix-blend-mode: hard-light; opacity: .8;
+}
+.epigraph__streaks--l { left: 2%; }
+.epigraph__streaks--r { right: 2%; transform: scaleX(-1); }
+.alleyway__bleeds { /* spacetaker: drips falling beside the heading */
+  top: 0; right: 6%; width: clamp(140px, 18vw, 260px); z-index: 2; opacity: .85; mix-blend-mode: hard-light;
+  -webkit-mask: linear-gradient(#000 60%, transparent); mask: linear-gradient(#000 60%, transparent);
+}
 .bottles__waves { top: 60px; left: 0; width: 100%; height: 100px; z-index: 1; }
 .bottles__inner { position: relative; z-index: 5; max-width: 1240px; margin: 0 auto; }
 .bottles__inner .kicker { color: var(--ink); background: var(--gold); padding: 3px 10px; }
@@ -630,7 +687,7 @@ section { position: relative; overflow: hidden; isolation: isolate; }
   font-family: var(--f-t5); font-size: clamp(38px, 5vw, 70px); line-height: .9; text-align: center;
   box-shadow: 6px 6px 0 var(--plum), 12px 12px 0 var(--leaf); transform: rotate(-4deg);
 }
-.contact-card { flex: 1 1 380px; max-width: 600px; transform: rotate(-1.5deg); --clay: url("assets/img/textures/carved-dusk.webp"); }
+.contact-card { flex: 1 1 380px; max-width: 600px; transform: rotate(-1.5deg); --clay: url("assets/img/textures/carved-dusk.webp"); --c: clamp(80px, 8vw, 120px); }
 .contact-card__inner { display: flex; flex-direction: column; gap: 20px; color: var(--gold); padding: 40px clamp(20px, 3vw, 42px); }
 .contact-card .kicker { color: var(--lime); }
 .contact-card .section-title { color: var(--rose); text-shadow: 4px 4px 0 var(--plum); font-size: clamp(48px, 6vw, 92px); }
@@ -673,7 +730,7 @@ section { position: relative; overflow: hidden; isolation: isolate; }
 /* Visitors who ask for less motion get a still page. */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .ribbon, .ribbon__track, .tape span, .home__frame, .bottle__glass { animation: none; }
+  .ribbon, .ribbon__track, .tape span, .home__frame, .bottle__glass, .tile--spacer img { animation: none; }
   .js .tile, .js .gallery__title { opacity: 1; transform: none; clip-path: none; transition: none; }
   .nav-btn, .flicker-toggle { transition: none; }
 }

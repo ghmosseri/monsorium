@@ -159,10 +159,56 @@ def write_misc():
     (UI / "blob-mask.svg").write_text(svg(220, 212, f'<path d="{blob}" fill="#000"/>'))
 
 
+# ---------------------------------------------------------------- frame contour
+# "Eurotrash" rococo frame outline, as mask pieces the CSS lays around a box:
+# four scrolled corners, scalloped edge runs between them, and a shell crest
+# at the top and bottom centre. All drawn in the top-left orientation and
+# mirrored. The frame body is inset 22% of the corner size; corners, crests
+# and the bead rows stand proud of it.
+CORNER = ("M100 22 H80 C80 10 70 4 60 6 C50 8 50 20 42 20 C36 20 36 4 22 2 "
+          "C8 0 0 8 2 22 C4 36 20 36 20 42 C20 50 8 50 6 60 C4 70 10 80 22 80 V100 H100 Z "
+          # scroll eyes, cut out (even-odd)
+          "M22 15 a7 7 0 1 0 0.01 0 Z M61 12 a3.5 3.5 0 1 0 0.01 0 Z M12 61 a3.5 3.5 0 1 0 0.01 0 Z")
+MIRROR = {"tl": "", "tr": "translate(100 0) scale(-1 1)",
+          "bl": "translate(0 100) scale(1 -1)", "br": "translate(100 100) scale(-1 -1)"}
+
+
+def scallops(n, length=200, depth=24):
+    """A bead moulding: a row of small rounded beads standing on the edge (base at y=depth)."""
+    w = length / n
+    d = f"M0 {depth}"
+    for i in range(n):
+        x0, x1 = i * w, (i + 1) * w
+        d += f" C{x0 + w * .05:.1f} 12 {x1 - w * .05:.1f} 12 {x1:.1f} {depth}"
+    return d + " Z"
+
+
+CREST = ("M0 50 C30 50 40 34 56 30 C62 14 70 4 80 2 C90 4 98 14 104 30 "
+         "C120 34 130 50 160 50 V54 H0 Z M80 20 a6 6 0 1 0 0.01 0 Z")
+
+
+def write_frame_contour():
+    for k, t in MIRROR.items():
+        (UI / f"frame-corner-{k}.svg").write_text(
+            svg(100, 100, f'<path d="{CORNER}" fill="#000" fill-rule="evenodd" transform="{t}"/>'))
+    edge = scallops(16)
+    (UI / "frame-edge-top.svg").write_text(svg(200, 24, f'<path d="{edge}" fill="#000"/>').replace(
+        "<svg ", '<svg preserveAspectRatio="none" '))
+    (UI / "frame-edge-bottom.svg").write_text(svg(200, 24, f'<path d="{edge}" fill="#000" transform="translate(0 24) scale(1 -1)"/>').replace(
+        "<svg ", '<svg preserveAspectRatio="none" '))
+    (UI / "frame-edge-left.svg").write_text(svg(24, 200, f'<path d="{edge}" fill="#000" transform="matrix(0 1 1 0 0 0)"/>').replace(
+        "<svg ", '<svg preserveAspectRatio="none" '))
+    (UI / "frame-edge-right.svg").write_text(svg(24, 200, f'<path d="{edge}" fill="#000" transform="matrix(0 1 -1 0 24 0)"/>').replace(
+        "<svg ", '<svg preserveAspectRatio="none" '))
+    (UI / "frame-crest-top.svg").write_text(svg(160, 54, f'<path d="{CREST}" fill="#000" fill-rule="evenodd"/>'))
+    (UI / "frame-crest-bottom.svg").write_text(svg(160, 54, f'<path d="{CREST}" fill="#000" fill-rule="evenodd" transform="translate(0 54) scale(1 -1)"/>'))
+
+
 if __name__ == "__main__":
     UI.mkdir(parents=True, exist_ok=True)
     write_buttons()
     write_bottles()
     write_misc()
+    write_frame_contour()
     for p in sorted(UI.iterdir()):
         print(p.name)

@@ -32,6 +32,7 @@ MAPS = {
     "bruise": [ABYSS, PLUM, ROSE, LIME],       # the eye-strainer
     "candy": [PLUM, ROSE, GOLD, LIME],         # light, so ink text sits on it
     "moss": [LEAF, LIME, GOLD, ROSE],          # light, green-led
+    "meadow": [INK, LEAF, LIME, ROSE, GOLD],   # greens with pink blooms
 }
 
 
@@ -118,6 +119,56 @@ def build_textures():
 STAND_INS = ["ovilats/redtiger-overlay.jpg", "ovilats/starleopard-overlay.jpg"]
 
 
+def soft_mask(w, h, seed=3):
+    """A torn, organic sticker edge: an ellipse wobbled by low-frequency noise."""
+    r = np.random.default_rng(seed)
+    yy, xx = np.mgrid[0:h, 0:w].astype(np.float32)
+    nx, ny = (xx / w - .5) * 2, (yy / h - .5) * 2
+    ang = np.arctan2(ny, nx)
+    wob = sum(r.uniform(.02, .06) * np.sin(k * ang + r.uniform(0, 6.3)) for k in (3, 5, 9, 17))
+    d = np.sqrt(nx ** 2 * .92 + ny ** 2) - (.9 + wob)
+    return np.clip(-d * 40, 0, 1)
+
+
+# The ovilats jpgs added as "spacetakers": cut out to transparent PNGs
+# (original colours, written back into ovilats/), plus palette-mapped web
+# copies the page uses to fill empty grid cells and bare section edges.
+SPACETAKERS = {
+    # name: (how the background is removed, palette map for the web copy)
+    "purple-bleeds": ("dark", "bloom"),
+    "colorfuloverlay": ("light", "bruise"),
+    "palegreen-overlay": ("black", "meadow"),
+    "babypink-overlay": ("sticker", "bloom"),
+}
+
+
+def cut_out(img, how):
+    a = np.asarray(img.convert("RGB"), np.float32) / 255
+    lum = a @ np.array([.299, .587, .114], np.float32)
+    sat = a.max(2) - a.min(2)
+    if how == "dark":       # glowing drops on black
+        alpha = np.clip((lum - .16) / .35, 0, 1)
+    elif how == "black":    # meadow under a black sky
+        alpha = np.clip((lum - .05) / .1, 0, 1)
+    elif how == "light":    # coloured streaks in a pale haze
+        alpha = np.clip(np.maximum((sat - .14) * 3.2, (.7 - lum) * 3), 0, 1)
+    else:                   # whole picture as a torn-edge sticker
+        alpha = soft_mask(*img.size)
+    rgba = np.dstack([a * 255, alpha * 255]).astype(np.uint8)
+    return Image.fromarray(rgba, "RGBA")
+
+
+def build_spacetakers():
+    print("spacetakers")
+    for name, (how, m) in SPACETAKERS.items():
+        src = Image.open(ROOT / "ovilats" / f"{name}.jpg")
+        cut = cut_out(src, how)
+        png = ROOT / "ovilats" / f"{name}.png"
+        cut.save(png, optimize=True)
+        print(f"  {png.relative_to(ROOT)}  {png.stat().st_size // 1024} KB")
+        save_webp(gradient_map(fit(cut, 720), MAPS[m], 1.1), OUT / "img/spacers" / f"{name}--{m}.webp")
+
+
 def build_art():
     print("art")
     # Real artworks: artworks/<section>/*.jpg, original colours, never recoloured.
@@ -162,5 +213,6 @@ if __name__ == "__main__":
     extra = [(Path(a.split("=")[0]), a.split("=")[1]) for a in sys.argv[1:]]
     build_overlays()
     build_textures()
+    build_spacetakers()
     build_art()
     build_fonts(extra)
