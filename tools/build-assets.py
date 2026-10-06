@@ -4,9 +4,10 @@
     python3 tools/build-assets.py
 
 Reads   trashets/  ovilats/  psychetitlefont/  psychesubfont/  psychebodyfont/
+Reads   artworks/<section>/*.jpg  — the real pieces
 Writes  assets/img/overlays/   corner overlays, gradient-mapped to the palette
         assets/img/textures/   ovilats textures, gradient-mapped (button fills)
-        assets/img/art/        stand-in artworks (original colours, resized)
+        assets/img/art/        artworks and stand-ins (original colours, resized)
         assets/fonts/          woff2 subsets of the watermark-free fonts
 
 Needs Pillow, numpy and fontTools (with brotli for woff2).
@@ -113,11 +114,17 @@ def build_textures():
         save_webp(gradient_map(img, MAPS[m], 1.05).convert("RGB"), OUT / "img/textures" / f"{name}--{m}.webp", 74)
 
 
+# Stand-ins still holding a slot until the real pieces arrive.
+STAND_INS = ["ovilats/redtiger-overlay.jpg", "ovilats/starleopard-overlay.jpg"]
+
+
 def build_art():
-    print("art stand-ins")
-    for p in sorted((ROOT / "ovilats").glob("*.jpg")) + [
-            ROOT / "trashets/graphic-background-1.jpg", ROOT / "trashets/graphic-mary-1.jpg"]:
-        save_webp(fit(Image.open(p).convert("RGB"), 1200), OUT / "img/art" / f"{p.stem}.webp", 80)
+    print("art")
+    # Real artworks: artworks/<section>/*.jpg, original colours, never recoloured.
+    for p in sorted((ROOT / "artworks").glob("*/*.jpg")):
+        save_webp(fit(Image.open(p).convert("RGB"), 1280), OUT / "img/art" / f"{p.stem}.webp", 86)
+    for p in STAND_INS:
+        save_webp(fit(Image.open(ROOT / p).convert("RGB"), 1200), OUT / "img/art" / f"{Path(p).stem}.webp", 80)
 
 
 # Watermark-free fonts only. The 177Studio demos (Biological Crossroads,
