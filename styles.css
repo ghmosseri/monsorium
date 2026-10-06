@@ -243,7 +243,7 @@ section { position: relative; overflow: hidden; isolation: isolate; }
 .nav-btn::after { background: var(--line) center / 100% 100% no-repeat; }
 .nav-btn > span {
   position: relative; z-index: 1;
-  padding: 3px 10px 2px;
+  padding: 3px 11px 2px; border-radius: 999px;
   background: var(--gold); box-shadow: 0 0 0 2px var(--ink);
   font-family: var(--f-meta); font-size: 12.5px; letter-spacing: .06em; line-height: 1.2; text-transform: uppercase; white-space: nowrap;
 }
