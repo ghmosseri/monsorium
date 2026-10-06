@@ -166,7 +166,9 @@ def build_spacetakers():
         png = ROOT / "ovilats" / f"{name}.png"
         cut.save(png, optimize=True)
         print(f"  {png.relative_to(ROOT)}  {png.stat().st_size // 1024} KB")
-        save_webp(gradient_map(fit(cut, 720), MAPS[m], 1.1), OUT / "img/spacers" / f"{name}--{m}.webp")
+        # A sticker's web copy keeps the full picture, so it can fill an area edge to edge.
+        web = src.convert("RGBA") if how == "sticker" else cut
+        save_webp(gradient_map(fit(web, 960), MAPS[m], 1.1), OUT / "img/spacers" / f"{name}--{m}.webp")
 
 
 def build_art():

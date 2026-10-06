@@ -149,26 +149,16 @@ def write_bottles():
 def write_misc():
     star = "M50 0 C54 34 66 46 100 50 C66 54 54 66 50 100 C46 66 34 54 0 50 C34 46 46 34 50 0 Z"
     (UI / "sparkle.svg").write_text(svg(100, 100, f'<path d="{star}" fill="#000"/>'))
-    # A smooth heart, used as a mask for one of the home cut-outs
-    heart = ("M100 178 C60 146 8 112 8 62 C8 30 32 8 60 8 C80 8 94 20 100 36 "
-             "C106 20 120 8 140 8 C168 8 192 30 192 62 C192 112 140 146 100 178 Z")
-    (UI / "heart-mask.svg").write_text(svg(200, 186, f'<path d="{heart}" fill="#000"/>'))
-    # A soft blob, also a mask
-    blob = ("M110 6 C160 2 206 30 214 80 C222 132 196 182 146 202 C96 222 34 206 12 160 "
-            "C-8 116 10 58 48 30 C66 16 88 8 110 6 Z")
-    (UI / "blob-mask.svg").write_text(svg(220, 212, f'<path d="{blob}" fill="#000"/>'))
 
 
 # ---------------------------------------------------------------- frame contour
 # "Eurotrash" rococo frame outline, as mask pieces the CSS lays around a box:
-# four scrolled corners, scalloped edge runs between them, and a shell crest
+# four solid scrolled corners, bead-moulded edge runs between them, and a shell crest
 # at the top and bottom centre. All drawn in the top-left orientation and
 # mirrored. The frame body is inset 22% of the corner size; corners, crests
 # and the bead rows stand proud of it.
 CORNER = ("M100 22 H80 C80 10 70 4 60 6 C50 8 50 20 42 20 C36 20 36 4 22 2 "
-          "C8 0 0 8 2 22 C4 36 20 36 20 42 C20 50 8 50 6 60 C4 70 10 80 22 80 V100 H100 Z "
-          # scroll eyes, cut out (even-odd)
-          "M22 15 a7 7 0 1 0 0.01 0 Z M61 12 a3.5 3.5 0 1 0 0.01 0 Z M12 61 a3.5 3.5 0 1 0 0.01 0 Z")
+          "C8 0 0 8 2 22 C4 36 20 36 20 42 C20 50 8 50 6 60 C4 70 10 80 22 80 V100 H100 Z")
 MIRROR = {"tl": "", "tr": "translate(100 0) scale(-1 1)",
           "bl": "translate(0 100) scale(1 -1)", "br": "translate(100 100) scale(-1 -1)"}
 
@@ -184,7 +174,7 @@ def scallops(n, length=200, depth=24):
 
 
 CREST = ("M0 50 C30 50 40 34 56 30 C62 14 70 4 80 2 C90 4 98 14 104 30 "
-         "C120 34 130 50 160 50 V54 H0 Z M80 20 a6 6 0 1 0 0.01 0 Z")
+         "C120 34 130 50 160 50 V54 H0 Z")
 
 
 def write_frame_contour():
