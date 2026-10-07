@@ -7,7 +7,7 @@
    5. Sticky masthead height (so section links land below it)
    6. Text carousels: The Heretic, and the Bottles at Sea reading room
    7. The Alleyway viewing room (art.html)
-   8. The commission dialog (Conches)
+   8. The commission form's thank-you notice (Conches)
    ========================================================= */
 (function () {
   'use strict';
@@ -383,25 +383,9 @@
   }
 
   /* =======================================================
-     8. COMMISSION DIALOG (Conches)
+     8. COMMISSION FORM (Conches): thank-you notice on return
      ======================================================= */
   function initCommission() {
-    var dialog = document.getElementById('commission');
-    var openers = document.querySelectorAll('[data-commission-open]');
-    if (!dialog || typeof dialog.showModal !== 'function') {
-      // Very old browsers: show the form inline instead of as a dialog.
-      if (dialog) dialog.setAttribute('open', '');
-      openers.forEach(function (b) { b.hidden = true; });
-      return;
-    }
-    openers.forEach(function (b) {
-      b.addEventListener('click', function () { dialog.showModal(); dialog.querySelector('input:not([type=hidden])').focus(); });
-    });
-    dialog.querySelectorAll('[data-commission-close]').forEach(function (b) {
-      b.addEventListener('click', function () { dialog.close(); });
-    });
-    dialog.addEventListener('click', function (e) { if (e.target === dialog) dialog.close(); });
-
     // FormSubmit sends the visitor back here with #commission-sent.
     var toast = document.querySelector('[data-commission-sent]');
     if (toast && location.hash === '#commission-sent') {
