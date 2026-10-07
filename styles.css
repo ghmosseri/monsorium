@@ -431,10 +431,13 @@ section { position: relative; overflow: hidden; isolation: isolate; }
 .epigraph .corner { opacity: .85; }
 .epigraph__dots { inset: 0; opacity: .16; background: radial-gradient(circle, var(--plum) 40%, transparent 43%) 0 0 / 16px 16px; }
 .epigraph__ghost {
-  top: -30px; left: -20px; z-index: 0; white-space: nowrap;
-  font-family: var(--f-t2); font-size: clamp(150px, 24vw, 400px); line-height: .8;
-  color: transparent; -webkit-text-stroke: 2px rgba(148, 44, 91, .45); transform: rotate(-6deg);
+  top: -14px; bottom: -6px; left: 2%; right: 2%; z-index: 0; white-space: nowrap;
+  display: flex; flex-direction: column; justify-content: space-between;
+  font-family: var(--f-t2); font-size: clamp(64px, 10vw, 170px); line-height: .9;
+  color: transparent; -webkit-text-stroke: 2px rgba(148, 44, 91, .6);
 }
+.epigraph__ghost span { transform: rotate(-4deg); }
+.epigraph__ghost span:last-child { align-self: flex-end; }
 .epigraph__figure { position: relative; z-index: 5; max-width: 1000px; margin: 0 auto; }
 /* tapestry: a border of painted cells around a rose field */
 .tapestry {
@@ -478,9 +481,7 @@ section { position: relative; overflow: hidden; isolation: isolate; }
 .heretic__inner { position: relative; z-index: 5; max-width: 1240px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 56px; align-items: center; }
 .portrait { flex: 1 1 320px; max-width: 460px; aspect-ratio: 4 / 5; transform: rotate(-2deg); }
 .portrait__stage { display: grid; place-items: center; }
-.portrait__stage::before { content: ""; position: absolute; inset: 22% 22% 26%; border-radius: 50% 50% 46% 46% / 58% 58% 42% 42%; background: var(--g-venom); opacity: .85; }
-.portrait__frame { position: absolute; inset: 4%; width: 92%; height: 92%; object-fit: contain; }
-.portrait__slot { position: relative; margin-top: -30px; font-family: var(--f-meta); font-size: 14px; letter-spacing: .08em; text-transform: uppercase; background: var(--gold); color: var(--ink); padding: 6px 12px; }
+.portrait__photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
 .heretic__text { flex: 999 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 22px; align-items: flex-start; }
 .heretic__text .kicker { color: var(--lime); }
 .heretic__text .section-title { color: var(--gold); text-shadow: 5px 5px 0 var(--ink), 10px 10px 0 var(--leaf); }
@@ -492,6 +493,9 @@ section { position: relative; overflow: hidden; isolation: isolate; }
 .chips li:nth-child(1) { background: var(--rose); }
 .chips li:nth-child(2) { background: var(--lime); }
 .chips li:nth-child(3) { background: var(--gold); }
+.chips li { text-transform: none; letter-spacing: .02em; font-size: 14px; line-height: 1.35; }
+.chip__label { display: block; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--plum); }
+.chips cite { font-style: italic; }
 
 /* =========================================================
    THE ALLEYWAY — the exhibit
@@ -546,16 +550,24 @@ section { position: relative; overflow: hidden; isolation: isolate; }
 .gallery--art .tile__frame .frame__inner img { height: auto; }
 .gallery--art .tile:nth-child(3n+2) { margin-top: 0; }
 @media (min-width: 761px) { .gallery--art .tile:nth-child(even) { margin-top: 44px; } }
-/* Multimedia: five framed 16:9 (720p+) screens, each a link to its
-   Facebook post. A poster image (assets/video/multimedia-0N.jpg, at least
-   1280×720) covers the title card once it is added. */
+/* Multimedia: five framed screens. Films with a file in assets/video play
+   on the page (720p, CapCut end cards trimmed) and link to Facebook below;
+   the rest are title cards linking straight to the Facebook post. */
 .tiles--video { grid-template-columns: 1fr; align-items: start; }
 @media (min-width: 761px)  { .tiles--video { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 1200px) { .tiles--video { grid-template-columns: repeat(3, 1fr); } }
 @media (min-width: 761px)  { .tile--lead { grid-column: span 2; } }   /* 2+1 / 1+1+1 at three columns; 2 / 1+1 / 1+1 at two */
 .tiles--video .tile { margin-top: 0 !important; }
 .tile__body { display: flex; flex-direction: column; gap: 14px; color: var(--gold); text-decoration: none; }
-.tile--video .tile__frame { aspect-ratio: 16 / 9; }
+.tile--video .tile__frame { aspect-ratio: 4 / 3; }   /* the films are 4:3 */
+.tile--portrait .tile__frame { aspect-ratio: 720 / 896; }   /* Flicks is a portrait recording */
+@media (min-width: 1200px) { .tile--portrait { grid-row: span 2; } }
+.video-player { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: var(--abyss); }
+.video-fb {
+  display: inline-block; margin-top: 8px; font-family: var(--f-meta); font-size: 12px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--lime); text-decoration: none; border-bottom: 1px solid currentColor;
+}
+.video-fb:hover, .video-fb:focus-visible { color: var(--rose); }
 .video-card {
   position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 8% 10% 22%;
   text-align: center; background: radial-gradient(ellipse at 50% 40%, rgba(148, 44, 91, .55), transparent 70%);
@@ -785,10 +797,25 @@ section { position: relative; overflow: hidden; isolation: isolate; }
 .poem { display: grid; grid-template-columns: minmax(120px, 200px) minmax(0, 1fr); gap: 20px clamp(20px, 4vw, 56px); align-items: start; }
 .poem__bottle { position: relative; padding-top: 10px; }
 .poem__bottle img { width: 100%; height: auto; filter: drop-shadow(8px 8px 0 rgba(148, 44, 91, .55)); animation: bob 6s ease-in-out infinite; }
-.poem__sheet { min-width: 0; max-width: 62ch; }
+.poem__sheet { min-width: 0; max-width: 72ch; }
 .poem__meta { font-family: var(--f-meta); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--plum); }
 .poem__title { margin: 8px 0 22px; font-family: var(--f-t4); font-weight: 400; font-size: clamp(28px, 3.4vw, 46px); line-height: 1.08; color: var(--ink); text-shadow: 3px 3px 0 var(--rose); text-wrap: balance; overflow-wrap: anywhere; }
 .poem__text p { margin: 0 0 1.1em; font-size: clamp(17px, 1.4vw, 20px); line-height: 1.7; }
+/* The poems keep their own lineation: one block per line, indented as in the
+   manuscript (--i spaces at .25em each, capped so it never runs off a phone). */
+.poem__text { font-family: var(--f-t3); font-size: clamp(17px, 1.45vw, 20px); line-height: 1.6; color: var(--ink); }
+.stanza { margin: 0 0 1.15em; }
+.ln { display: block; padding-left: min(calc(var(--i, 0) * .25em), 42%); text-indent: -.6em; margin-left: .6em; }
+.poem__text strong { font-weight: 700; }
+.poem__break { width: 2.5em; margin: .4em 0 1.4em; border: 0; border-top: 1px solid var(--plum); }
+.poem__cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0 2.5em; }
+@media (max-width: 760px) { .poem__cols { grid-template-columns: 1fr; } .poem__text { font-size: 16px; } }
+.video-hint {
+  position: absolute; left: 50%; top: 10px; transform: translateX(-50%); z-index: 3; display: none; pointer-events: none;
+  padding: 4px 10px; white-space: nowrap; font-family: var(--f-meta); font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--ink); background: var(--lime); box-shadow: 2px 2px 0 var(--plum);
+}
+.tile--video.is-muted-hover .video-hint { display: block; }
 .poem__fragment { font-family: var(--f-t3); font-style: italic; font-size: clamp(20px, 1.8vw, 24px) !important; color: var(--ink); }
 .poem__pending { font-family: var(--f-meta); font-size: 13px !important; letter-spacing: .1em; text-transform: uppercase; color: var(--plum); }
 .reading__contents {

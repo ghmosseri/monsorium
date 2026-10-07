@@ -10,6 +10,7 @@ shows its excerpts and a placeholder.
 """
 import html
 import json
+import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -22,12 +23,47 @@ def esc(s):
     return html.escape(s).replace("\n", "<br>")
 
 
+def inline(s):
+    """*italic*, **bold**, ***bold italic*** inside an escaped line."""
+    s = html.escape(s)
+    s = re.sub(r"\*\*\*(.+?)\*\*\*", r"<strong><em>\1</em></strong>", s)
+    s = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", s)
+    s = re.sub(r"\*(.+?)\*", r"<em>\1</em>", s)
+    return s
+
+
+def lines(text):
+    """One block per line, keeping the poem's own indentation (1 space = .25em);
+    blank lines become stanza breaks, a lone "—" a section break."""
+    out, stanza = [], []
+
+    def flush():
+        if stanza:
+            out.append('                  <div class="stanza">\n' + "\n".join(stanza) + '\n                  </div>')
+            stanza.clear()
+    for raw in text.split("\n"):
+        if not raw.strip():
+            flush()
+            continue
+        if raw.strip() == "—":
+            flush()
+            out.append('                  <hr class="poem__break">')
+            continue
+        n = len(raw) - len(raw.lstrip(" "))
+        style = f' style="--i:{n}"' if n else ""
+        stanza.append(f'                    <span class="ln"{style}>{inline(raw.strip())}</span>')
+    flush()
+    return "\n".join(out)
+
+
 def poem_body(p):
+    if p.get("columns"):
+        cols = "\n".join(f'                <div class="poem__col">\n{lines(c)}\n                </div>' for c in p["columns"])
+        return f'                <div class="poem__cols">\n{cols}\n                </div>'
     if p.get("text"):
-        stanzas = [s.strip() for s in p["text"].split("\n\n") if s.strip()]
-        return "\n".join(f'                  <p>{esc(s)}</p>' for s in stanzas)
-    lines = "\n".join(f'                  <p class="poem__fragment">“{esc(e)}”</p>' for e in p["excerpts"])
-    return lines + '\n                  <p class="poem__pending">[Full text to come.]</p>'
+        return lines(p["text"])
+    frags = "\n".join(f'                  <p class="poem__fragment">“{esc(e)}”</p>' for e in p["excerpts"])
+    return frags + '\n                  <p class="poem__pending">[Full text to come.]</p>'
 
 
 def slide(i, p):
@@ -82,8 +118,8 @@ PAGE = f'''<!doctype html>
   <div class="masthead">
   <div class="ribbon" role="region" aria-label="Announcement">
     <div class="ribbon__track">
-      <p class="ribbon__run"><span translate="no">MONSORIUM</span> <i aria-hidden="true">✶</i> [ribbon text to come] <i aria-hidden="true">✶</i> <span translate="no">MONSORIUM</span> <i aria-hidden="true">✶</i> [ribbon text to come] <i aria-hidden="true">✶</i></p>
-      <p class="ribbon__run" aria-hidden="true"><span translate="no">MONSORIUM</span> <i>✶</i> [ribbon text to come] <i>✶</i> <span translate="no">MONSORIUM</span> <i>✶</i> [ribbon text to come] <i>✶</i></p>
+      <p class="ribbon__run">Rage is poetic violence <i aria-hidden="true">✶</i> The imminence of beauty rots in the chest of a daughter <i aria-hidden="true">✶</i> Make death proud to take us <i aria-hidden="true">✶</i></p>
+      <p class="ribbon__run" aria-hidden="true">Rage is poetic violence <i>✶</i> The imminence of beauty rots in the chest of a daughter <i>✶</i> Make death proud to take us <i>✶</i></p>
     </div>
   </div>
   <header class="ovilats">

@@ -8,6 +8,7 @@
    6. Text carousels: The Heretic, and the Bottles at Sea reading room
    7. The Alleyway viewing room (art.html)
    8. The commission form's thank-you notice (Conches)
+   9. Multimedia films play on hover (with sound once the page is clicked)
    ========================================================= */
 (function () {
   'use strict';
@@ -395,6 +396,54 @@
     }
   }
 
+  /* =======================================================
+     9. VIDEOS PLAY ON HOVER (Multimedia), with sound.
+        Browsers only let a page start sound after the visitor has
+        clicked or tapped somewhere on it, so before that first click
+        a hovered film plays muted with a small hint; after it, with
+        sound. Leaving the frame pauses a film the hover started.
+     ======================================================= */
+  function initVideoHover() {
+    if (!window.matchMedia || !matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    var players = Array.prototype.slice.call(document.querySelectorAll('.video-player'));
+    players.forEach(function (v) {
+      var tile = v.closest('.tile');
+      var frame = v.closest('.frame__inner');
+      if (!tile || !frame) return;
+      var hint = document.createElement('span');
+      hint.className = 'video-hint';
+      hint.textContent = 'Click once for sound';
+      frame.appendChild(hint);
+      var byHover = false;
+
+      frame.addEventListener('mouseenter', function () {
+        if (!v.paused) return;
+        players.forEach(function (o) { if (o !== v && !o.paused) o.pause(); });
+        byHover = true;
+        v.preload = 'auto';
+        v.muted = false;
+        var p = v.play();
+        if (p && p.catch) {
+          p.catch(function () {           // sound not allowed yet: play muted instead
+            v.muted = true;
+            tile.classList.add('is-muted-hover');
+            v.play().catch(function () {});
+          });
+        }
+      });
+      frame.addEventListener('mouseleave', function () {
+        tile.classList.remove('is-muted-hover');
+        if (byHover && !v.paused) v.pause();
+        byHover = false;
+      });
+      // Clicking the film (or its controls) hands it over to the visitor.
+      v.addEventListener('pointerdown', function () {
+        byHover = false;
+        if (v.muted) { v.muted = false; tile.classList.remove('is-muted-hover'); }
+      });
+    });
+  }
+
   function init() {
     initMasthead();
     initFlicker();
@@ -404,6 +453,7 @@
     initCarousels();
     initArtViewer();
     initCommission();
+    initVideoHover();
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
