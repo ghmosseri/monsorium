@@ -177,6 +177,17 @@ def build_spacetakers():
             save_webp(gradient_map(fit(src.convert("RGBA"), 960), MAPS[m], 1.1), OUT / "img/spacers" / f"{name}--{m}-full.webp")
 
 
+def build_portrait():
+    """The artist photo, toned into the palette: a 45% blend of an
+    abyss-plum-rose-gold gradient map over the original, slight contrast."""
+    from PIL import ImageEnhance
+    src = ROOT / "artworks" / "artist" / "portrait.jpg"
+    img = fit(Image.open(src).convert("RGB"), 1280)
+    toned = gradient_map(img.convert("RGBA"), [ABYSS, PLUM, ROSE, GOLD], 1.05).convert("RGB")
+    out = ImageEnhance.Contrast(Image.blend(img, toned, .45)).enhance(1.06)
+    save_webp(out, OUT / "img" / "art" / "artist-portrait.webp", 86)
+
+
 def build_art():
     print("art")
     # Real artworks: artworks/<section>/*.jpg, original colours, never recoloured.
@@ -222,4 +233,5 @@ if __name__ == "__main__":
     build_textures()
     build_spacetakers()
     build_art()
+    build_portrait()
     build_fonts(extra)

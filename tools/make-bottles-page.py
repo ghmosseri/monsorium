@@ -118,8 +118,8 @@ PAGE = f'''<!doctype html>
   <div class="masthead">
   <div class="ribbon" role="region" aria-label="Announcement">
     <div class="ribbon__track">
-      <p class="ribbon__run"><span translate="no">MONSORIUM</span> <i aria-hidden="true">✶</i> [ribbon text to come] <i aria-hidden="true">✶</i> <span translate="no">MONSORIUM</span> <i aria-hidden="true">✶</i> [ribbon text to come] <i aria-hidden="true">✶</i></p>
-      <p class="ribbon__run" aria-hidden="true"><span translate="no">MONSORIUM</span> <i>✶</i> [ribbon text to come] <i>✶</i> <span translate="no">MONSORIUM</span> <i>✶</i> [ribbon text to come] <i>✶</i></p>
+      <p class="ribbon__run">Rage is poetic violence <i aria-hidden="true">✶</i> The imminence of beauty rots in the chest of a daughter <i aria-hidden="true">✶</i> Make death proud to take us <i aria-hidden="true">✶</i></p>
+      <p class="ribbon__run" aria-hidden="true">Rage is poetic violence <i>✶</i> The imminence of beauty rots in the chest of a daughter <i>✶</i> Make death proud to take us <i>✶</i></p>
     </div>
   </div>
   <header class="ovilats">
