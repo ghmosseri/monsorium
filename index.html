@@ -28,7 +28,9 @@
     <rect width="100%" height="100%" filter="url(#grain-filter)"/>
   </svg>
 
-  <!-- ============ RIBBON — copy to come ============ -->
+  <!-- ============ MASTHEAD — ribbon + nav, sticks to the top ============ -->
+  <div class="masthead">
+  <!-- RIBBON — copy to come -->
   <div class="ribbon" role="region" aria-label="Announcement">
     <div class="ribbon__track">
       <p class="ribbon__run"><span translate="no">MONSORIUM</span> <i aria-hidden="true">✶</i> [ribbon text to come] <i aria-hidden="true">✶</i> <span translate="no">MONSORIUM</span> <i aria-hidden="true">✶</i> [ribbon text to come] <i aria-hidden="true">✶</i></p>
@@ -38,7 +40,6 @@
 
   <!-- ============ NAV — the ovilats band ============ -->
   <header class="ovilats">
-    <a class="brand" href="#home" translate="no">Monsorium</a>
     <nav aria-label="Main">
       <ul class="nav-list">
         <li><a class="nav-btn nav-btn--home" href="#home"><span>Home</span></a></li>
@@ -49,6 +50,7 @@
       </ul>
     </nav>
   </header>
+  </div>
 
   <main id="main">
 
@@ -142,9 +144,26 @@
         <div class="heretic__text">
           <span class="kicker">II. — About the Artist</span>
           <h2 id="heretic-title" class="section-title">The Heretic</h2>
-          <div class="paper">
-            <p>[Artist bio — who you are, what you make, and what you keep circling back to. Two or three short paragraphs read best here.]</p>
-            <p>[A second paragraph on process, influences, or the abject as a working method.]</p>
+          <div class="carousel paper" data-carousel aria-roledescription="carousel" aria-label="About the artist">
+            <div class="carousel__viewport" aria-live="polite">
+              <article class="carousel__slide" id="heretic-1" aria-roledescription="slide" aria-label="1 of 3">
+                <span class="carousel__label">I. The name</span>
+                <p><span translate="no">G.H.</span> is a name loaned from the titular narrator of <span translate="no">Clarice Lispector</span>’s novella, “The Passion, According to <span translate="no">G.H.</span>” The book is ensconced in what is leavened by <span translate="no">Julia Kristeva</span> in 1980, her psychoanalytic theory of ‘Abjection’ in her seminal work, “Powers of Horror”. <span translate="no">Mosseri</span>—“of Moses”, patrilineal surname—is borrowed from the heretic’s own experience of escape as a larger existential mechanism that serves as one’s prerogative “right to leave.” The heretic comes up with the pseudonym of <span translate="no">G.H. Mosseri</span>, the name serving as a symbolic plateau toppled in Kristevan reversal: “<span lang="tl">Bahala na</span>,” or to leave it up to the gods, is not only impractical to <span translate="no">Mosseri</span>, but also impassionate. <span translate="no">Moises</span> was the human conduit for the miracles of Yahweh; thus, it is he who divides the sea, bathes the river in blood, and kills the Egyptian first-born through Him. He bears the sin of God’s wrath, unloading the guilt of God from His shoulders, within which he becomes his own abject—his own not-“I”—such that he dispels the God-ridden guilt from his body, the guilt he is forced to bear. Nevertheless, this guilt is his to carry, this not-<span translate="no">Moises</span> constellation of agony, for the poverty of his spirit lies not in his capacity (or lack of it) to carry said guilt, it lies in his capability to keep the guilt separate from him, cementing it as outside of him—all the more it pulverizes him, all the more it beseeches him.</p>
+              </article>
+              <article class="carousel__slide" id="heretic-2" aria-roledescription="slide" aria-label="2 of 3">
+                <span class="carousel__label">II. The roach</span>
+                <p>Similarly, <span translate="no">G.H.</span> encounters the roach in a pristine wardrobe. Overcome with abjection, she saddles herself in disgust. <em>This putrid insect is not me. This putridity is beyond me.</em> She nonetheless eats the insect after crushing it. It becomes part of her that fascinates and dishevels her.</p>
+              </article>
+              <article class="carousel__slide" id="heretic-3" aria-roledescription="slide" aria-label="3 of 3">
+                <span class="carousel__label">III. The heretic</span>
+                <p><span translate="no">G.H. Mosseri</span>, then, is not an innocent monument to <span translate="no">Kristeva</span>. The heretic superimposes themselves against the Abject in every composition of art and literature they find themselves creating. Kristevan in such a way wherein their fascination in that which unsettles them becomes the locus of what they create. As such, they engage in the secular masochism that <span translate="no">Kristeva</span> had identified: erotic mortification is a virtue that leads <span translate="no">G.H.</span> into a faux paradise of real signifiers. Their art, then, is a foremost ode-like attribution towards that which serves as the one to sanctify them, and destroy them altogether.</p>
+              </article>
+            </div>
+            <div class="carousel__controls">
+              <button class="arrow-btn arrow-btn--prev" type="button" data-carousel-prev aria-label="Previous part"></button>
+              <span class="carousel__count" data-carousel-count>1 / 3</span>
+              <button class="arrow-btn" type="button" data-carousel-next aria-label="Next part"></button>
+            </div>
           </div>
           <ul class="chips">
             <li>[Based in]</li>
@@ -290,39 +309,119 @@
       <div class="bottles__inner">
         <span class="kicker">IV. — Creative Writing</span>
         <h2 id="bottles-title" class="section-title">Bottles at Sea</h2>
-        <p class="bottles__intro">[One line framing the writing — letters, poems and fragments set adrift.]</p>
+        <p class="bottles__intro">Poems set adrift, newest first. Uncork a bottle to read it whole.</p>
 
         <div class="plate">
-          <p class="plate__head"><span>Taf. IV</span><span>Flaschenpost — Bottles at Sea</span><span>fig. 1–3</span></p>
+          <p class="plate__head"><span>Taf. IV</span><span>Flaschenpost — Bottles at Sea</span><span>fig. 1–11</span></p>
           <ul class="shelf">
           <li class="bottle">
             <span class="fig-no" aria-hidden="true">1</span>
             <img class="bottle__glass" src="assets/ui/bottle-rose.svg" alt="" width="240" height="440">
             <div class="bottle__tag">
-              <span class="bottle__form">No. 01 — [Form]</span>
-              <h3 class="bottle__title">[Piece Title]</h3>
-              <p class="bottle__excerpt">[First line or a short excerpt, a sentence or two long…]</p>
-              <a class="bottle__link" href="#bottles">Uncork →</a>
+              <span class="bottle__form">No. 01 — <time datetime="2026-10">October 2026</time></span>
+              <h3 class="bottle__title">The Lovers: 124⁰ Sun Opposition Venus</h3>
+              <p class="bottle__excerpt">“wetness is a loan word of mermaid gingiva.”</p>
+              <a class="bottle__link" href="bottles.html#the-lovers">Uncork →</a>
             </div>
           </li>
           <li class="bottle">
             <span class="fig-no" aria-hidden="true">2</span>
             <img class="bottle__glass" src="assets/ui/bottle-lime.svg" alt="" width="240" height="440">
             <div class="bottle__tag">
-              <span class="bottle__form">No. 02 — [Form]</span>
-              <h3 class="bottle__title">[Piece Title]</h3>
-              <p class="bottle__excerpt">[First line or a short excerpt, a sentence or two long…]</p>
-              <a class="bottle__link" href="#bottles">Uncork →</a>
+              <span class="bottle__form">No. 02 — <time datetime="2026-09">September 2026</time></span>
+              <h3 class="bottle__title">Chinese General Hospital at 14:57 PM</h3>
+              <p class="bottle__excerpt">“diodes render blue the headbulbed mother.”</p>
+              <a class="bottle__link" href="bottles.html#chinese-general-hospital">Uncork →</a>
             </div>
           </li>
           <li class="bottle">
             <span class="fig-no" aria-hidden="true">3</span>
             <img class="bottle__glass" src="assets/ui/bottle-dusk.svg" alt="" width="240" height="440">
             <div class="bottle__tag">
-              <span class="bottle__form">No. 03 — [Form]</span>
-              <h3 class="bottle__title">[Piece Title]</h3>
-              <p class="bottle__excerpt">[First line or a short excerpt, a sentence or two long…]</p>
-              <a class="bottle__link" href="#bottles">Uncork →</a>
+              <span class="bottle__form">No. 03 — <time datetime="2026-08">August 2026</time></span>
+              <h3 class="bottle__title">Mutya</h3>
+              <p class="bottle__excerpt">“you are now meat simmered within mouths afraid to swallow.”</p>
+              <a class="bottle__link" href="bottles.html#mutya">Uncork →</a>
+            </div>
+          </li>
+          <li class="bottle">
+            <span class="fig-no" aria-hidden="true">4</span>
+            <img class="bottle__glass" src="assets/ui/bottle-rose.svg" alt="" width="240" height="440">
+            <div class="bottle__tag">
+              <span class="bottle__form">No. 04 — <time datetime="2026-07">July 2026</time></span>
+              <h3 class="bottle__title">For Etronie</h3>
+              <p class="bottle__excerpt">“i overripen:<br>sandpiper chorus out masts of throat,”</p>
+              <a class="bottle__link" href="bottles.html#for-etronie">Uncork →</a>
+            </div>
+          </li>
+          <li class="bottle">
+            <span class="fig-no" aria-hidden="true">5</span>
+            <img class="bottle__glass" src="assets/ui/bottle-lime.svg" alt="" width="240" height="440">
+            <div class="bottle__tag">
+              <span class="bottle__form">No. 05 — <time datetime="2026-07">July 2026</time></span>
+              <h3 class="bottle__title">Anagolay</h3>
+              <p class="bottle__excerpt">“sampaguita strings link my teeth, together, gurgling mysteries in oil spills.”</p>
+              <a class="bottle__link" href="bottles.html#anagolay">Uncork →</a>
+            </div>
+          </li>
+          <li class="bottle">
+            <span class="fig-no" aria-hidden="true">6</span>
+            <img class="bottle__glass" src="assets/ui/bottle-dusk.svg" alt="" width="240" height="440">
+            <div class="bottle__tag">
+              <span class="bottle__form">No. 06 — <time datetime="2026-07">July 2026</time></span>
+              <h3 class="bottle__title">how many grams of protein are in the tears of my father&#x27;s shirt?</h3>
+              <p class="bottle__excerpt">“refining the posture of my fingertips, so they look less like my mother’s.”</p>
+              <a class="bottle__link" href="bottles.html#grams-of-protein">Uncork →</a>
+            </div>
+          </li>
+          <li class="bottle">
+            <span class="fig-no" aria-hidden="true">7</span>
+            <img class="bottle__glass" src="assets/ui/bottle-rose.svg" alt="" width="240" height="440">
+            <div class="bottle__tag">
+              <span class="bottle__form">No. 07 — <time datetime="2026-06">June 2026</time></span>
+              <h3 class="bottle__title">Sinners</h3>
+              <p class="bottle__excerpt">“born again as a Venus, unbecoming.”</p>
+              <a class="bottle__link" href="bottles.html#sinners">Uncork →</a>
+            </div>
+          </li>
+          <li class="bottle">
+            <span class="fig-no" aria-hidden="true">8</span>
+            <img class="bottle__glass" src="assets/ui/bottle-lime.svg" alt="" width="240" height="440">
+            <div class="bottle__tag">
+              <span class="bottle__form">No. 08 — <time datetime="2026-05">May 2026</time></span>
+              <h3 class="bottle__title">Bambanti</h3>
+              <p class="bottle__excerpt">“little brown bodies strawmanned into furniture.”</p>
+              <a class="bottle__link" href="bottles.html#bambanti">Uncork →</a>
+            </div>
+          </li>
+          <li class="bottle">
+            <span class="fig-no" aria-hidden="true">9</span>
+            <img class="bottle__glass" src="assets/ui/bottle-dusk.svg" alt="" width="240" height="440">
+            <div class="bottle__tag">
+              <span class="bottle__form">No. 09 — <time datetime="2026-04">April 2026</time></span>
+              <h3 class="bottle__title">April Showers are Small, Diminutive</h3>
+              <p class="bottle__excerpt">“mercy-tongues slippery enough for San Antonio’s shower blessing.”</p>
+              <a class="bottle__link" href="bottles.html#april-showers">Uncork →</a>
+            </div>
+          </li>
+          <li class="bottle">
+            <span class="fig-no" aria-hidden="true">10</span>
+            <img class="bottle__glass" src="assets/ui/bottle-rose.svg" alt="" width="240" height="440">
+            <div class="bottle__tag">
+              <span class="bottle__form">No. 10 — <time datetime="2023-10">October 2023</time></span>
+              <h3 class="bottle__title">i am a child i am a child i am a child</h3>
+              <p class="bottle__excerpt">“clock hands are proboscis.”</p>
+              <a class="bottle__link" href="bottles.html#i-am-a-child">Uncork →</a>
+            </div>
+          </li>
+          <li class="bottle">
+            <span class="fig-no" aria-hidden="true">11</span>
+            <img class="bottle__glass" src="assets/ui/bottle-lime.svg" alt="" width="240" height="440">
+            <div class="bottle__tag">
+              <span class="bottle__form">No. 11 — <time datetime="2023-02">February 2023</time></span>
+              <h3 class="bottle__title">god(girl)hood, and the things that help me sleep</h3>
+              <p class="bottle__excerpt">“i want to be buried without your name falling from my lips because it would mean that you were big enough to be a truth i died for.”</p>
+              <a class="bottle__link" href="bottles.html#god-girl-hood">Uncork →</a>
             </div>
           </li>
           </ul>

@@ -194,11 +194,33 @@ def write_frame_contour():
     (UI / "frame-crest-bottom.svg").write_text(svg(160, 54, f'<path d="{CREST}" fill="#000" fill-rule="evenodd" transform="translate(0 54) scale(1 -1)"/>'))
 
 
+# ---------------------------------------------------------------- carousel arrows
+# A nouveau arrow cartouche pointing right: a swelling teardrop body with a
+# whiplash tail curl and a lancet point. The "prev" button is the same art
+# mirrored in CSS. Mask + inked line layer, like the nav buttons.
+ARROW = ("M10 40 C10 24 22 14 38 16 C50 17 58 10 68 6 C74 4 78 8 82 12 "
+         "L118 40 L82 68 C78 72 74 76 68 74 C58 70 50 63 38 64 C22 66 10 56 10 40 Z")
+
+
+def write_arrows():
+    (UI / "arrow-mask.svg").write_text(svg(128, 80, f'<path d="{ARROW}" fill="#000"/>'))
+    line = (f'<path d="{ARROW}" fill="none" stroke="{INK}" stroke-width="5" stroke-linejoin="round"/>'
+            f'<path d="{ARROW}" fill="none" stroke="{GOLD}" stroke-width="1.6" stroke-linejoin="round" transform="translate(5 3) scale(.92 .92)"/>'
+            # whiplash tail curl
+            f'<path d="M24 40 C24 32 32 28 38 32 C43 35 41 43 35 43 C31 43 30 39 33 37" fill="none" stroke="{INK}" stroke-width="3" stroke-linecap="round"/>'
+            # shaft and barb
+            f'<path d="M48 40 H98 M88 31 L100 40 L88 49" fill="none" stroke="{INK}" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>'
+            f'<path d="M48 40 H98 M88 31 L100 40 L88 49" fill="none" stroke="{GOLD}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>'
+            f'<circle cx="66" cy="18" r="2.6" fill="{GOLD}"/><circle cx="66" cy="62" r="2.6" fill="{GOLD}"/>')
+    (UI / "arrow-line.svg").write_text(svg(128, 80, line))
+
+
 if __name__ == "__main__":
     UI.mkdir(parents=True, exist_ok=True)
     write_buttons()
     write_bottles()
     write_misc()
     write_frame_contour()
+    write_arrows()
     for p in sorted(UI.iterdir()):
         print(p.name)

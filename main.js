@@ -4,6 +4,8 @@
    2. Slide-ins for the Alleyway exhibit
    3. Current-section highlight in the nav
    4. Multimedia video slots that show blank until a file is added
+   5. Sticky masthead height (so section links land below it)
+   6. Text carousels: The Heretic, and the Bottles at Sea reading room
    ========================================================= */
 (function () {
   'use strict';
@@ -129,7 +131,10 @@
     if (!('IntersectionObserver' in window)) return;
     var links = document.querySelectorAll('.nav-list .nav-btn');
     var map = {};
-    links.forEach(function (a) { map[a.getAttribute('href').slice(1)] = a; });
+    links.forEach(function (a) {
+      // Only links to sections on this page (the reading room links back to index.html).
+      if (a.pathname === location.pathname && a.hash) map[a.hash.slice(1)] = a;
+    });
 
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
@@ -164,11 +169,99 @@
     });
   }
 
+  /* =======================================================
+     5. MASTHEAD: the ribbon + nav stick to the top; keep section
+        links landing below it by tracking its height.
+     ======================================================= */
+  function initMasthead() {
+    var mast = document.querySelector('.masthead');
+    if (!mast) return;
+    function measure() {
+      document.documentElement.style.setProperty('--mast-h', mast.offsetHeight + 'px');
+    }
+    measure();
+    window.addEventListener('resize', measure);
+    if ('ResizeObserver' in window) new ResizeObserver(measure).observe(mast);
+  }
+
+  /* =======================================================
+     6. CAROUSELS: The Heretic's three parts, the poem reading room.
+        One slide shows at a time; arrows, arrow keys and the
+        contents list move between them. With data-carousel-hash the
+        current slide follows the URL (#slug), so bottles link in.
+     ======================================================= */
+  function initCarousels() {
+    var ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII', 'XIII', 'XIV', 'XV'];
+    document.querySelectorAll('[data-carousel]').forEach(function (car) {
+      var slides = car.querySelectorAll('.carousel__slide');
+      var counts = car.querySelectorAll('[data-carousel-count]');
+      var prev = car.querySelector('[data-carousel-prev]');
+      var next = car.querySelector('[data-carousel-next]');
+      var useHash = car.hasAttribute('data-carousel-hash');
+      var gotos = document.querySelectorAll('[data-carousel-goto]');
+      var current = 0;
+      if (!slides.length) return;
+
+      function show(i, fromHash) {
+        current = (i + slides.length) % slides.length;
+        slides.forEach(function (s, k) { s.classList.toggle('is-current', k === current); });
+        counts.forEach(function (c) { c.textContent = ROMAN[current] + ' / ' + ROMAN[slides.length - 1]; });
+        gotos.forEach(function (g) {
+          if (+g.getAttribute('data-carousel-goto') === current) g.setAttribute('aria-current', 'true');
+          else g.removeAttribute('aria-current');
+        });
+        if (useHash && !fromHash && slides[current].id && history.replaceState) {
+          history.replaceState(null, '', '#' + slides[current].id);
+        }
+      }
+      function indexOfHash() {
+        var id = decodeURIComponent(location.hash.slice(1));
+        for (var k = 0; k < slides.length; k++) if (slides[k].id === id) return k;
+        return -1;
+      }
+
+      car.classList.add('is-ready');
+      if (prev) prev.addEventListener('click', function () { show(current - 1); });
+      if (next) next.addEventListener('click', function () { show(current + 1); });
+      car.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowLeft') { show(current - 1); e.preventDefault(); }
+        if (e.key === 'ArrowRight') { show(current + 1); e.preventDefault(); }
+      });
+      gotos.forEach(function (g) {
+        g.addEventListener('click', function (e) {
+          e.preventDefault();
+          show(+g.getAttribute('data-carousel-goto'));
+          car.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+        });
+      });
+      if (useHash) {
+        window.addEventListener('hashchange', function () { var k = indexOfHash(); if (k >= 0) show(k, true); });
+        var start = indexOfHash();
+        show(start >= 0 ? start : 0, true);
+        if (start >= 0) {
+          // The browser jumps to the #slug slide on load; settle the whole
+          // carousel just below the sticky masthead instead.
+          var settle = function () {
+            var mast = document.querySelector('.masthead');
+            var y = car.getBoundingClientRect().top + window.pageYOffset - (mast ? mast.offsetHeight : 0) - 12;
+            window.scrollTo(0, Math.max(0, y));
+          };
+          settle();
+          window.addEventListener('load', function () { setTimeout(settle, 0); });
+        }
+      } else {
+        show(0, true);
+      }
+    });
+  }
+
   function init() {
+    initMasthead();
     initFlicker();
     initSlideIns();
     initNavState();
     initVideoSlots();
+    initCarousels();
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
