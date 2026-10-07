@@ -493,6 +493,9 @@ section { position: relative; overflow: hidden; isolation: isolate; }
 .chips li:nth-child(1) { background: var(--rose); }
 .chips li:nth-child(2) { background: var(--lime); }
 .chips li:nth-child(3) { background: var(--gold); }
+.chips li { text-transform: none; letter-spacing: .02em; font-size: 14px; line-height: 1.35; }
+.chip__label { display: block; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--plum); }
+.chips cite { font-style: italic; }
 
 /* =========================================================
    THE ALLEYWAY — the exhibit
