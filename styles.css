@@ -66,7 +66,7 @@
 
 /* ---------- Base ---------- */
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; overflow-x: clip; }
+html { scroll-behavior: smooth; overflow-x: clip; scroll-padding-top: calc(var(--mast-h, 130px) + 8px); }
 body {
   margin: 0;
   background: var(--ink);
@@ -193,10 +193,12 @@ section { position: relative; overflow: hidden; isolation: isolate; }
 @keyframes ribbon-sheen { to { background-position: -200% 0; } }
 
 /* ---------- The ovilats band: brand + nav buttons ---------- */
+/* The masthead (ribbon + nav) sticks to the top as the visitor scrolls. */
+.masthead { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 60; }
 .ovilats {
   position: relative; z-index: 30;
-  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 28px;
-  padding: 18px var(--pad) 22px;
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 16px 28px;
+  padding: 14px var(--pad) 16px;
   background:
     radial-gradient(circle at 12% 120%, rgba(148, 44, 91, .55), transparent 40%),
     radial-gradient(circle at 88% -30%, rgba(98, 186, 82, .35), transparent 40%),
@@ -204,11 +206,6 @@ section { position: relative; overflow: hidden; isolation: isolate; }
   border-bottom: 4px solid var(--plum);
   box-shadow: 0 4px 0 var(--leaf);
 }
-.brand {
-  font-family: var(--f-t4); font-size: clamp(28px, 3vw, 40px); line-height: 1; color: var(--gold); text-decoration: none;
-  text-shadow: 3px 3px 0 var(--plum), -2px -2px 0 var(--leaf);
-}
-.brand:hover { color: var(--rose); }
 .nav-list { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 8px; margin: 0; padding: 0; list-style: none; }
 
 /* Buttons: an ovilats texture clipped by a smooth SVG silhouette (::before),
@@ -239,7 +236,7 @@ section { position: relative; overflow: hidden; isolation: isolate; }
 .nav-list li:nth-child(even) .nav-btn { filter: drop-shadow(-3px 4px 0 var(--leaf)); }
 .nav-btn:hover, .nav-btn:focus-visible { color: var(--ink); transform: translateY(-3px) rotate(-3deg) scale(1.04); filter: drop-shadow(4px 6px 0 var(--plum)) drop-shadow(-2px -1px 0 var(--lime)); }
 .nav-list li:nth-child(even) .nav-btn:hover { transform: translateY(-3px) rotate(3deg) scale(1.04); }
-.nav-btn[aria-current="true"] > span { background: var(--lime); }
+.nav-btn[aria-current] > span { background: var(--lime); }
 
 .nav-btn--home     { --w: 200; --h: 92; }
 .nav-btn--heretic  { --w: 270; --h: 92; --tex: url("assets/img/textures/redtiger-overlay--candy.webp");  --mask: url("assets/ui/btn-heretic-mask.svg");  --line: url("assets/ui/btn-heretic-line.svg"); }
@@ -549,24 +546,36 @@ section { position: relative; overflow: hidden; isolation: isolate; }
 .gallery--art .tile__frame .frame__inner img { height: auto; }
 .gallery--art .tile:nth-child(3n+2) { margin-top: 0; }
 @media (min-width: 761px) { .gallery--art .tile:nth-child(even) { margin-top: 44px; } }
-/* Multimedia: five video slots. Each plays assets/video/multimedia-0N.mp4;
-   until that file exists, main.js marks the slot empty and it shows as a
-   blank framed screen marked "Forthcoming". */
+/* Multimedia: five framed 16:9 (720p+) screens, each a link to its
+   Facebook post. A poster image (assets/video/multimedia-0N.jpg, at least
+   1280×720) covers the title card once it is added. */
 .tiles--video { grid-template-columns: 1fr; align-items: start; }
 @media (min-width: 761px)  { .tiles--video { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 1200px) { .tiles--video { grid-template-columns: repeat(3, 1fr); } }
 @media (min-width: 761px)  { .tile--lead { grid-column: span 2; } }   /* 2+1 / 1+1+1 at three columns; 2 / 1+1 / 1+1 at two */
 .tiles--video .tile { margin-top: 0 !important; }
-.tile__body { display: flex; flex-direction: column; gap: 14px; color: var(--gold); }
+.tile__body { display: flex; flex-direction: column; gap: 14px; color: var(--gold); text-decoration: none; }
 .tile--video .tile__frame { aspect-ratio: 16 / 9; }
-.tile--video video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; background: transparent; }
-.video-empty {
-  position: absolute; inset: 0; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
-  font-family: var(--f-meta); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--rose);
+.video-card {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 8% 10% 22%;
+  text-align: center; background: radial-gradient(ellipse at 50% 40%, rgba(148, 44, 91, .55), transparent 70%);
 }
-.video-empty svg { width: clamp(44px, 5vw, 68px); height: auto; fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: .55; filter: drop-shadow(2px 2px 0 var(--plum)); }
-.tile--video.is-empty video { display: none; }
-.tile--video.is-empty .video-empty { display: flex; }
+.video-card__title {
+  font-family: var(--f-sub); font-weight: 900; font-style: italic; font-size: clamp(20px, 2.4vw, 40px); line-height: 1.05; color: var(--rose);
+  text-shadow: 3px 3px 0 var(--plum), 6px 6px 0 var(--ink); overflow-wrap: anywhere; text-wrap: balance;
+}
+.tile:not(.tile--lead) .video-card__title { font-size: clamp(18px, 1.7vw, 28px); }
+.video-poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.video-play {
+  position: absolute; left: 50%; bottom: 8%; transform: translateX(-50%); display: flex; align-items: center; gap: 8px;
+  padding: 6px 14px 6px 8px; white-space: nowrap; background: rgba(11, 2, 54, .85); box-shadow: 0 0 0 1px var(--gold), 3px 3px 0 var(--plum);
+  font-family: var(--f-meta); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--gold);
+  transition: background .2s, color .2s;
+}
+.video-play svg { width: 26px; height: 26px; fill: none; stroke: var(--gold); stroke-width: 1.4; }
+.video-play svg path { fill: var(--gold); stroke: none; }
+.tile--video a:hover .video-play, .tile--video a:focus-visible .video-play { background: var(--rose); color: var(--ink); }
+.tile--video a:hover .frame__inner::after, .tile--video a:focus-visible .frame__inner::after { opacity: .2; }
 
 /* slide-ins (html.js is set inline; without JS everything simply shows) */
 .js .tile { opacity: 0; transition: opacity .7s ease, transform 1s cubic-bezier(.2, .9, .25, 1.12); transition-delay: var(--delay, 0ms); }
@@ -636,8 +645,8 @@ section { position: relative; overflow: hidden; isolation: isolate; }
   filter: drop-shadow(8px 8px 0 rgba(148, 44, 91, .55));
   animation: bob 6s ease-in-out infinite;
 }
-.bottle:nth-child(2) .bottle__glass { animation-delay: -2s; filter: drop-shadow(-8px 8px 0 rgba(24, 7, 36, .45)); }
-.bottle:nth-child(3) .bottle__glass { animation-delay: -4s; }
+.bottle:nth-child(3n+2) .bottle__glass { animation-delay: -2s; filter: drop-shadow(-8px 8px 0 rgba(24, 7, 36, .45)); }
+.bottle:nth-child(3n) .bottle__glass { animation-delay: -4s; }
 @keyframes bob { 0%, 100% { transform: rotate(-5deg) translateY(0); } 50% { transform: rotate(4deg) translateY(-10px); } }
 .bottle__tag {
   position: relative; z-index: 2; width: 100%;
@@ -650,18 +659,148 @@ section { position: relative; overflow: hidden; isolation: isolate; }
   content: ""; position: absolute; top: 9px; left: 50%; width: 12px; height: 12px; margin-left: -6px; border-radius: 50%;
   background: var(--leaf); box-shadow: inset 0 0 0 3px var(--ink);
 }
-.bottle:nth-child(2) .bottle__tag { box-shadow: 0 0 0 2px var(--ink), -6px 6px 0 var(--leaf); }
+.bottle:nth-child(3n+2) .bottle__tag { box-shadow: 0 0 0 2px var(--ink), -6px 6px 0 var(--leaf); }
 .bottle__tag { background: linear-gradient(180deg, var(--gold), var(--gold) 80%, var(--rose) 160%); }
 .bottle__form { font-family: var(--f-meta); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--plum); }
 .bottle__title { margin: 0; font-weight: 400; font-size: clamp(22px, 2vw, 28px); line-height: 1.05; }
-.bottle:nth-child(1) .bottle__title { font-family: var(--f-t4); }
-.bottle:nth-child(2) .bottle__title { font-family: var(--f-sub); font-weight: 900; font-style: italic; }
-.bottle:nth-child(3) .bottle__title { font-family: var(--f-t3); font-size: clamp(24px, 2.2vw, 32px); }
+.bottle:nth-child(3n+1) .bottle__title { font-family: var(--f-t4); }
+.bottle:nth-child(3n+2) .bottle__title { font-family: var(--f-sub); font-weight: 900; font-style: italic; }
+.bottle:nth-child(3n) .bottle__title { font-family: var(--f-t3); font-size: clamp(22px, 2vw, 30px); }
+.bottle__title { overflow-wrap: anywhere; }
 .bottle__excerpt { margin: 0; font-size: 15px; line-height: 1.5; }
 .bottle__link { margin-top: 4px; font-family: var(--f-meta); font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--plum); }
 .bottle__link::after { content: ""; position: absolute; inset: -200px 0 0; } /* whole bottle is the click target */
 .bottle__link:hover { color: var(--ink); }
 .bottle:hover .bottle__glass { animation-duration: 1.6s; }
+
+/* =========================================================
+   CAROUSELS — The Heretic's three parts; the poem reading room.
+   Without JS every slide simply shows, one after another.
+   ========================================================= */
+.carousel:focus-within { outline: none; }
+.carousel__slide + .carousel__slide { margin-top: 1.4em; }
+.js .carousel.is-ready .carousel__slide { display: none; margin-top: 0; }
+.js .carousel.is-ready .carousel__slide.is-current { display: block; animation: slide-in .5s ease; }
+.js .carousel.is-ready .poem.is-current { display: grid; }
+@keyframes slide-in { from { opacity: 0; transform: translateX(14px); } to { opacity: 1; transform: none; } }
+.carousel__label {
+  display: block; margin-bottom: 12px; font-family: var(--f-meta); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--plum);
+}
+.carousel__controls { display: none; align-items: center; justify-content: center; gap: 18px; margin-top: 22px; }
+.js .carousel.is-ready .carousel__controls { display: flex; }
+.carousel__count { min-width: 5.5em; text-align: center; font-family: var(--f-t3); font-size: 18px; letter-spacing: .08em; color: var(--plum); font-variant-numeric: tabular-nums; }
+
+/* Nouveau arrow cartouche: textured fill cut by the SVG silhouette, inked
+   line art on top — the same build as the nav buttons. */
+.arrow-btn {
+  --tex: url("assets/img/textures/pinkreptile-overlay--candy.webp");
+  position: relative; width: 84px; height: 52px; padding: 0; border: 0; background: none; cursor: pointer;
+  filter: drop-shadow(3px 4px 0 var(--plum));
+  transition: transform .3s cubic-bezier(.3, 1.6, .5, 1), filter .2s;
+}
+.arrow-btn::before, .arrow-btn::after { content: ""; position: absolute; inset: 0; pointer-events: none; }
+.arrow-btn::before {
+  background: var(--tex) center / cover;
+  -webkit-mask: url("assets/ui/arrow-mask.svg") center / 100% 100% no-repeat;
+          mask: url("assets/ui/arrow-mask.svg") center / 100% 100% no-repeat;
+}
+.arrow-btn::after { background: url("assets/ui/arrow-line.svg") center / 100% 100% no-repeat; }
+.arrow-btn--prev { --tex: url("assets/img/textures/starleopard-overlay--moss.webp"); transform: scaleX(-1); filter: drop-shadow(-3px 4px 0 var(--leaf)); }
+.arrow-btn:hover, .arrow-btn:focus-visible { transform: translateX(4px) scale(1.06); }
+.arrow-btn--prev:hover, .arrow-btn--prev:focus-visible { transform: scaleX(-1) translateX(4px) scale(1.06); }
+
+/* The Heretic's bio paper holds the carousel */
+.heretic .carousel { width: 100%; }
+.heretic .carousel__slide p { margin: 0; }
+.heretic .carousel__slide em { font-style: italic; color: var(--plum); }
+
+/* =========================================================
+   THE ALLEYWAY — the viewing room (art.html)
+   ========================================================= */
+.viewing { padding: 60px var(--pad) 80px; }
+.viewing__head { position: relative; z-index: 5; max-width: 1320px; margin: 0 auto 10px; }
+.viewing__head .kicker { display: block; color: var(--lime); }
+.viewing__head .section-title { color: var(--rose); text-shadow: 5px 5px 0 var(--plum), 10px 10px 0 var(--ink); margin: 8px 0 0; }
+.viewer { --aw: 420px; --ah: 560px; position: relative; z-index: 5; display: flex; flex-direction: column; align-items: center; gap: 26px; }
+.viewer__stage {
+  position: relative; width: 100%; max-width: 1500px; min-height: calc(var(--ah) + 140px);
+  display: flex; align-items: center; justify-content: center; gap: clamp(8px, 2vw, 28px);
+  perspective: 1400px; overflow: hidden; padding: 30px 0;
+}
+.viewer__ghosts { position: absolute; inset: 0; transform-style: preserve-3d; pointer-events: none; }
+.art-ghost {
+  position: absolute; left: 50%; top: 50%; pointer-events: auto; cursor: pointer;
+  transition: transform 1.1s cubic-bezier(.3, .8, .25, 1), filter 1.1s ease, opacity 1.1s ease;
+  box-shadow: 0 0 0 3px var(--ink), 0 0 0 6px rgba(255, 208, 107, .55), 10px 14px 24px rgba(11, 2, 54, .8);
+}
+.art-ghost img { width: 100%; height: 100%; object-fit: cover; }
+.viewer__arrow { position: relative; z-index: 12; flex: none; }
+.art-frame { position: relative; z-index: 10; flex: none; }
+.art-frame .frame__inner {
+  width: var(--aw); height: var(--ah); max-width: 100%;
+  transition: width .9s cubic-bezier(.3, .8, .25, 1), height .9s cubic-bezier(.3, .8, .25, 1);
+}
+/* Without JS the pieces stack inside the frame; with it, one shows at a time. */
+.art-piece { margin: 0; }
+.art-piece img { width: 100%; height: auto; }
+.viewer.is-ready .art-piece { position: absolute; inset: 0; opacity: 0; transform: scale(.94); transition: opacity .45s ease, transform .9s ease; }
+.viewer.is-ready .art-piece.is-current { opacity: 1; transform: none; transition: opacity .8s ease .35s, transform 1s cubic-bezier(.3, .8, .25, 1) .25s; }
+.viewer.is-ready .art-piece img { width: 100%; height: 100%; object-fit: contain; }
+.viewer:not(.is-ready) .art-frame .frame__inner { width: min(90vw, 640px); height: auto; }
+.viewer:not(.is-ready) .viewer__arrow, .viewer:not(.is-ready) .viewer__pause { display: none; }
+
+/* The caption: an embossed gilt plate under the frame */
+.art-caption {
+  display: flex; flex-direction: column; align-items: center; gap: 6px; min-width: min(420px, 90vw); max-width: 90vw;
+  padding: 14px 28px 16px; text-align: center; color: var(--ink);
+  background: linear-gradient(180deg, #ffe09a, var(--gold) 45%, #e9b45a);
+  box-shadow:
+    inset 2px 2px 0 rgba(255, 255, 255, .55), inset -3px -3px 0 rgba(148, 44, 91, .45),
+    inset 0 0 0 1px var(--ink), 0 0 0 4px var(--gold), 0 0 0 6px var(--ink), 8px 10px 0 6px var(--plum);
+}
+.art-caption__no { font-family: var(--f-meta); font-size: 12px; letter-spacing: .14em; color: var(--plum); }
+.art-caption__title {
+  font-family: var(--f-t3); font-style: normal; font-size: clamp(20px, 2vw, 28px); line-height: 1.2; text-wrap: balance;
+  text-shadow: 1px 1px 0 rgba(255, 255, 255, .6), -1px -1px 0 rgba(148, 44, 91, .35);
+}
+.art-caption__title.untitled { font-style: italic; }
+.art-caption__meta { font-family: var(--f-meta); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--plum); }
+.viewer__pause {
+  font-family: var(--f-meta); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; cursor: pointer;
+  color: var(--gold); background: var(--abyss); border: 1px solid rgba(255, 208, 107, .6); padding: 7px 14px;
+}
+.viewer__pause:hover { border-color: var(--lime); color: var(--lime); }
+
+/* =========================================================
+   BOTTLES AT SEA — the reading room (bottles.html)
+   ========================================================= */
+.reading { padding-top: 70px; }
+.reading__back {
+  display: inline-block; margin-bottom: 26px; padding: 8px 14px; font-family: var(--f-meta); font-size: 13px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--gold); background: var(--abyss); text-decoration: none; box-shadow: 4px 4px 0 var(--plum);
+}
+.reading__back:hover { color: var(--ink); background: var(--rose); }
+.reading .section-title { margin: 10px 0 40px; }
+.reading .plate { margin-bottom: 70px; }
+.poem { display: grid; grid-template-columns: minmax(120px, 200px) minmax(0, 1fr); gap: 20px clamp(20px, 4vw, 56px); align-items: start; }
+.poem__bottle { position: relative; padding-top: 10px; }
+.poem__bottle img { width: 100%; height: auto; filter: drop-shadow(8px 8px 0 rgba(148, 44, 91, .55)); animation: bob 6s ease-in-out infinite; }
+.poem__sheet { min-width: 0; max-width: 62ch; }
+.poem__meta { font-family: var(--f-meta); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--plum); }
+.poem__title { margin: 8px 0 22px; font-family: var(--f-t4); font-weight: 400; font-size: clamp(28px, 3.4vw, 46px); line-height: 1.08; color: var(--ink); text-shadow: 3px 3px 0 var(--rose); text-wrap: balance; overflow-wrap: anywhere; }
+.poem__text p { margin: 0 0 1.1em; font-size: clamp(17px, 1.4vw, 20px); line-height: 1.7; }
+.poem__fragment { font-family: var(--f-t3); font-style: italic; font-size: clamp(20px, 1.8vw, 24px) !important; color: var(--ink); }
+.poem__pending { font-family: var(--f-meta); font-size: 13px !important; letter-spacing: .1em; text-transform: uppercase; color: var(--plum); }
+.reading__contents {
+  position: relative; z-index: 5; max-width: 760px; padding: 22px 26px; background: var(--abyss); color: var(--gold);
+  box-shadow: 8px 8px 0 var(--plum), 16px 16px 0 var(--ink);
+}
+.reading__contents-title { margin: 0 0 12px; font-family: "Slowji", var(--f-t5); font-weight: 400; font-size: 34px; color: var(--rose); }
+.reading__contents ol { margin: 0; padding: 0; list-style: none; columns: 2 280px; column-gap: 28px; }
+.reading__contents li { break-inside: avoid; padding: 6px 0; border-bottom: 1px solid rgba(255, 208, 107, .3); }
+.reading__contents a { color: var(--gold); text-decoration: none; font-family: var(--f-t3); font-size: 17px; }
+.reading__contents a span { font-family: var(--f-meta); font-size: 12px; color: var(--lime); margin-right: .4em; }
+.reading__contents a:hover, .reading__contents a[aria-current] { color: var(--rose); }
 
 /* =========================================================
    CONCHES
@@ -715,6 +854,45 @@ section { position: relative; overflow: hidden; isolation: isolate; }
 .colophon span { background: var(--gold); padding: 5px 10px; }
 
 /* =========================================================
+   COMMISSION — the request form, set into the Conches section
+   ========================================================= */
+.visually-hidden { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.commission {
+  position: relative; z-index: 5; width: min(860px, 100%); margin: 80px auto 0; color: var(--ink);
+  background: radial-gradient(circle, rgba(148, 44, 91, .1) 30%, transparent 33%) 0 0 / 9px 9px, linear-gradient(170deg, var(--gold), var(--gold) 70%, var(--rose) 140%);
+  box-shadow: 0 0 0 3px var(--ink), 0 0 0 12px var(--abyss), 0 0 0 15px var(--plum), 14px 18px 0 15px var(--ink);
+}
+.commission__form { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 16px 22px; padding: clamp(22px, 4vw, 44px); }
+.commission__form > .kicker, .commission__title, .commission__note, .commission__form > .field:nth-of-type(n+3), .commission__actions { grid-column: 1 / -1; }
+@media (max-width: 640px) { .commission__form { grid-template-columns: 1fr; } }
+.commission .kicker { color: var(--plum); }
+.commission__title { margin: 0; font-family: var(--f-t4); font-weight: 400; font-size: clamp(34px, 5vw, 52px); line-height: 1; color: var(--ink); text-shadow: 3px 3px 0 var(--rose); }
+.commission__note { margin: 0; font-size: 15px; }
+.commission b { color: var(--plum); }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field__label { font-family: var(--f-meta); font-size: 13px; letter-spacing: .1em; text-transform: uppercase; }
+.field input, .field textarea {
+  width: 100%; padding: 11px 12px; font: inherit; font-size: 16px; color: var(--ink);
+  background: rgba(255, 255, 255, .55); border: 0; box-shadow: inset 0 0 0 2px var(--ink), 3px 3px 0 var(--plum);
+}
+.field textarea { resize: vertical; min-height: 120px; }
+.field input:focus, .field textarea:focus { outline: 3px dashed var(--leaf); outline-offset: 3px; }
+.field input[type=file] { padding: 10px; background: rgba(135, 230, 39, .25); }
+.field__hint { font-size: 13px; color: var(--plum); }
+.commission__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 6px; }
+.commission__send, .commission__cancel {
+  padding: 12px 22px; cursor: pointer; font-family: var(--f-meta); font-size: 14px; letter-spacing: .1em; text-transform: uppercase; border: 0;
+}
+.commission__send { color: var(--gold); background: var(--abyss); box-shadow: 4px 4px 0 var(--plum); }
+.commission__send:hover { background: var(--plum); }
+.commission__cancel { color: var(--ink); background: transparent; box-shadow: inset 0 0 0 2px var(--ink); }
+.toast {
+  position: fixed; left: 50%; bottom: 24px; z-index: 80; transform: translateX(-50%); margin: 0; max-width: calc(100vw - 32px);
+  padding: 14px 22px; font-family: var(--f-meta); font-size: 14px; letter-spacing: .06em; color: var(--ink);
+  background: var(--lime); box-shadow: 0 0 0 2px var(--ink), 5px 5px 0 var(--plum);
+}
+
+/* =========================================================
    Responsive
    ========================================================= */
 @media (max-width: 900px) {
@@ -722,6 +900,17 @@ section { position: relative; overflow: hidden; isolation: isolate; }
   .nav-list { justify-content: center; }
 }
 @media (max-width: 760px) {
+  /* keep the sticky masthead short: one swipeable row of buttons */
+  .ovilats { padding: 10px 0 12px; }
+  .ovilats nav { width: 100%; overflow-x: auto; scrollbar-width: none; }
+  .ovilats nav::-webkit-scrollbar { display: none; }
+  .nav-list { flex-wrap: nowrap; justify-content: flex-start; width: max-content; padding: 4px 16px 6px; }
+  .poem { grid-template-columns: 1fr; }
+  .viewing { padding-left: 0; padding-right: 0; }
+  .viewing__head { padding: 0 16px; }
+  .viewer__arrow { width: 56px; height: 36px; }
+  .viewer__stage { gap: 4px; }
+  .poem__bottle { width: 120px; }
   .frame::before { background-size: auto, 170px; }
   :root { --corner: clamp(120px, 38vw, 200px); }
   .nav-btn { --size: 52px; }
@@ -745,7 +934,9 @@ section { position: relative; overflow: hidden; isolation: isolate; }
 /* Visitors who ask for less motion get a still page. */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .ribbon, .ribbon__track, .tape span, .home__frame, .bottle__glass, .tile--spacer img { animation: none; }
+  .ribbon, .ribbon__track, .tape span, .home__frame, .bottle__glass, .tile--spacer img, .poem__bottle img, .carousel__slide { animation: none !important; }
+  .arrow-btn { transition: none; }
+  .art-ghost, .art-frame .frame__inner, .viewer.is-ready .art-piece { transition: opacity .3s ease !important; }
   .js .tile, .js .gallery__title { opacity: 1; transform: none; clip-path: none; transition: none; }
   .nav-btn, .flicker-toggle { transition: none; }
 }

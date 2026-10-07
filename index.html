@@ -28,7 +28,9 @@
     <rect width="100%" height="100%" filter="url(#grain-filter)"/>
   </svg>
 
-  <!-- ============ RIBBON — copy to come ============ -->
+  <!-- ============ MASTHEAD — ribbon + nav, sticks to the top ============ -->
+  <div class="masthead">
+  <!-- RIBBON — copy to come -->
   <div class="ribbon" role="region" aria-label="Announcement">
     <div class="ribbon__track">
       <p class="ribbon__run"><span translate="no">MONSORIUM</span> <i aria-hidden="true">✶</i> [ribbon text to come] <i aria-hidden="true">✶</i> <span translate="no">MONSORIUM</span> <i aria-hidden="true">✶</i> [ribbon text to come] <i aria-hidden="true">✶</i></p>
@@ -38,7 +40,6 @@
 
   <!-- ============ NAV — the ovilats band ============ -->
   <header class="ovilats">
-    <a class="brand" href="#home" translate="no">Monsorium</a>
     <nav aria-label="Main">
       <ul class="nav-list">
         <li><a class="nav-btn nav-btn--home" href="#home"><span>Home</span></a></li>
@@ -49,6 +50,7 @@
       </ul>
     </nav>
   </header>
+  </div>
 
   <main id="main">
 
@@ -142,9 +144,26 @@
         <div class="heretic__text">
           <span class="kicker">II. — About the Artist</span>
           <h2 id="heretic-title" class="section-title">The Heretic</h2>
-          <div class="paper">
-            <p>[Artist bio — who you are, what you make, and what you keep circling back to. Two or three short paragraphs read best here.]</p>
-            <p>[A second paragraph on process, influences, or the abject as a working method.]</p>
+          <div class="carousel paper" data-carousel aria-roledescription="carousel" aria-label="About the artist">
+            <div class="carousel__viewport" aria-live="polite">
+              <article class="carousel__slide" id="heretic-1" aria-roledescription="slide" aria-label="1 of 3">
+                <span class="carousel__label">I. The name</span>
+                <p><span translate="no">G.H.</span> is a name loaned from the titular narrator of <span translate="no">Clarice Lispector</span>’s novella, “The Passion, According to <span translate="no">G.H.</span>” The book is ensconced in what is leavened by <span translate="no">Julia Kristeva</span> in 1980, her psychoanalytic theory of ‘Abjection’ in her seminal work, “Powers of Horror”. <span translate="no">Mosseri</span>—“of Moses”, patrilineal surname—is borrowed from the heretic’s own experience of escape as a larger existential mechanism that serves as one’s prerogative “right to leave.” The heretic comes up with the pseudonym of <span translate="no">G.H. Mosseri</span>, the name serving as a symbolic plateau toppled in Kristevan reversal: “<span lang="tl">Bahala na</span>,” or to leave it up to the gods, is not only impractical to <span translate="no">Mosseri</span>, but also impassionate. <span translate="no">Moises</span> was the human conduit for the miracles of Yahweh; thus, it is he who divides the sea, bathes the river in blood, and kills the Egyptian first-born through Him. He bears the sin of God’s wrath, unloading the guilt of God from His shoulders, within which he becomes his own abject—his own not-“I”—such that he dispels the God-ridden guilt from his body, the guilt he is forced to bear. Nevertheless, this guilt is his to carry, this not-<span translate="no">Moises</span> constellation of agony, for the poverty of his spirit lies not in his capacity (or lack of it) to carry said guilt, it lies in his capability to keep the guilt separate from him, cementing it as outside of him—all the more it pulverizes him, all the more it beseeches him.</p>
+              </article>
+              <article class="carousel__slide" id="heretic-2" aria-roledescription="slide" aria-label="2 of 3">
+                <span class="carousel__label">II. The roach</span>
+                <p>Similarly, <span translate="no">G.H.</span> encounters the roach in a pristine wardrobe. Overcome with abjection, she saddles herself in disgust. <em>This putrid insect is not me. This putridity is beyond me.</em> She nonetheless eats the insect after crushing it. It becomes part of her that fascinates and dishevels her.</p>
+              </article>
+              <article class="carousel__slide" id="heretic-3" aria-roledescription="slide" aria-label="3 of 3">
+                <span class="carousel__label">III. The heretic</span>
+                <p><span translate="no">G.H. Mosseri</span>, then, is not an innocent monument to <span translate="no">Kristeva</span>. The heretic superimposes themselves against the Abject in every composition of art and literature they find themselves creating. Kristevan in such a way wherein their fascination in that which unsettles them becomes the locus of what they create. As such, they engage in the secular masochism that <span translate="no">Kristeva</span> had identified: erotic mortification is a virtue that leads <span translate="no">G.H.</span> into a faux paradise of real signifiers. Their art, then, is a foremost ode-like attribution towards that which serves as the one to sanctify them, and destroy them altogether.</p>
+              </article>
+            </div>
+            <div class="carousel__controls">
+              <button class="arrow-btn arrow-btn--prev" type="button" data-carousel-prev aria-label="Previous part"></button>
+              <span class="carousel__count" data-carousel-count>1 / 3</span>
+              <button class="arrow-btn" type="button" data-carousel-next aria-label="Next part"></button>
+            </div>
           </div>
           <ul class="chips">
             <li>[Based in]</li>
@@ -176,12 +195,12 @@
         <div class="gallery gallery--art">
           <h3 class="gallery__title">Graphic Art</h3>
           <ul class="tiles">
-            <li class="tile"><a href="assets/img/art/graphic-03.webp"><span class="tile__frame frame frame--gilt"><span class="frame__inner"><img src="assets/img/art/graphic-03.webp" alt="A pink stippled engraving of a draped woman with butterfly-like wings, the words “Lower Than The Angels” running down her body, framed by pink and black art-nouveau scrollwork and halftone close-ups of an eye and lips." loading="lazy" width="960" height="1280"></span></span><span class="tile__cap"><span class="tile__no">I.</span> <cite>Lower Than the Angels</cite><small><time datetime="2026-07">July 2026</time> · Digital collage</small></span></a></li>
-            <li class="tile"><a href="assets/img/art/graphic-06.webp"><span class="tile__frame frame frame--bloom"><span class="frame__inner"><img src="assets/img/art/graphic-06.webp" alt="A title card reading “Gangsta of the Mass Awakening” in dithered yellow letters on deep blue, tangled in pink and green tribal filigree." loading="lazy" width="735" height="453"></span></span><span class="tile__cap"><span class="tile__no">II.</span> <cite>Gangsta of the Mass Awakening</cite><small><time datetime="2026-08">August 2026</time> · Digital collage</small></span></a></li>
-            <li class="tile"><a href="assets/img/art/graphic-05.webp"><span class="tile__frame frame frame--venom"><span class="frame__inner"><img src="assets/img/art/graphic-05.webp" alt="Spotted orchids set into a pink baroque hand mirror and an art-nouveau line panel, over a marbled green-to-magenta ground." loading="lazy" width="1024" height="1280"></span></span><span class="tile__cap"><span class="tile__no">III.</span> <cite class="untitled">Untitled</cite><small><time datetime="2026-08">August 2026</time> · Digital collage</small></span></a></li>
-            <li class="tile"><a href="assets/img/art/graphic-02.webp"><span class="tile__frame frame frame--carved"><span class="frame__inner"><img src="assets/img/art/graphic-02.webp" alt="A poster reading “Women Devour / Women Devour Devour Women” in halftone bubble letters, around a black filigree crest over a magenta wash with a mirrored face and embossed crosses." loading="lazy" width="960" height="1280"></span></span><span class="tile__cap"><span class="tile__no">IV.</span> <cite>Women Devour Women</cite><small><time datetime="2026-08">August 2026</time> · Digital collage</small></span></a></li>
-            <li class="tile"><a href="assets/img/art/graphic-04.webp"><span class="tile__frame frame frame--bruise"><span class="frame__inner"><img src="assets/img/art/graphic-04.webp" alt="A dithered collage of red coral-like filigree climbing over pink and orange body forms around a faceted crystal, in a coarse halftone." loading="lazy" width="1009" height="1280"></span></span><span class="tile__cap"><span class="tile__no">V.</span> <cite class="untitled">Untitled</cite><small><time datetime="2026-09">September 2026</time> · Digital collage</small></span></a></li>
-            <li class="tile"><a href="assets/img/art/graphic-01.webp"><span class="tile__frame frame frame--gilt"><span class="frame__inner"><img src="assets/img/art/graphic-01.webp" alt="A veiled face behind magenta filigree ornaments and a band of blue baroque shapes, with pink and red glitch lettering running down both sides and a white “(C) 2004”." loading="lazy" width="1280" height="1008"></span></span><span class="tile__cap"><span class="tile__no">VI.</span> <cite class="untitled">Untitled</cite><small><time datetime="2026-10">October 2026</time> · Digital collage</small></span></a></li>
+            <li class="tile"><a href="art.html#graphic-03"><span class="tile__frame frame frame--gilt"><span class="frame__inner"><img src="assets/img/art/graphic-03.webp" alt="A pink stippled engraving of a draped woman with butterfly-like wings, the words “Lower Than The Angels” running down her body, framed by pink and black art-nouveau scrollwork and halftone close-ups of an eye and lips." loading="lazy" width="960" height="1280"></span></span><span class="tile__cap"><span class="tile__no">I.</span> <cite>Lower Than the Angels</cite><small><time datetime="2026-07">July 2026</time> · Digital collage</small></span></a></li>
+            <li class="tile"><a href="art.html#graphic-06"><span class="tile__frame frame frame--bloom"><span class="frame__inner"><img src="assets/img/art/graphic-06.webp" alt="A title card reading “Gangsta of the Mass Awakening” in dithered yellow letters on deep blue, tangled in pink and green tribal filigree." loading="lazy" width="735" height="453"></span></span><span class="tile__cap"><span class="tile__no">II.</span> <cite>Gangsta of the Mass Awakening</cite><small><time datetime="2026-08">August 2026</time> · Digital collage</small></span></a></li>
+            <li class="tile"><a href="art.html#graphic-05"><span class="tile__frame frame frame--venom"><span class="frame__inner"><img src="assets/img/art/graphic-05.webp" alt="Spotted orchids set into a pink baroque hand mirror and an art-nouveau line panel, over a marbled green-to-magenta ground." loading="lazy" width="1024" height="1280"></span></span><span class="tile__cap"><span class="tile__no">III.</span> <cite class="untitled">Untitled</cite><small><time datetime="2026-08">August 2026</time> · Digital collage</small></span></a></li>
+            <li class="tile"><a href="art.html#graphic-02"><span class="tile__frame frame frame--carved"><span class="frame__inner"><img src="assets/img/art/graphic-02.webp" alt="A poster reading “Women Devour / Women Devour Devour Women” in halftone bubble letters, around a black filigree crest over a magenta wash with a mirrored face and embossed crosses." loading="lazy" width="960" height="1280"></span></span><span class="tile__cap"><span class="tile__no">IV.</span> <cite>Women Devour Women</cite><small><time datetime="2026-08">August 2026</time> · Digital collage</small></span></a></li>
+            <li class="tile"><a href="art.html#graphic-04"><span class="tile__frame frame frame--bruise"><span class="frame__inner"><img src="assets/img/art/graphic-04.webp" alt="A dithered collage of red coral-like filigree climbing over pink and orange body forms around a faceted crystal, in a coarse halftone." loading="lazy" width="1009" height="1280"></span></span><span class="tile__cap"><span class="tile__no">V.</span> <cite class="untitled">Untitled</cite><small><time datetime="2026-09">September 2026</time> · Digital collage</small></span></a></li>
+            <li class="tile"><a href="art.html#graphic-01"><span class="tile__frame frame frame--gilt"><span class="frame__inner"><img src="assets/img/art/graphic-01.webp" alt="A veiled face behind magenta filigree ornaments and a band of blue baroque shapes, with pink and red glitch lettering running down both sides and a white “(C) 2004”." loading="lazy" width="1280" height="1008"></span></span><span class="tile__cap"><span class="tile__no">VI.</span> <cite class="untitled">Untitled</cite><small><time datetime="2026-10">October 2026</time> · Digital collage</small></span></a></li>
             <li class="tile tile--spacer spacer--4col" aria-hidden="true"><img src="assets/img/spacers/purple-bleeds--bloom.webp" alt="" loading="lazy"></li>
             <li class="tile tile--spacer spacer--4col" aria-hidden="true"><img src="assets/img/spacers/colorfuloverlay--bruise.webp" alt="" loading="lazy"></li>
           </ul>
@@ -190,14 +209,14 @@
         <div class="gallery gallery--art">
           <h3 class="gallery__title">Digital Art</h3>
           <ul class="tiles">
-            <li class="tile"><a href="assets/img/art/digital-05.webp"><span class="tile__frame frame frame--bloom"><span class="frame__inner"><img src="assets/img/art/digital-05.webp" alt="Two nude figures, one lilac and one blue with green hair, lie head to foot across a red and patterned blue rug, a crystalline wing at the corner." loading="lazy" width="713" height="985"></span></span><span class="tile__cap"><span class="tile__no">VII.</span> <cite>Genji</cite><small><time datetime="2023-03">March 2023</time> · Digital illustration</small></span></a></li>
-            <li class="tile"><a href="assets/img/art/digital-06.webp"><span class="tile__frame frame frame--venom"><span class="frame__inner"><img src="assets/img/art/digital-06.webp" alt="A blonde figure in a white coat raises a hand over her face while a tiny red figure hangs from it, thorned wire wrapped around the sleeve, on a ground of green and red brushwork." loading="lazy" width="960" height="1280"></span></span><span class="tile__cap"><span class="tile__no">VIII.</span> <cite>Aponia</cite><small><time datetime="2023-04">April 2023</time> · Digital illustration</small></span></a></li>
-            <li class="tile"><a href="assets/img/art/digital-04.webp"><span class="tile__frame frame frame--bruise"><span class="frame__inner"><img src="assets/img/art/digital-04.webp" alt="Two figures kiss, seen through a gilded ornamental mirror frame, while small blue fairy figures cling to its edges." loading="lazy" width="713" height="985"></span></span><span class="tile__cap"><span class="tile__no">IX.</span> <cite>Because Your Lips are Yours, I Forgive Their Cruel Joke</cite><small><time datetime="2023-08">August 2023</time> · Digital illustration</small></span></a></li>
-            <li class="tile"><a href="assets/img/art/digital-02.webp"><span class="tile__frame frame frame--carved"><span class="frame__inner"><img src="assets/img/art/digital-02.webp" alt="A nude figure lies upside down on a blue checkerboard floor, hands pressed over the face, a red rosary looped across the arms, while robed figures watch from the back." loading="lazy" width="960" height="1280"></span></span><span class="tile__cap"><span class="tile__no">X.</span> <cite>The Rape of Melchora</cite><small><time datetime="2024-07">July 2024</time> · Digital illustration</small></span></a></li>
-            <li class="tile"><a href="assets/img/art/digital-07.webp"><span class="tile__frame frame frame--gilt"><span class="frame__inner"><img src="assets/img/art/digital-07.webp" alt="A pale figure with pan pipes beneath a scribbled dark-blue halo, over an ochre ground layered with red and blue line sketches of other figures." loading="lazy" width="896" height="1280"></span></span><span class="tile__cap"><span class="tile__no">XI.</span> <cite>The Satyress and the Shepherd (V1)</cite><small><time datetime="2024-08">August 2024</time> · Digital illustration</small></span></a></li>
-            <li class="tile"><a href="assets/img/art/digital-03.webp"><span class="tile__frame frame frame--bloom"><span class="frame__inner"><img src="assets/img/art/digital-03.webp" alt="A long-haired nude figure with closed eyes cradles a snarling wolf's head before a split pomegranate, on a lilac patterned wall framed by poppies and orchids, with an inset of a skull covered in moths." loading="lazy" width="960" height="1280"></span></span><span class="tile__cap"><span class="tile__no">XII.</span> <cite>Persephone</cite><small><time datetime="2024-09">September 2024</time> · Digital illustration</small></span></a></li>
-            <li class="tile"><a href="assets/img/art/digital-01.webp"><span class="tile__frame frame frame--venom"><span class="frame__inner"><img src="assets/img/art/digital-01.webp" alt="A mermaid with curly blonde hair and teal braids holds up a string of pearls, half caught in a rope net, flanked by two lilac cherub statues, with shells and a starfish in a purple border." loading="lazy" width="960" height="1280"></span></span><span class="tile__cap"><span class="tile__no">XIII.</span> <cite>Portrait of an Unassuming Mermaid</cite><small><time datetime="2025-10">October 2025</time> · Digital illustration</small></span></a></li>
-            <li class="tile"><a href="assets/img/art/digital-08.webp"><span class="tile__frame frame frame--bruise"><span class="frame__inner"><img src="assets/img/art/digital-08.webp" alt="Two figures press together in a kiss, one a blazing golden flame of hair and light, the other with flowing teal and violet tentacle-like hair, before a pink rising-sun burst of rays." loading="lazy" width="1280" height="960"></span></span><span class="tile__cap"><span class="tile__no">XIV.</span> <cite>The Sun and the Moon: Two Households, Both Alike in Dignity</cite><small><time datetime="2026-08">August 2026</time> · Digital illustration</small></span></a></li>
+            <li class="tile"><a href="art.html#digital-05"><span class="tile__frame frame frame--bloom"><span class="frame__inner"><img src="assets/img/art/digital-05.webp" alt="Two nude figures, one lilac and one blue with green hair, lie head to foot across a red and patterned blue rug, a crystalline wing at the corner." loading="lazy" width="713" height="985"></span></span><span class="tile__cap"><span class="tile__no">VII.</span> <cite>Genji</cite><small><time datetime="2023-03">March 2023</time> · Digital illustration</small></span></a></li>
+            <li class="tile"><a href="art.html#digital-06"><span class="tile__frame frame frame--venom"><span class="frame__inner"><img src="assets/img/art/digital-06.webp" alt="A blonde figure in a white coat raises a hand over her face while a tiny red figure hangs from it, thorned wire wrapped around the sleeve, on a ground of green and red brushwork." loading="lazy" width="960" height="1280"></span></span><span class="tile__cap"><span class="tile__no">VIII.</span> <cite>Aponia</cite><small><time datetime="2023-04">April 2023</time> · Digital illustration</small></span></a></li>
+            <li class="tile"><a href="art.html#digital-04"><span class="tile__frame frame frame--bruise"><span class="frame__inner"><img src="assets/img/art/digital-04.webp" alt="Two figures kiss, seen through a gilded ornamental mirror frame, while small blue fairy figures cling to its edges." loading="lazy" width="713" height="985"></span></span><span class="tile__cap"><span class="tile__no">IX.</span> <cite>Because Your Lips are Yours, I Forgive Their Cruel Joke</cite><small><time datetime="2023-08">August 2023</time> · Digital illustration</small></span></a></li>
+            <li class="tile"><a href="art.html#digital-02"><span class="tile__frame frame frame--carved"><span class="frame__inner"><img src="assets/img/art/digital-02.webp" alt="A nude figure lies upside down on a blue checkerboard floor, hands pressed over the face, a red rosary looped across the arms, while robed figures watch from the back." loading="lazy" width="960" height="1280"></span></span><span class="tile__cap"><span class="tile__no">X.</span> <cite>The Rape of Melchora</cite><small><time datetime="2024-07">July 2024</time> · Digital illustration</small></span></a></li>
+            <li class="tile"><a href="art.html#digital-07"><span class="tile__frame frame frame--gilt"><span class="frame__inner"><img src="assets/img/art/digital-07.webp" alt="A pale figure with pan pipes beneath a scribbled dark-blue halo, over an ochre ground layered with red and blue line sketches of other figures." loading="lazy" width="896" height="1280"></span></span><span class="tile__cap"><span class="tile__no">XI.</span> <cite>The Satyress and the Shepherd (V1)</cite><small><time datetime="2024-08">August 2024</time> · Digital illustration</small></span></a></li>
+            <li class="tile"><a href="art.html#digital-03"><span class="tile__frame frame frame--bloom"><span class="frame__inner"><img src="assets/img/art/digital-03.webp" alt="A long-haired nude figure with closed eyes cradles a snarling wolf's head before a split pomegranate, on a lilac patterned wall framed by poppies and orchids, with an inset of a skull covered in moths." loading="lazy" width="960" height="1280"></span></span><span class="tile__cap"><span class="tile__no">XII.</span> <cite>Persephone</cite><small><time datetime="2024-09">September 2024</time> · Digital illustration</small></span></a></li>
+            <li class="tile"><a href="art.html#digital-01"><span class="tile__frame frame frame--venom"><span class="frame__inner"><img src="assets/img/art/digital-01.webp" alt="A mermaid with curly blonde hair and teal braids holds up a string of pearls, half caught in a rope net, flanked by two lilac cherub statues, with shells and a starfish in a purple border." loading="lazy" width="960" height="1280"></span></span><span class="tile__cap"><span class="tile__no">XIII.</span> <cite>Portrait of an Unassuming Mermaid</cite><small><time datetime="2025-10">October 2025</time> · Digital illustration</small></span></a></li>
+            <li class="tile"><a href="art.html#digital-08"><span class="tile__frame frame frame--bruise"><span class="frame__inner"><img src="assets/img/art/digital-08.webp" alt="Two figures press together in a kiss, one a blazing golden flame of hair and light, the other with flowing teal and violet tentacle-like hair, before a pink rising-sun burst of rays." loading="lazy" width="1280" height="960"></span></span><span class="tile__cap"><span class="tile__no">XIV.</span> <cite>The Sun and the Moon: Two Households, Both Alike in Dignity</cite><small><time datetime="2026-08">August 2026</time> · Digital illustration</small></span></a></li>
             <li class="tile tile--spacer spacer--3col" aria-hidden="true"><img src="assets/img/spacers/babypink-overlay--bloom.webp" alt="" loading="lazy"></li>
           </ul>
         </div>
@@ -206,64 +225,54 @@
           <h3 class="gallery__title">Multimedia</h3>
           <ul class="tiles tiles--video">
             <li class="tile tile--video tile--lead">
-              <div class="tile__body">
+              <a class="tile__body" href="https://www.facebook.com/share/v/1HTFNbPXDk/" target="_blank" rel="noopener">
                 <span class="tile__frame frame frame--gilt"><span class="frame__inner">
-                  <video controls playsinline preload="metadata" data-video-slot>
-                    <source src="assets/video/multimedia-01.mp4" type="video/mp4">
-                    <source src="assets/video/multimedia-01.webm" type="video/webm">
-                  </video>
-                  <span class="video-empty" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10.5"/><path d="M10 8l6 4-6 4z"/></svg><span>Forthcoming</span></span>
+                  <span class="video-card" aria-hidden="true"><span class="video-card__title">LUBLUBAN: BINYAG NG HALIMAW [short film trailer]</span></span>
+                  <img class="video-poster" src="assets/video/multimedia-01.jpg" alt="" loading="lazy" width="1280" height="720" data-optional>
+                  <span class="video-play"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10.5"/><path d="M10 8l6 4-6 4z"/></svg><span>Watch on Facebook ↗</span></span>
                 </span></span>
-                <span class="tile__cap"><span class="tile__no">XV.</span> <cite>[Title]</cite><small>[Month Year] · [Runtime]</small></span>
-              </div>
+                <span class="tile__cap"><span class="tile__no">XV.</span> <cite>LUBLUBAN: BINYAG NG HALIMAW [short film trailer]</cite><small><time datetime="2026-09">September 2026</time> · Short film trailer · Facebook</small></span>
+              </a>
             </li>
             <li class="tile tile--video">
-              <div class="tile__body">
+              <a class="tile__body" href="https://www.facebook.com/share/v/1C5NLD9wvb/" target="_blank" rel="noopener">
                 <span class="tile__frame frame frame--bruise"><span class="frame__inner">
-                  <video controls playsinline preload="metadata" data-video-slot>
-                    <source src="assets/video/multimedia-02.mp4" type="video/mp4">
-                    <source src="assets/video/multimedia-02.webm" type="video/webm">
-                  </video>
-                  <span class="video-empty" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10.5"/><path d="M10 8l6 4-6 4z"/></svg><span>Forthcoming</span></span>
+                  <span class="video-card" aria-hidden="true"><span class="video-card__title">Spiracle</span></span>
+                  <img class="video-poster" src="assets/video/multimedia-02.jpg" alt="" loading="lazy" width="1280" height="720" data-optional>
+                  <span class="video-play"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10.5"/><path d="M10 8l6 4-6 4z"/></svg><span>Watch on Facebook ↗</span></span>
                 </span></span>
-                <span class="tile__cap"><span class="tile__no">XVI.</span> <cite>[Title]</cite><small>[Month Year] · [Runtime]</small></span>
-              </div>
+                <span class="tile__cap"><span class="tile__no">XVI.</span> <cite>Spiracle</cite><small><time datetime="2026-10-03">October 3, 2026</time> · Video · Facebook</small></span>
+              </a>
             </li>
             <li class="tile tile--video">
-              <div class="tile__body">
+              <a class="tile__body" href="https://www.facebook.com/share/v/14uG33nUNkb/" target="_blank" rel="noopener">
                 <span class="tile__frame frame frame--venom"><span class="frame__inner">
-                  <video controls playsinline preload="metadata" data-video-slot>
-                    <source src="assets/video/multimedia-03.mp4" type="video/mp4">
-                    <source src="assets/video/multimedia-03.webm" type="video/webm">
-                  </video>
-                  <span class="video-empty" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10.5"/><path d="M10 8l6 4-6 4z"/></svg><span>Forthcoming</span></span>
+                  <span class="video-card" aria-hidden="true"><span class="video-card__title">Gangsta of the Mass Awakening</span></span>
+                  <img class="video-poster" src="assets/video/multimedia-03.jpg" alt="" loading="lazy" width="1280" height="720" data-optional>
+                  <span class="video-play"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10.5"/><path d="M10 8l6 4-6 4z"/></svg><span>Watch on Facebook ↗</span></span>
                 </span></span>
-                <span class="tile__cap"><span class="tile__no">XVII.</span> <cite>[Title]</cite><small>[Month Year] · [Runtime]</small></span>
-              </div>
+                <span class="tile__cap"><span class="tile__no">XVII.</span> <cite>Gangsta of the Mass Awakening</cite><small><time datetime="2026-09">September 2026</time> · Video · Facebook</small></span>
+              </a>
             </li>
             <li class="tile tile--video">
-              <div class="tile__body">
+              <a class="tile__body" href="https://www.facebook.com/share/r/19maL5eZLS/" target="_blank" rel="noopener">
                 <span class="tile__frame frame frame--carved"><span class="frame__inner">
-                  <video controls playsinline preload="metadata" data-video-slot>
-                    <source src="assets/video/multimedia-04.mp4" type="video/mp4">
-                    <source src="assets/video/multimedia-04.webm" type="video/webm">
-                  </video>
-                  <span class="video-empty" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10.5"/><path d="M10 8l6 4-6 4z"/></svg><span>Forthcoming</span></span>
+                  <span class="video-card" aria-hidden="true"><span class="video-card__title">Flicks — Frou Frou</span></span>
+                  <img class="video-poster" src="assets/video/multimedia-04.jpg" alt="" loading="lazy" width="1280" height="720" data-optional>
+                  <span class="video-play"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10.5"/><path d="M10 8l6 4-6 4z"/></svg><span>Watch on Facebook ↗</span></span>
                 </span></span>
-                <span class="tile__cap"><span class="tile__no">XVIII.</span> <cite>[Title]</cite><small>[Month Year] · [Runtime]</small></span>
-              </div>
+                <span class="tile__cap"><span class="tile__no">XVIII.</span> <cite>Flicks — Frou Frou</cite><small><time datetime="2026-09">September 2026</time> · Reel · Facebook</small></span>
+              </a>
             </li>
             <li class="tile tile--video">
-              <div class="tile__body">
+              <a class="tile__body" href="https://www.facebook.com/share/v/19sLXms8eC/" target="_blank" rel="noopener">
                 <span class="tile__frame frame frame--bloom"><span class="frame__inner">
-                  <video controls playsinline preload="metadata" data-video-slot>
-                    <source src="assets/video/multimedia-05.mp4" type="video/mp4">
-                    <source src="assets/video/multimedia-05.webm" type="video/webm">
-                  </video>
-                  <span class="video-empty" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10.5"/><path d="M10 8l6 4-6 4z"/></svg><span>Forthcoming</span></span>
+                  <span class="video-card" aria-hidden="true"><span class="video-card__title">The Imminence of Beauty Rots in the Chest of a Daughter</span></span>
+                  <img class="video-poster" src="assets/video/multimedia-05.jpg" alt="" loading="lazy" width="1280" height="720" data-optional>
+                  <span class="video-play"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10.5"/><path d="M10 8l6 4-6 4z"/></svg><span>Watch on Facebook ↗</span></span>
                 </span></span>
-                <span class="tile__cap"><span class="tile__no">XIX.</span> <cite>[Title]</cite><small>[Month Year] · [Runtime]</small></span>
-              </div>
+                <span class="tile__cap"><span class="tile__no">XIX.</span> <cite>The Imminence of Beauty Rots in the Chest of a Daughter</cite><small><time datetime="2025-05">May 2025</time> · Video · Facebook</small></span>
+              </a>
             </li>
           </ul>
         </div>
@@ -290,39 +299,119 @@
       <div class="bottles__inner">
         <span class="kicker">IV. — Creative Writing</span>
         <h2 id="bottles-title" class="section-title">Bottles at Sea</h2>
-        <p class="bottles__intro">[One line framing the writing — letters, poems and fragments set adrift.]</p>
+        <p class="bottles__intro">Poems set adrift, newest first. Uncork a bottle to read it whole.</p>
 
         <div class="plate">
-          <p class="plate__head"><span>Taf. IV</span><span>Flaschenpost — Bottles at Sea</span><span>fig. 1–3</span></p>
+          <p class="plate__head"><span>Taf. IV</span><span>Flaschenpost — Bottles at Sea</span><span>fig. 1–11</span></p>
           <ul class="shelf">
           <li class="bottle">
             <span class="fig-no" aria-hidden="true">1</span>
             <img class="bottle__glass" src="assets/ui/bottle-rose.svg" alt="" width="240" height="440">
             <div class="bottle__tag">
-              <span class="bottle__form">No. 01 — [Form]</span>
-              <h3 class="bottle__title">[Piece Title]</h3>
-              <p class="bottle__excerpt">[First line or a short excerpt, a sentence or two long…]</p>
-              <a class="bottle__link" href="#bottles">Uncork →</a>
+              <span class="bottle__form">No. 01 — <time datetime="2026-10">October 2026</time></span>
+              <h3 class="bottle__title">The Lovers: 124⁰ Sun Opposition Venus</h3>
+              <p class="bottle__excerpt">“wetness is a loan word of mermaid gingiva.”</p>
+              <a class="bottle__link" href="bottles.html#the-lovers">Uncork →</a>
             </div>
           </li>
           <li class="bottle">
             <span class="fig-no" aria-hidden="true">2</span>
             <img class="bottle__glass" src="assets/ui/bottle-lime.svg" alt="" width="240" height="440">
             <div class="bottle__tag">
-              <span class="bottle__form">No. 02 — [Form]</span>
-              <h3 class="bottle__title">[Piece Title]</h3>
-              <p class="bottle__excerpt">[First line or a short excerpt, a sentence or two long…]</p>
-              <a class="bottle__link" href="#bottles">Uncork →</a>
+              <span class="bottle__form">No. 02 — <time datetime="2026-09">September 2026</time></span>
+              <h3 class="bottle__title">Chinese General Hospital at 14:57 PM</h3>
+              <p class="bottle__excerpt">“diodes render blue the headbulbed mother.”</p>
+              <a class="bottle__link" href="bottles.html#chinese-general-hospital">Uncork →</a>
             </div>
           </li>
           <li class="bottle">
             <span class="fig-no" aria-hidden="true">3</span>
             <img class="bottle__glass" src="assets/ui/bottle-dusk.svg" alt="" width="240" height="440">
             <div class="bottle__tag">
-              <span class="bottle__form">No. 03 — [Form]</span>
-              <h3 class="bottle__title">[Piece Title]</h3>
-              <p class="bottle__excerpt">[First line or a short excerpt, a sentence or two long…]</p>
-              <a class="bottle__link" href="#bottles">Uncork →</a>
+              <span class="bottle__form">No. 03 — <time datetime="2026-08">August 2026</time></span>
+              <h3 class="bottle__title">Mutya</h3>
+              <p class="bottle__excerpt">“you are now meat simmered within mouths afraid to swallow.”</p>
+              <a class="bottle__link" href="bottles.html#mutya">Uncork →</a>
+            </div>
+          </li>
+          <li class="bottle">
+            <span class="fig-no" aria-hidden="true">4</span>
+            <img class="bottle__glass" src="assets/ui/bottle-rose.svg" alt="" width="240" height="440">
+            <div class="bottle__tag">
+              <span class="bottle__form">No. 04 — <time datetime="2026-07">July 2026</time></span>
+              <h3 class="bottle__title">For Etronie</h3>
+              <p class="bottle__excerpt">“i overripen:<br>sandpiper chorus out masts of throat,”</p>
+              <a class="bottle__link" href="bottles.html#for-etronie">Uncork →</a>
+            </div>
+          </li>
+          <li class="bottle">
+            <span class="fig-no" aria-hidden="true">5</span>
+            <img class="bottle__glass" src="assets/ui/bottle-lime.svg" alt="" width="240" height="440">
+            <div class="bottle__tag">
+              <span class="bottle__form">No. 05 — <time datetime="2026-07">July 2026</time></span>
+              <h3 class="bottle__title">Anagolay</h3>
+              <p class="bottle__excerpt">“sampaguita strings link my teeth, together, gurgling mysteries in oil spills.”</p>
+              <a class="bottle__link" href="bottles.html#anagolay">Uncork →</a>
+            </div>
+          </li>
+          <li class="bottle">
+            <span class="fig-no" aria-hidden="true">6</span>
+            <img class="bottle__glass" src="assets/ui/bottle-dusk.svg" alt="" width="240" height="440">
+            <div class="bottle__tag">
+              <span class="bottle__form">No. 06 — <time datetime="2026-07">July 2026</time></span>
+              <h3 class="bottle__title">how many grams of protein are in the tears of my father&#x27;s shirt?</h3>
+              <p class="bottle__excerpt">“refining the posture of my fingertips, so they look less like my mother’s.”</p>
+              <a class="bottle__link" href="bottles.html#grams-of-protein">Uncork →</a>
+            </div>
+          </li>
+          <li class="bottle">
+            <span class="fig-no" aria-hidden="true">7</span>
+            <img class="bottle__glass" src="assets/ui/bottle-rose.svg" alt="" width="240" height="440">
+            <div class="bottle__tag">
+              <span class="bottle__form">No. 07 — <time datetime="2026-06">June 2026</time></span>
+              <h3 class="bottle__title">Sinners</h3>
+              <p class="bottle__excerpt">“born again as a Venus, unbecoming.”</p>
+              <a class="bottle__link" href="bottles.html#sinners">Uncork →</a>
+            </div>
+          </li>
+          <li class="bottle">
+            <span class="fig-no" aria-hidden="true">8</span>
+            <img class="bottle__glass" src="assets/ui/bottle-lime.svg" alt="" width="240" height="440">
+            <div class="bottle__tag">
+              <span class="bottle__form">No. 08 — <time datetime="2026-05">May 2026</time></span>
+              <h3 class="bottle__title">Bambanti</h3>
+              <p class="bottle__excerpt">“little brown bodies strawmanned into furniture.”</p>
+              <a class="bottle__link" href="bottles.html#bambanti">Uncork →</a>
+            </div>
+          </li>
+          <li class="bottle">
+            <span class="fig-no" aria-hidden="true">9</span>
+            <img class="bottle__glass" src="assets/ui/bottle-dusk.svg" alt="" width="240" height="440">
+            <div class="bottle__tag">
+              <span class="bottle__form">No. 09 — <time datetime="2026-04">April 2026</time></span>
+              <h3 class="bottle__title">April Showers are Small, Diminutive</h3>
+              <p class="bottle__excerpt">“mercy-tongues slippery enough for San Antonio’s shower blessing.”</p>
+              <a class="bottle__link" href="bottles.html#april-showers">Uncork →</a>
+            </div>
+          </li>
+          <li class="bottle">
+            <span class="fig-no" aria-hidden="true">10</span>
+            <img class="bottle__glass" src="assets/ui/bottle-rose.svg" alt="" width="240" height="440">
+            <div class="bottle__tag">
+              <span class="bottle__form">No. 10 — <time datetime="2023-10">October 2023</time></span>
+              <h3 class="bottle__title">i am a child i am a child i am a child</h3>
+              <p class="bottle__excerpt">“clock hands are proboscis.”</p>
+              <a class="bottle__link" href="bottles.html#i-am-a-child">Uncork →</a>
+            </div>
+          </li>
+          <li class="bottle">
+            <span class="fig-no" aria-hidden="true">11</span>
+            <img class="bottle__glass" src="assets/ui/bottle-lime.svg" alt="" width="240" height="440">
+            <div class="bottle__tag">
+              <span class="bottle__form">No. 11 — <time datetime="2023-02">February 2023</time></span>
+              <h3 class="bottle__title">god(girl)hood, and the things that help me sleep</h3>
+              <p class="bottle__excerpt">“i want to be buried without your name falling from my lips because it would mean that you were big enough to be a truth i died for.”</p>
+              <a class="bottle__link" href="bottles.html#god-girl-hood">Uncork →</a>
             </div>
           </li>
           </ul>
@@ -355,17 +444,58 @@
           <div class="frame__inner contact-card__inner">
           <span class="kicker">V. — Contact</span>
           <h2 id="conches-title" class="section-title">Conches</h2>
-          <p>Hold one to your ear. [A line on commissions, collaborations, or how you like to be reached.]</p>
+          <p>Hold one to your ear. For commissions, use the form below; for anything else, write or message directly.</p>
           <dl class="directory">
-            <div><dt>Email</dt><dd><a href="mailto:hello@example.com">[Your Email]</a></dd></div>
-            <div><dt>Instagram</dt><dd><a href="#conches">[@Handle]</a></dd></div>
-            <div><dt>GitHub</dt><dd><a href="https://github.com/ghmosseri/monsorium" translate="no">monsorium</a></dd></div>
+            <div><dt>Email</dt><dd><a href="mailto:eshanisutura@gmail.com">eshanisutura@gmail.com</a></dd></div>
+            <div><dt>Facebook</dt><dd><span lang="zh">加扎勒</span> a naraka for the tender.</dd></div>
+            <div><dt>Instagram</dt><dd><a href="https://www.instagram.com/ghmosseri/" target="_blank" rel="noopener" translate="no">@ghmosseri</a></dd></div>
           </dl>
           </div>
         </div>
       </div>
+      <div class="commission" id="commission" role="region" aria-labelledby="commission-title">
+        <form class="commission__form" action="https://formsubmit.co/eshanisutura@gmail.com" method="POST" enctype="multipart/form-data">
+          <span class="kicker">By request</span>
+          <h2 id="commission-title" class="commission__title">Commission a piece</h2>
+          <p class="commission__note">Fields marked <b aria-hidden="true">*</b><span class="visually-hidden">with an asterisk</span> are required. Your request goes straight to the artist's inbox.</p>
+
+          <input type="hidden" name="_subject" value="New commission request — Monsorium">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_next" value="https://ghmosseri.github.io/monsorium/index.html#commission-sent">
+          <input type="text" name="_honey" class="visually-hidden" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+          <label class="field">
+            <span class="field__label">Name <b aria-hidden="true">*</b></span>
+            <input id="c-name" name="name" type="text" autocomplete="name" required>
+          </label>
+          <label class="field">
+            <span class="field__label">Email address <b aria-hidden="true">*</b></span>
+            <input id="c-email" name="email" type="email" autocomplete="email" required>
+          </label>
+          <label class="field">
+            <span class="field__label">Contact number</span>
+            <input id="c-phone" name="contact_number" type="tel" autocomplete="tel">
+          </label>
+          <label class="field">
+            <span class="field__label">Brief description of commission <b aria-hidden="true">*</b></span>
+            <textarea id="c-brief" name="description" rows="5" required placeholder="What you'd like made, the size or format, and any deadline."></textarea>
+          </label>
+          <label class="field">
+            <span class="field__label">Media references and inspirations</span>
+            <input id="c-refs" name="attachment" type="file" accept="image/*,video/*,application/pdf,.zip">
+            <span class="field__hint">One image, video, PDF or ZIP. Put several references in one ZIP.</span>
+          </label>
+
+          <div class="commission__actions">
+            <button class="commission__send" type="submit">Send request</button>
+            <button class="commission__cancel" type="reset">Clear</button>
+          </div>
+        </form>
+      </div>
       <p class="colophon"><span>© MMXXVI <span translate="no">Monsorium</span> — all bodies reserved</span></p>
     </section>
+
+    <p class="toast" data-commission-sent hidden role="status">Thank you — your commission request is on its way.</p>
 
   </main>
 </body>
