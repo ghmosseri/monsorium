@@ -556,6 +556,8 @@ section { position: relative; overflow: hidden; isolation: isolate; }
 .tiles--video .tile { margin-top: 0 !important; }
 .tile__body { display: flex; flex-direction: column; gap: 14px; color: var(--gold); text-decoration: none; }
 .tile--video .tile__frame { aspect-ratio: 4 / 3; }   /* the films are 4:3 */
+.tile--portrait .tile__frame { aspect-ratio: 720 / 896; }   /* Flicks is a portrait recording */
+@media (min-width: 1200px) { .tile--portrait { grid-row: span 2; } }
 .video-player { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: var(--abyss); }
 .video-fb {
   display: inline-block; margin-top: 8px; font-family: var(--f-meta); font-size: 12px; letter-spacing: .1em; text-transform: uppercase;
