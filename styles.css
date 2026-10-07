@@ -686,7 +686,7 @@ section { position: relative; overflow: hidden; isolation: isolate; }
 .bottle:hover .bottle__glass { animation-duration: 1.6s; }
 
 /* =========================================================
-   CAROUSELS — The Heretic's three parts; the poem reading room.
+   CAROUSELS — The Heretic's seven parts; the poem reading room.
    Without JS every slide simply shows, one after another.
    ========================================================= */
 .carousel:focus-within { outline: none; }
@@ -725,6 +725,11 @@ section { position: relative; overflow: hidden; isolation: isolate; }
 .heretic .carousel { width: 100%; }
 .heretic .carousel__slide p { margin: 0; }
 .heretic .carousel__slide em { font-style: italic; color: var(--plum); }
+/* every part shares one grid cell, so the paper keeps the height of the longest
+   and the arrows never move as the parts turn */
+.js .heretic .carousel.is-ready .carousel__viewport { display: grid; }
+.js .heretic .carousel.is-ready .carousel__slide { display: block; grid-area: 1 / 1; visibility: hidden; }
+.js .heretic .carousel.is-ready .carousel__slide.is-current { visibility: visible; }
 
 /* =========================================================
    THE ALLEYWAY — the viewing room (art.html)
