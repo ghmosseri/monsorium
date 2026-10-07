@@ -546,16 +546,22 @@ section { position: relative; overflow: hidden; isolation: isolate; }
 .gallery--art .tile__frame .frame__inner img { height: auto; }
 .gallery--art .tile:nth-child(3n+2) { margin-top: 0; }
 @media (min-width: 761px) { .gallery--art .tile:nth-child(even) { margin-top: 44px; } }
-/* Multimedia: five framed 16:9 (720p+) screens, each a link to its
-   Facebook post. A poster image (assets/video/multimedia-0N.jpg, at least
-   1280×720) covers the title card once it is added. */
+/* Multimedia: five framed screens. Films with a file in assets/video play
+   on the page (720p, CapCut end cards trimmed) and link to Facebook below;
+   the rest are title cards linking straight to the Facebook post. */
 .tiles--video { grid-template-columns: 1fr; align-items: start; }
 @media (min-width: 761px)  { .tiles--video { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 1200px) { .tiles--video { grid-template-columns: repeat(3, 1fr); } }
 @media (min-width: 761px)  { .tile--lead { grid-column: span 2; } }   /* 2+1 / 1+1+1 at three columns; 2 / 1+1 / 1+1 at two */
 .tiles--video .tile { margin-top: 0 !important; }
 .tile__body { display: flex; flex-direction: column; gap: 14px; color: var(--gold); text-decoration: none; }
-.tile--video .tile__frame { aspect-ratio: 16 / 9; }
+.tile--video .tile__frame { aspect-ratio: 4 / 3; }   /* the films are 4:3 */
+.video-player { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: var(--abyss); }
+.video-fb {
+  display: inline-block; margin-top: 8px; font-family: var(--f-meta); font-size: 12px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--lime); text-decoration: none; border-bottom: 1px solid currentColor;
+}
+.video-fb:hover, .video-fb:focus-visible { color: var(--rose); }
 .video-card {
   position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 8% 10% 22%;
   text-align: center; background: radial-gradient(ellipse at 50% 40%, rgba(148, 44, 91, .55), transparent 70%);
