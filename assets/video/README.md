@@ -1,24 +1,18 @@
-# Multimedia videos
+# Multimedia
 
-The Multimedia gallery has five framed slots. Each one plays the file with
-its slot's name:
+The five Multimedia frames link to the Facebook posts:
 
-| Slot | File |
-|---|---|
-| XV | `multimedia-01.mp4` |
-| XVI | `multimedia-02.mp4` |
-| XVII | `multimedia-03.mp4` |
-| XVIII | `multimedia-04.mp4` |
-| XIX | `multimedia-05.mp4` |
+| Slot | Piece | Poster file (optional) |
+|---|---|---|
+| XV | LUBLUBAN: BINYAG NG HALIMAW [short film trailer] | `multimedia-01.jpg` |
+| XVI | Spiracle | `multimedia-02.jpg` |
+| XVII | Gangsta of the Mass Awakening | `multimedia-03.jpg` |
+| XVIII | Flicks — Frou Frou | `multimedia-04.jpg` |
+| XIX | The Imminence of Beauty Rots in the Chest of a Daughter | `multimedia-05.jpg` |
 
-Upload a video into this folder under one of those names and its frame
-starts playing it. Slots without a file show as a blank frame marked
-"Forthcoming".
+Each frame shows a designed title card. To show a still from the video
+instead, put a poster image in this folder under the slot's file name.
 
-- Use MP4 (H.264 video, AAC audio) so it plays in every browser. WebM also
-  works: name it `multimedia-0N.webm` instead (an MP4 with the same number wins).
-- Frames are 16:9; other shapes are cropped to fill the frame.
-- Keep each file under 100 MB (GitHub rejects larger files); for longer
-  pieces, compress first or ask to switch the slot to a YouTube/Vimeo embed.
-- Set the title, month/year and runtime in the slot's caption in `index.html`
-  (search for the slot's numeral, e.g. `XVII.`).
+- Use a 16:9 still at least **1280×720** (720p); 1920×1080 is better.
+- JPG, under ~500 KB.
+- The links themselves live in `index.html` (search for `facebook.com`).
